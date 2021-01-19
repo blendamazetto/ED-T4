@@ -35,8 +35,14 @@ void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listas
     double w, h;
     char face[1];
     char cep [20];
+    char cpf[20];
+    char cnpj[25];
+    char compl[20];
+    char t[2];
+    char sfx[25];
     double num;
     double n;
+    char tp[20];
 
 
    while(fscanf(qry,"%s",tipo) != EOF)
@@ -141,6 +147,54 @@ void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listas
             fscanf(qry,"%lf %lf %lf",&x, &y, &r);
             fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
             ci(saida, listasObjetos, x, y, r, listasQry);
+        }
+        else if(strcmp(tipo, "m?")==0)
+        {
+            fscanf(qry,"%s",cep);
+            fprintf(saida,"%s\n",tipo);
+        }
+        else if(strcmp(tipo, "dm?")==0)
+        {
+            fscanf(qry,"%s",cpf);
+            fprintf(saida,"%s\n",tipo);
+        }
+        else if(strcmp(tipo, "de?")==0)
+        {
+            fscanf(qry,"%s",cnpj);
+            fprintf(saida,"%s\n",tipo);
+        }
+        else if(strcmp(tipo, "mud")==0)
+        {
+            fscanf(qry,"%s %s %s %lf %s",cpf, cep, face, &num, compl);
+            fprintf(saida,"%s\n",tipo);
+        }
+        else if(strcmp(tipo, "dmprbt")==0)
+        {
+            fscanf(qry,"%s %s", t, sfx);
+            fprintf(saida,"%s\n",tipo);
+        }
+        else if(strcmp(tipo, "eplg?")==0)
+        {
+            fscanf(qry,"%s", parametroOpcional);
+
+            if(strcmp(parametroOpcional,"*")==0)
+            {
+                ident=1;
+                fscanf(qry,"%lf %lf %lf %lf", &x, &y, &w, &h);
+                fprintf(saida,"%s %lf %lf %lf %lf\n", tipo, x, y, w, h);
+            }
+            else if(strcmp(parametroOpcional,"tp")==0)
+            {
+                ident=0;
+                fscanf(qry,"%lf %lf %lf %lf", &x, &y, &w, &h);
+                fprintf(saida,"%s %lf %lf %lf %lf\n", tipo, x, y, w, h);
+                strcpy(tp, parametroOpcional);
+            }
+        }
+        else if (strcmp(tipo, "catac")==0)
+        {
+            fscanf(qry,"%lf %lf %lf",&x, &y, &r);
+            fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
         }
     }
 
