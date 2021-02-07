@@ -1,75 +1,223 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "stack.h"
-#include "circulo.h"
-#include "hashtable.h"
-#include "fila.h"
+#include "lerGeo.h"
+#include "lerQry.h"
 
-int main()
-{
-    /*Pilha duracell = create();
 
-    Circulo circ = criaCirculo(3.0, 3.0, 3.0, 3.0, "oi", "oi", "oi");
-    Circulo circ1 = ;
-    Circulo circ2 = criaCirculo(5.0, 5.0, 5.0, 5.0, "oi", "oi", "oi");
+char *concatenacao(char dir_entrada[])
+{	
+	char* arqGeoConcatenado = NULL;
+    char* aux = strrchr(dir_entrada,'/');
+    if(aux == NULL)
+	{
+		arqGeoConcatenado=strtok(dir_entrada,".");
+        return(arqGeoConcatenado);
+    }
+	arqGeoConcatenado=strtok(&aux[1],".");
+	return(arqGeoConcatenado);
 
-    insertStack(duracell, circ);
-    insertStack(duracell, circ1);
-    insertStack(duracell, circ2);
-    
-    No node;
+}
 
-    for(node = getTopo(duracell); node!= NULL; node = getAnterior(node))
+int main (int argc, char *argv[])
+{   
+    char *dir_entrada = NULL;
+    char *arq_geoNome = NULL;
+    char *arq_consulta = NULL;
+    char *dir_saida = NULL;
+    char *arqGeo = NULL;
+    char *arqQry = NULL;
+    char *nomeSvgGeo = NULL;
+    char *nomeGeo = NULL;
+    char *nomeQry = NULL;
+    char *saidaQry = NULL;   
+    char *saida = NULL;
+    char *arq_ecNome = NULL;
+    char *arq_pmNome = NULL;
+    char *arqEc = NULL;
+    char *arqPm = NULL;
+
+    int i;
+
+    for(i=1;i<argc;i++)
     {
-        Info c = getInfo(node);
-        printf("%lf", getCirculoR(c));
+        if(strcmp("-e", argv[i]) == 0 )
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nDiretorio de entrada nao encontrado\n");
+                exit(1);
+            }
+            dir_entrada = (char*) malloc(strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(dir_entrada,argv[i]);
+        }
+
+        else if(strcmp("-f", argv[i]) == 0)
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nParametro nao foi encontrado em -f\n");
+                exit(1);
+            }
+            arq_geoNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(arq_geoNome,argv[i]);
+        
+        }
+        else if(strcmp("-q", argv[i]) == 0)
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nParametro nao foi econtrado em -q\n");
+                exit(1);
+            }
+
+            arq_consulta = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(arq_consulta,argv[i]);
+
+        }
+
+        else if(strcmp("-o", argv[i]) == 0)
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
+                exit(1);
+            }
+            dir_saida = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(dir_saida,argv[i]);      
+        }
+
+        else if(strcmp("-ec", argv[i]) == 0)
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
+                exit(1);
+            }
+            arq_ecNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(arq_ecNome,argv[i]);      
+        }
+
+        else if(strcmp("-pm", argv[i]) == 0)
+        {
+            i++;
+            if(argv[i] == NULL)
+            {
+                printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
+                exit(1);
+            }
+            arq_pmNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            strcpy(arq_pmNome,argv[i]);      
+        }
     }
 
-    Hash hashtable = createHashTable(3);
-
-    Info info1 = criaInfo("123456");
-    Info info2 = criaInfo("09876");
-    Info info3 = criaInfo("7654");
-    
-    char key1[7];
-    char key2[7];
-    char key3[7];
-    strcpy(key1, "circ1");
-    strcpy(key2, "circ2");
-    strcpy(key3, "circ3");
-
-    insertHashTable(info1, key1, 3, hashtable);
-    insertHashTable(info2, key2, 3, hashtable);
-    insertHashTable(info3, key3, 3, hashtable);
-
-    printf("%s\n", getHashInfo(info1));
-    printf("%s\n", getHashInfo(info2));
-    printf("%s\n", getHashInfo(info3));
-
-    removeNodeHashTable("circ2", hashtable, 3);
-
-    printHashTable(3, hashtable);*/
-
-    
-
-    /*Fila fila = createQueue();
-
-    Circulo circ = criaCirculo(3.0, 3.0, 3.0, 3.0, "oi", "oi", "oi");
-    Circulo circ1 = criaCirculo(4.0, 4.0, 4.0, 4.0, "oi", "oi", "oi");
-    Circulo circ2 = criaCirculo(5.0, 5.0, 5.0, 5.0, "oi", "oi", "oi");
-
-    insertQueue(fila, circ);
-    insertQueue(fila, circ1);
-    insertQueue(fila, circ2);
-    
-    No node;
-
-    for(node = getPrimeiro(fila); node!= NULL; node = getProximo(node))
+    if(arq_geoNome == NULL || dir_saida == NULL)
     {
-        Info c = getInfo(node);
-        printf("%lf", getCirculoR(c));
+        printf("\nERRO\nArgumento essencial nao inserido\n");
+        exit(1);
+    }
+
+    else if (dir_entrada != NULL) 
+    {
+        if(dir_entrada[strlen(dir_entrada) - 1] != '/')
+        {
+            arqGeo = (char *)malloc((strlen(arq_geoNome)+strlen(dir_entrada)+2)*sizeof(char));
+    	    sprintf(arqGeo,"%s/%s",dir_entrada,arq_geoNome);
+        }
+		else
+        {
+            arqGeo = (char *)malloc((strlen(arq_geoNome)+strlen(dir_entrada)+1)*sizeof(char));
+    	    sprintf(arqGeo,"%s%s",dir_entrada,arq_geoNome);
+        }
+        if (arq_consulta!= NULL)
+        {
+            arqQry = (char *)malloc((strlen(arq_consulta)+strlen(dir_entrada)+2)*sizeof(char));
+            sprintf(arqQry,"%s/%s",dir_entrada,arq_consulta);
+        }
+        if (arq_ecNome!= NULL)
+        {
+            arqEc = (char *)malloc((strlen(arq_ecNome)+strlen(dir_entrada)+2)*sizeof(char));
+            sprintf(arqEc,"%s/%s",dir_entrada,arq_ecNome);
+        }
+        if (arq_pmNome!= NULL)
+        {
+            arqEc = (char *)malloc((strlen(arq_pmNome)+strlen(dir_entrada)+2)*sizeof(char));
+            sprintf(arqPm,"%s/%s",dir_entrada,arq_pmNome);
+        }
+	} 
+    else 
+    {
+		arqGeo = (char *)malloc((strlen(arqGeo)+1)*sizeof(char));
+    	strcpy(arqGeo, arq_geoNome);
+
+        if(arq_consulta!= NULL)
+        {
+            arqQry = (char *)malloc((strlen(arq_consulta)+1)*sizeof(char));
+            strcpy(arqQry, arq_consulta);
+        }
+
+        if(arq_ecNome!= NULL)
+        {
+            arqEc = (char *)malloc((strlen(arq_ecNome)+1)*sizeof(char));
+            strcpy(arqEc, arq_ecNome);
+        }
+
+        if(arq_ecNome!= NULL)
+        {
+            arqPm = (char *)malloc((strlen(arq_pmNome)+1)*sizeof(char));
+            strcpy(arqPm, arq_pmNome);
+        }
+	}
+
+    nomeGeo = concatenacao(arq_geoNome);
+    if (dir_saida[strlen(dir_saida) - 1] == '/')
+    {
+        saida = (char*)malloc((strlen(nomeGeo) + strlen(dir_saida) + 1)*sizeof(char));
+        sprintf(saida,"%s%s",dir_saida,nomeGeo);
+    }
+    else
+    {
+        saida = (char*)malloc((strlen(nomeGeo) + strlen(dir_saida) + 2)*sizeof(char));
+        sprintf(saida,"%s/%s",dir_saida,nomeGeo);
+    }
+    
+    nomeSvgGeo = (char*)malloc((strlen(saida) + 5)*sizeof(char));
+    sprintf(nomeSvgGeo,"%s.svg",saida);
+    
+    lerGeo(arqGeo,nomeSvgGeo);
+
+    if (arq_consulta!= NULL)
+    {
+        nomeQry = concatenacao(arq_consulta);
+        saidaQry = (char*)malloc((strlen(dir_saida) + strlen(saida) + 2)*sizeof(char));
+        sprintf(saidaQry,"%s-%s",saida,nomeQry);
+
+        //lerQry (saidaQry,listasObjetos,arqQry, listasQry);
+    }
+
+   free(dir_entrada);
+   free(dir_saida);
+   free(arqGeo);
+   free(arqQry);
+   free(nomeSvgGeo);
+   free(nomeGeo);
+   free(nomeQry);
+   free(saidaQry);   
+   free(saida);
+
+   /*for (int i = 0; i < 10; i++)
+    {
+        removeList(listasObjetos[i], 1);
+    }  
+
+    for (int i = 0; i < 9; i++)
+    {
+        removeList(listasQry[i], 1);
     }*/
 
-    return 0;
 }
