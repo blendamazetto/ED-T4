@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "lista.h"
 
 #ifndef __HASHTABLE__
 #define __HASHTABLE__

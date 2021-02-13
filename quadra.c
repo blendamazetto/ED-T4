@@ -10,14 +10,15 @@ typedef struct q{
     double y;
     double w;
     double h;
+    double densidade;
     char sw[20];
     char cfill[20];
     char cstrk[20];
-    char sombra[20];
+    Ponto ponto;
 
 }QuadraStruct;
 
-Quadra criaQuadra(char cep[], double x, double y, double w, double h, char sw[], char cfill[], char cstrk[], char sombra[])
+Quadra criaQuadra(char cep[], double x, double y, double w, double h, char sw[], char cfill[], char cstrk[])
 {
     QuadraStruct* quadra = (QuadraStruct*) malloc(sizeof(QuadraStruct));
 
@@ -26,10 +27,11 @@ Quadra criaQuadra(char cep[], double x, double y, double w, double h, char sw[],
     quadra->y = y;
     quadra->w = w;
     quadra->h = h;
+    quadra->densidade = 0;
     strcpy(quadra->sw, sw);
     strcpy(quadra->cfill, cfill);
     strcpy(quadra->cstrk, cstrk);
-    strcpy(quadra->sombra, sombra);
+    quadra->ponto = createPonto(x,y);
     
     return quadra;
 }
@@ -82,13 +84,6 @@ char* getQuadraCstrk(Quadra quadra)
     return quad->cstrk;
 }
 
-char* getQuadraSombra(Quadra quadra)
-{
-    QuadraStruct* quad = (QuadraStruct*) quadra;
-    return quad->sombra;
-}
-
-
 void setQuadraCep(Quadra quadra, char cep[])
 {
     QuadraStruct* quad = (QuadraStruct*) quadra;
@@ -138,8 +133,50 @@ void setQuadraCstrk(Quadra quadra, char cstrk[])
     strcpy(quad->cstrk, cstrk);
 }
 
-void setQuadraSombra(Quadra quadra, char sombra[])
+double getQuadraDensidade(Quadra quadra)
 {
     QuadraStruct* quad = (QuadraStruct*) quadra;
-    strcpy(quad->sombra, sombra);
+    return quad->densidade;
 }
+
+void setQuadraDensidade(Quadra quadra, double densidade)
+{
+    QuadraStruct* quad = (QuadraStruct*) quadra;
+    quad->densidade = densidade;
+}
+
+Ponto getQuadraPonto(Quadra quadra)
+{
+    QuadraStruct* quad = (QuadraStruct*) quadra;
+    return quad->ponto;
+}
+
+void setQuadraPonto(Quadra quadra, Ponto ponto)
+{
+    QuadraStruct* quad = (QuadraStruct*) quadra;
+    quad->ponto = ponto;
+}
+
+void swapQuadra(Quadra q1, Quadra q2)
+{
+    QuadraStruct* a = (QuadraStruct*) q1;
+    QuadraStruct* b = (QuadraStruct*) q2;
+    QuadraStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocaQuadra(Quadra quadra)
+{
+    QuadraStruct* quad = (QuadraStruct*) quadra;
+    
+    free(quad->ponto);
+    free(quad);
+}
+
+
+
+
+
+

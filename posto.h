@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __POSTO_H
 #define __POSTO_H
 
@@ -9,7 +11,7 @@ typedef void* Posto;
 *Precisa dos parametros necessarios para a criação de um posto
 *Retorna um void pointer para a struct posto
 */
-Posto criaPosto(int id, double x, double y, double distancia);
+Posto criaPosto(char id[], double x, double y, double distancia);
 
 /*
 *Copia o valor contido em um no para outro no
@@ -23,7 +25,7 @@ void copiarNo(Posto posto1, Posto posto2);
 *Precisa de um void pointer casos como parametro
 *Retorna o identificador (id) do posto
 */
-int getPostoId(Posto posto);
+char* getPostoId(Posto posto);
 
 /*
 *Obtem o eixo x do posto
@@ -51,7 +53,7 @@ double getPostoDistancia(Posto posto);
 *Precisa de um void pointer Posto e de um valor para o identificador
 *Não retorna nada
 */
-void setPostoId(Posto posto, int id);
+void setPostoId(Posto posto, char id[]);
 
 /*
 *Armazena um valor que é passado como parametro no eixo x também passado por parametro
@@ -73,5 +75,13 @@ void setPostoY(Posto posto, double y);
 *Não retorna nada
 */
 void setPostoDistancia(Posto posto, double distancia);
+
+Ponto getPostoPonto(Posto posto);
+
+void setPostoPonto(Posto posto, Ponto ponto);
+
+void swapPosto(Posto posto1, Posto posto2);
+
+void desalocarPontoPosto(Posto posto);
 
 #endif

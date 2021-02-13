@@ -5,32 +5,34 @@
 
 typedef struct c{
 
-    int i;
+    char i[20];
     double r;
     double x;
     double y;
-    char expessura[20];
+    char sw[20];
     char corb[20];
     char corp[20];
+    Ponto ponto;
 
 }CirculoStruct;
 
-Circulo criaCirculo(int i, double r, double x, double y, char expessura[], char corb[], char corp[])
+Circulo criaCirculo(char i[], double r, double x, double y, char sw[], char corb[], char corp[])
 {
     CirculoStruct* circulo = (CirculoStruct*) malloc(sizeof(CirculoStruct));
 
-    circulo->i = i;
+    strcpy(circulo->i, i);
     circulo->x = x;
     circulo->y = y;
     circulo->r = r;
-    strcpy(circulo->expessura, expessura);
+    strcpy(circulo->sw, sw);
     strcpy(circulo->corb, corb);
     strcpy(circulo->corp, corp);
+    circulo->ponto = createPonto(x, y);
 
     return circulo;
 }
 
-int getCirculoI(Circulo circulo)
+char* getCirculoI(Circulo circulo)
 {
     CirculoStruct* circ = (CirculoStruct*) circulo;
     return circ->i;
@@ -57,7 +59,7 @@ double getCirculoY(Circulo circulo)
 char* getCirculoSw(Circulo circulo)
 {
     CirculoStruct* circ = (CirculoStruct*) circulo;
-    return circ->expessura;
+    return circ->sw;
 }
 
 char* getCirculoCorb(Circulo circulo)
@@ -72,10 +74,16 @@ char* getCirculoCorp(Circulo circulo)
     return circ->corp;
 }
 
-void setCirculoI(Circulo circulo, int i)
+Ponto getCirculoPonto(Circulo circulo)
 {
     CirculoStruct* circ = (CirculoStruct*) circulo;
-    circ->i = i;
+    return circ->ponto;
+}
+
+void setCirculoI(Circulo circulo, char i[])
+{
+    CirculoStruct* circ = (CirculoStruct*) circulo;
+    strcpy(circ->i, i);
 }
 
 void setCirculoR(Circulo circulo, double r)
@@ -99,7 +107,7 @@ void setCirculoY(Circulo circulo, double y)
 void setCirculoSw(Circulo circulo, char sw[])
 {
     CirculoStruct* circ = (CirculoStruct*) circulo;
-    strcpy(circ->expessura, sw);
+    strcpy(circ->sw, sw);
 }
 
 void setCirculoCorb(Circulo circulo, char corb[])
@@ -113,3 +121,29 @@ void setCirculoCorp(Circulo circulo, char corp[])
     CirculoStruct* circ = (CirculoStruct*) circulo;
     strcpy(circ->corp, corp);
 }
+
+void setCirculoPonto(Circulo circulo, Ponto ponto)
+{
+    CirculoStruct* circ = (CirculoStruct*) circulo;
+    circ->ponto = ponto;
+}
+
+void swapCirculo(Circulo c1, Circulo c2)
+{
+    CirculoStruct* a = (CirculoStruct*) c1;
+    CirculoStruct* b = (CirculoStruct*) c2;
+    CirculoStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocarPontoCirculo(Circulo circulo)
+{
+    CirculoStruct* circ = (CirculoStruct*) circulo;
+
+    free(circ->ponto);
+    free(circ);
+}
+
+

@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __HIDRANTE_H
 #define __HIDRANTE_H
 
@@ -33,23 +35,23 @@ double getHidranteX(Hidrante hidrante);
 double getHidranteY(Hidrante hidrante);
 
 /*
-*Obtem a espessura do hidrante
+*Obtem a sw do hidrante
 *Precisa de um void pointer hidrante como parametro
-*Retorna a espessura(Sw) de um hidrante
+*Retorna a sw(Sw) de um hidrante
 */
 char* getHidranteSw(Hidrante hidrante);
 
 /*
-*Obtem a cor de borda do hidrante
+*Obtem a cor de stroke do hidrante
 *Precisa de um void pointer hidrante como parametro
-*Retorna a cor de borda(Cfill) de um hidrante
+*Retorna a cor de stroke(Cfill) de um hidrante
 */
 char* getHidranteCfill(Hidrante hidrante);
 
 /*
-*Obtem a cor de preenchimento do hidrante
+*Obtem a cor de fill do hidrante
 *Precisa de um void pointer hidrante como parametro
-*Retorna a cor de preenchimento(Cstrk) de um hidrante
+*Retorna a cor de fill(Cstrk) de um hidrante
 */
 char* getHidranteCstrk(Hidrante hidrante);
 
@@ -75,14 +77,14 @@ void setHidranteX(Hidrante hidrante, double x);
 void setHidranteY(Hidrante hidrante, double y);
 
 /*
-*Armazena um valor que é passado como parametro na espessura do hidrante também passado por parametro
+*Armazena um valor que é passado como parametro na sw do hidrante também passado por parametro
 *Precisa de um void pointer hidrante e de uma string 
 *Não retorna nada
 */
 void setHidranteSw(Hidrante hidrante, char sw[]);
 
 /*
-*Armazena um valor que é passado como parametro na cor de borda do hidrante também passado por parametro
+*Armazena um valor que é passado como parametro na cor de stroke do hidrante também passado por parametro
 *Precisa de um void pointer hidrante e de uma string 
 *Não retorna nada
 */
@@ -94,5 +96,14 @@ void setHidranteCfill(Hidrante hidrante, char cfill[]);
 *Não retorna nada
 */
 void setHidranteCstrk(Hidrante hidrante, char cstrk[]);
+
+Ponto getHidrantePonto(Hidrante hidrante);
+
+void setHidrantePonto(Hidrante hidrante, Ponto ponto);
+
+void swapHidrante(Hidrante hidrante1, Hidrante hidrante2);
+
+void desalocarPontoHidrante(Hidrante hidrante);
+
 
 #endif

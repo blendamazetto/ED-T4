@@ -1,24 +1,20 @@
+#include "lista.h"
+
 #ifndef __STACK__
 #define __STACK__
-
-//Define "No" como um void pointer
-typedef void* No;
 
 //Define "Lista" como um void pointer
 typedef void* Pilha;
 
-//Define "Info" como um void pointer
-typedef void* Info;
-
 Pilha createStack();
 
-void insertStack(Pilha p, Info info) ;
+void insertStack(Pilha p, Info info);
 
-void removeStack(Pilha p) ;
+Info removeStack(Pilha p);
 
 No criarNo();
 
-int isEmptyStack(Pilha p);
+int isEmptyStack(Pilha pilha);
 
 No getTopo(Pilha p);
 

@@ -15,6 +15,7 @@
 #include "textoNumerico.h"
 #include "linha.h"
 #include "poligono.h"
+#include <string.h>
 
 
 /*
@@ -23,7 +24,7 @@
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void iniciaSvg(char svg[]);
+void iniciaSvg(FILE* svg);
 
 /*
     *Desenha um circulo no arquivo svg, colcocando o comando adequado para isso
@@ -31,7 +32,7 @@ void iniciaSvg(char svg[]);
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaCirculo(double raio, double x, double y, char cor_b[], char cor_p[], char svg[]);
+void desenhaCirculo(Circulo c, FILE* svg);
 
 /*
     *Desenha um retangulo tracejado no arquivo svg, colcocando o comando adequado para isso
@@ -39,7 +40,9 @@ void desenhaCirculo(double raio, double x, double y, char cor_b[], char cor_p[],
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaRetanguloTracejado(double w, double h, double x, double y, char cor_b[], char svg[]);
+void desenhaRetanguloTracejado(Retangulo r, FILE* svg);
+
+void desenhaRetanguloArredondado(Retangulo r, FILE* svg);
 
 /*
     *Desenha um retangulo no arquivo svg, colcocando o comando adequado para isso
@@ -47,7 +50,7 @@ void desenhaRetanguloTracejado(double w, double h, double x, double y, char cor_
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaRetangulo(double w, double h, double x, double y, char cor_b[], char cor_p[], char svg[]);
+void desenhaRetangulo(Retangulo r, FILE* svg);
 
 /*
     *Escreve um texto no arquivo svg, colcocando o comando adequado para isso
@@ -55,7 +58,7 @@ void desenhaRetangulo(double w, double h, double x, double y, char cor_b[], char
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void escreveTexto(double x, double y, char cor_b[], char cor_p[], char text[], char svg[]);
+void escreveTexto(Texto t, FILE* svg);
 
 /*
     *Escreve um texto do tipo numerico no arquivo svg, colcocando o comando adequado para isso
@@ -63,7 +66,7 @@ void escreveTexto(double x, double y, char cor_b[], char cor_p[], char text[], c
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void escreveTextoNumerico(double x, double y, char cor_b[], char cor_p[], double texto, char svg[]);
+void escreveTextoNumerico(TextoNumerico t, FILE* svg);
 
 /*
     *Desenha uma quadra no arquivo svg, colcocando o comando adequado para isso
@@ -71,7 +74,7 @@ void escreveTextoNumerico(double x, double y, char cor_b[], char cor_p[], double
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaQuadra(double w, double h, double x, double y, char cor_b[], char cor_p[], char cep[], char svg[], char quaExpessura[]);
+void desenhaQuadra(Quadra q, FILE* svg);
 
 /*
     *Desenha um hidrante no arquivo svg, colcocando o comando adequado para isso
@@ -79,7 +82,7 @@ void desenhaQuadra(double w, double h, double x, double y, char cor_b[], char co
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaHidrante(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char hidraExpessura[]);
+void desenhaHidrante(Hidrante h, FILE* svg);
 
 /*
     *Desenha um semaforo no arquivo svg, colcocando o comando adequado para isso
@@ -87,7 +90,7 @@ void desenhaHidrante(double raio, double x, double y, char cor_b[], char cor_p[]
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaSemaforo(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char semaExpessura[]);
+void desenhaSemaforo(Semaforo s, FILE* svg);
 
 /*
     *Desenha uma torre no arquivo svg, colcocando o comando adequado para isso
@@ -95,7 +98,7 @@ void desenhaSemaforo(double raio, double x, double y, char cor_b[], char cor_p[]
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaRadioBase(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char radioExpessura[]);
+void desenhaRadioBase(Radiobase rb, FILE* svg);
 
 /*
     *Desenha um posto no arquivo svg, colcocando o comando adequado para isso
@@ -103,7 +106,7 @@ void desenhaRadioBase(double raio, double x, double y, char cor_b[], char cor_p[
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaPosto(double x, double y, char svg[]);
+void desenhaPosto(Posto p, FILE* svg);
 
 /*
     *Desenha uma linha no arquivo svg, colcocando o comando adequado para isso
@@ -111,7 +114,7 @@ void desenhaPosto(double x, double y, char svg[]);
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaLinha(double x1, double y1, double x2, double y2, char cor[], char svg[]);
+void desenhaLinha(Linha l, FILE* svg);
 
 /*
     *Desenha uma linha tracejada no arquivo svg, colcocando o comando adequado para isso
@@ -119,7 +122,7 @@ void desenhaLinha(double x1, double y1, double x2, double y2, char cor[], char s
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void desenhaLinhaTracejada(double x1, double y1, double x2, double y2, char svg[]);
+void desenhaLinhaTracejada(Linha l, FILE* svg);
 
 /*
     *Finaliza o arquivo svg colocando o comando necessario nele
@@ -127,9 +130,9 @@ void desenhaLinhaTracejada(double x1, double y1, double x2, double y2, char svg[
     *Retorna nada, fecha o svg apenas.
     * 
 */
-void finalizaSvg(char svg[]);
+void finalizaSvg(FILE* svg);
 
-void gerarSvgGeo(Lista listasObjetos[], char saidaSvg[]);
+void gerarSvgGeo(FILE* svg, QuadTree tree[], Lista l);
 
 /*
     *Imprime os elementos guardados na lista no arquivo svg feito para o qry
@@ -137,7 +140,7 @@ void gerarSvgGeo(Lista listasObjetos[], char saidaSvg[]);
     *Retorna nada.
     * 
 */
-void gerarSvgQry(char saidaSvg[], Lista listasQry[]);
+//void gerarSvgQry(char saidaSvg[], Lista listasQry[]);
 
 
 #endif

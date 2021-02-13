@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __RADIOBASE_H
 #define __RADIOBASE_H
 
@@ -33,23 +35,23 @@ double getRadiobaseX(Radiobase radiobase);
 double getRadiobaseY(Radiobase radiobase);
 
 /*
-*Obtem a espessura de uma radiobase
+*Obtem a sw de uma radiobase
 *Precisa de um void pointer radiobase
-*Retorna a espessura(Sw) de uma radiobase
+*Retorna a sw(Sw) de uma radiobase
 */
 char* getRadiobaseSw(Radiobase radiobase);
 
 /*
-*Obtem a cor de borda de uma radiobase
+*Obtem a cor de stroke de uma radiobase
 *Precisa de um void pointer radiobase
-*Retorna a cor de borda(Cfill) de uma radiobase
+*Retorna a cor de stroke(Cfill) de uma radiobase
 */
 char* getRadiobaseCfill(Radiobase radiobase);
 
 /*
-*Obtem a cor de preenchimento de uma radiobase
+*Obtem a cor de fill de uma radiobase
 *Precisa de um void pointer radiobase
-*Retorna a cor de preenchimento(Cstrk) de uma radiobase
+*Retorna a cor de fill(Cstrk) de uma radiobase
 */
 char* getRadiobaseCstrk(Radiobase radiobase);
 
@@ -75,24 +77,32 @@ void setRadiobaseX(Radiobase radiobase, double x);
 void setRadiobaseY(Radiobase radiobase, double y);
 
 /*
-*Armazena uma string com a espessura em uma radiobase
+*Armazena uma string com a sw em uma radiobase
 *Precisa de um void pointer radiobase e uma string
 *Não retorna nada
 */
 void setRadiobaseSw(Radiobase radiobase, char sw[]);
 
 /*
-*Armazena uma string com a cor de borda em uma radiobase
+*Armazena uma string com a cor de stroke em uma radiobase
 *Precisa de um void pointer radiobase e uma string
 *Não retorna nada
 */
 void setRadiobaseCfill(Radiobase radiobase, char cfill[]);
 
 /*
-*Armazena uma string com a cor de preenchimento em uma radiobase
+*Armazena uma string com a cor de fill em uma radiobase
 *Precisa de um void pointer radiobase e uma string
 *Não retorna nada
 */
 void setRadiobaseCstrk(Radiobase radiobase, char cstrk[]);
+
+Ponto getRadiobasePonto(Radiobase radiobase);
+
+void setRadiobasePonto(Radiobase radiobase, Ponto ponto);
+
+void swapRadiobase(Radiobase rb1, Radiobase rb2);
+
+void desalocaRadiobase(Radiobase radiobase);
 
 #endif

@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __SEMAFARO_H
 #define __SEMAFARO_H
 
@@ -33,23 +35,23 @@ double getSemaforoX(Semaforo semaforo);
 double getSemaforoY(Semaforo semaforo);
 
 /*
-*Obtem a espessura do semaforo
+*Obtem a sw do semaforo
 *Precisa de um void pointer semaforo
-*Retorna uma string com a espessura(Sw) do semaforo
+*Retorna uma string com a sw(Sw) do semaforo
 */
 char* getSemaforoSw(Semaforo semaforo);
 
 /*
-*Obtem a cor de borda do semaforo
+*Obtem a cor de stroke do semaforo
 *Precisa de um void pointer semaforo
-*Retorna uma string com a cor de borda(Cfill) do semaforo
+*Retorna uma string com a cor de stroke(Cfill) do semaforo
 */
 char* getSemaforoCfill(Semaforo semaforo);
 
 /*
-*Obtem a cor de preenchimento do semaforo
+*Obtem a cor de fill do semaforo
 *Precisa de um void pointer semaforo
-*Retorna uma string com a cor de preenchimento(Cstrk) do semaforo
+*Retorna uma string com a cor de fill(Cstrk) do semaforo
 */
 char* getSemaforoCstrk(Semaforo semaforo);
 
@@ -75,24 +77,33 @@ void setSemaforoX(Semaforo semaforo, double x);
 void setSemaforoY(Semaforo semaforo, double y);
 
 /*
-*Armazena uma string na espessura do semaforo
-*Precisa de um void pointer semaforo e uma string com a espessura(Sw)
+*Armazena uma string na sw do semaforo
+*Precisa de um void pointer semaforo e uma string com a sw(Sw)
 *Não retorna nada
 */
 void setSemaforoSw(Semaforo semaforo, char sw[]);
 
 /*
-*Armazena uma string na cor de borda do semaforo
-*Precisa de um void pointer semaforo e uma string com a cor de borda(Cfill)
+*Armazena uma string na cor de stroke do semaforo
+*Precisa de um void pointer semaforo e uma string com a cor de stroke(Cfill)
 *Não retorna nada
 */
 void setSemaforoCfill(Semaforo semaforo, char cfill[]);
 
 /*
-*Armazena uma string na cor de preenchimento do semaforo
-*Precisa de um void pointer semaforo e uma string com a cor de preenchimento(Cstrk)
+*Armazena uma string na cor de fill do semaforo
+*Precisa de um void pointer semaforo e uma string com a cor de fill(Cstrk)
 *Não retorna nada
 */
 void setSemaforoCstrk(Semaforo semaforo, char cstrk[]);
+
+Ponto getSemaforoPonto(Semaforo semaforo);
+
+void setSemaforoPonto(Semaforo semaforo, Ponto ponto);
+
+void swapSemaforo(Semaforo semaforo1, Semaforo semaforo2);
+
+void desalocaSemaforo(Semaforo semaforo);
+
 
 #endif

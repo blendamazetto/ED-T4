@@ -3,41 +3,33 @@
 #include <string.h>
 #include "lerGeo.h"
 
-void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[])
+void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
 {
+    int max;
+    double x, y, h, w, d, r, distancia = 0;
+    char i[20], id[20], txt[255], tipo[10], cep[20];
+    char sw[20], hSW[20], qSW[20], sSW[20], rbSW[20], cSW[20], rSW[20];
+    char stroke[22], fill[22], Qstroke[22], Qfill[22], RBstroke[22], RBfill[22], Sstroke[22], Sfill[22], Hstroke[22], Hfill[22];
+    strcpy(sw,"5");
+    strcpy(hSW,"5");
+    strcpy(qSW,"5");
+    strcpy(sSW,"5");
+    strcpy(rbSW,"5");
+    strcpy(cSW,"5");
+    strcpy(rSW,"5");
+    strcpy(stroke,"black");
+    strcpy(fill,"blue");
+    strcpy(Qstroke,"black");
+    strcpy(Qfill,"blue");
+    strcpy(RBstroke,"black");
+    strcpy(RBfill,"blue");
+    strcpy(Sstroke,"black");
+    strcpy(Sfill,"blue");
+    strcpy(Hstroke,"black");
+    strcpy(Hfill,"blue");
 
-    FILE *geo;
-    int id1, idPosto = 0;
-    double raio, distancia = 0;
-    int max[5] = {1000, 1000, 1000, 1000, 1000};
-    char id2[20];
-    char txt[255];
-    int n = 0;
-    char tipo[10];
-    char cep[20];
-    double x, y, h, w, d;
-    char expessura[20];
-    char hidraExpessura[20];
-    char semaExpessura[20];
-    char quaExpessura[20];
-    char radioExpessura[20];
-    char circleExpessura[20];
-    char rectExpessura[20];
-    char borda[22]; 
-    char preenchimento[22];
-    char Qborda[22] = "black", Qpreenchimento[22] = "red";
-    char RBborda[22] = "black", RBpreenchimento[22] = "green";
-    char Sborda[22] = "black", Spreenchimento[22] = "red";
-    char Hborda[22] = "black", Hpreenchimento[22] = "yellow";
-
-    hidraExpessura[0] = '2';
-    semaExpessura[0] = '2';
-    quaExpessura[0] = '2';
-    radioExpessura[0] = '2';
-    circleExpessura[0] = '2';
-    rectExpessura[0] = '2';
-
-    geo = fopen(arqGeo,"r");
+    FILE *geo = fopen(arqGeo,"r");
+    FILE *svg = fopen(nomeSvgGeo,"a");
 
     if(geo == NULL)
     {
@@ -45,7 +37,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[])
         exit(1);
     }
     
-    iniciaSvg(nomeSvgGeo);
+    iniciaSvg(svg);
     
     while(!feof(geo))
     {
@@ -53,140 +45,145 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[])
 
         if(strcmp(tipo, "nx")==0)
         {
-            fscanf(geo,"%d\n", &max[0]);
+            fscanf(geo,"%d\n", &max);
         }
         else if(strcmp(tipo, "c")==0)
         {
-            fscanf(geo,"%d %lf %lf %lf %s %s\n", &id1, &raio, &x, &y, borda, preenchimento);
-            Circulo circulo = criaCirculo(id1, raio, x, y, circleExpessura, borda, preenchimento);
+            fscanf(geo,"%s %lf %lf %lf %s %s\n", i, &r, &x, &y, stroke, fill);
+            Circulo circulo = criaCirculo(i, r, x, y, cSW, stroke, fill);
             insert(listasObjetos[0], circulo);
-            
-            
-            n++;
         }
         else if(strcmp(tipo, "r")==0)
         {
-            fscanf(geo,"%d %lf %lf %lf %lf %s %s\n", &id1, &w, &h, &x, &y, borda, preenchimento);
-            Retangulo retangulo = criaRetangulo(id1, w, h, x, y, rectExpessura, borda, preenchimento);
+            fscanf(geo,"%s %lf %lf %lf %lf %s %s\n", i, &w, &h, &x, &y, stroke, fill);
+            Retangulo retangulo = criaRetangulo(i, w, h, x, y, rSW, stroke, fill);
             insert(listasObjetos[1], retangulo);
-            
-            n++;
         }
         else if(strcmp(tipo, "t")==0)
         {
-            fscanf(geo,"%d %lf %lf %s %s", &id1, &x, &y, borda, preenchimento);
+            fscanf(geo,"%s %lf %lf %s %s", i, &x, &y, stroke, fill);
             fgets(txt, 255, geo);
-            Texto texto = criaTexto(id1, x, y, borda, preenchimento, txt);
+            Texto texto = criaTexto(i, x, y, stroke, fill, txt);
             insert(listasObjetos[2], texto);
         }
         else if(strcmp(tipo, "q")==0)
         {
             fscanf(geo,"%s %lf %lf %lf %lf\n", cep, &x, &y, &w, &h);
-            Quadra quadra = criaQuadra(cep, x, y, w, h, quaExpessura, Qpreenchimento, Qborda, "null");
+            Quadra quadra = criaQuadra(cep, x, y, w, h, qSW, Qfill, Qstroke);
             insert(listasObjetos[3], quadra);
-            
-            n++;
         }
         else if(strcmp(tipo, "h")==0)
         {
-            fscanf(geo,"%s %lf %lf\n", id2, &x, &y);
-            Hidrante hidrante = criaHidrante(id2, x, y, hidraExpessura, Hpreenchimento, Hborda);
+            fscanf(geo,"%s %lf %lf\n", id, &x, &y);
+            Hidrante hidrante = criaHidrante(id, x, y, hSW, Hfill, Hstroke);
             insert(listasObjetos[4], hidrante);
-
-            n++;
         }
         else if(strcmp(tipo, "s")==0)
         {
-            fscanf(geo,"%s %lf %lf\n", id2, &x, &y);
-            Semaforo semaforo = criaSemaforo(id2, x, y, semaExpessura, Spreenchimento, Sborda);
+            fscanf(geo,"%s %lf %lf\n", id, &x, &y);
+            Semaforo semaforo = criaSemaforo(id, x, y, sSW, Sfill, Sstroke);
             insert(listasObjetos[5], semaforo);
-            
-            n++;
         }
         else if(strcmp(tipo, "rb")==0)
         {
-            fscanf(geo,"%s %lf %lf\n", id2, &x, &y);
-            Radiobase radioBase = criaRadiobase(id2, x, y, radioExpessura, RBpreenchimento, RBborda);
+            fscanf(geo,"%s %lf %lf\n", id, &x, &y);
+            Radiobase radioBase = criaRadiobase(id, x, y, rbSW, RBfill, RBstroke);
             insert(listasObjetos[6], radioBase);
-            
-            n++;
         }
         else if(strcmp(tipo, "cq")==0)
         {
-            fscanf(geo,"%s %s %s\n", expessura, preenchimento, borda);
+            fscanf(geo,"%s %s %s\n", sw, fill, stroke);
 
-            strcpy(quaExpessura, expessura);
-            strcpy(Qpreenchimento, preenchimento);
-            strcpy(Qborda, borda); 
-
-            n++;
+            strcpy(qSW, sw);
+            strcpy(Qfill, fill);
+            strcpy(Qstroke, stroke);
         }
         else if(strcmp(tipo, "ch")==0)
         {
-            fscanf(geo,"%s %s %s\n", expessura, preenchimento, borda);
+            fscanf(geo,"%s %s %s\n", sw, fill, stroke);
 
-            strcpy(hidraExpessura, expessura);
-            strcpy(Hpreenchimento, preenchimento);
-            strcpy(Hborda, borda);
-
-            n++;
+            strcpy(hSW, sw);
+            strcpy(Hfill, fill);
+            strcpy(Hstroke, stroke);
         }
         else if(strcmp(tipo, "cr")==0)
         {
-            fscanf(geo,"%s %s %s\n", expessura, preenchimento, borda);
+            fscanf(geo,"%s %s %s\n", sw, fill, stroke);
 
-            strcpy(radioExpessura, expessura);
-            strcpy(RBpreenchimento, preenchimento);
-            strcpy(RBborda, borda);
-
-            n++;
+            strcpy(rbSW, sw);
+    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
+    {
+        densidadeQuadras(getInfo(node),arvoresObjetos[3]);
+    }
+            strcpy(RBfill, fill);
+            strcpy(RBstroke, stroke);
         }
         else if(strcmp(tipo, "cs")==0)
         {
-            fscanf(geo,"%s %s %s\n", expessura, preenchimento, borda);
+            fscanf(geo,"%s %s %s\n", sw, fill, stroke);
             
-            strcpy(semaExpessura, expessura);
-            strcpy(Spreenchimento, preenchimento);
-            strcpy(Sborda, borda);
-
-            n++;
+            strcpy(sSW, sw);
+            strcpy(Sfill, fill);
+            strcpy(Sstroke, stroke);
         }
         else if(strcmp(tipo, "sw")==0)
         {
-            fscanf(geo,"%s %s\n", circleExpessura, rectExpessura); 
-
-            n++;
+            fscanf(geo,"%s %s\n", cSW, rSW); 
         }
         else if(strcmp(tipo, "ps")==0)
         {
             fscanf(geo,"%lf %lf\n",&x, &y);
-            Posto posto = criaPosto(idPosto, x, y, distancia);
+            Posto posto = criaPosto("posto", x, y, distancia);
             insert(listasObjetos[7], posto);
-        
-            idPosto++;
-            n++;
         }
         else if(strcmp(tipo, "dd")==0)
         {
             fscanf(geo,"%lf %lf %lf %lf %lf\n", &x, &y, &w, &h, &d);
             Densidade densidade = criaDensidade(x, y, w, h, d);
             insert(listasObjetos[8], densidade);
-
-            n++;
         }
     }
-    
-    sombras(listasObjetos);
-    gerarSvgGeo(listasObjetos, nomeSvgGeo);
-    finalizaSvg(nomeSvgGeo);
-    fclose(geo);
 
+    void* (*getPonto[8])(void*) = {getCirculoPonto, getRetanguloPonto, getTextoPonto, getQuadraPonto, getHidrantePonto, getSemaforoPonto, getRadiobasePonto, getPostoPonto};
+    
+    void (*swap[8])(void*, void*) = {swapCirculo, swapRetangulo, swapTexto, swapQuadra, swapHidrante, swapSemaforo, swapRadiobase, swapPosto};
+    
+    for(int i = 0; i < 8; i++)
+    {
+        balancearQuadTree(arvoresObjetos[i], listasObjetos[i], getPonto[i], swap[i]);
+    }
+
+    for(No node = getFirst(listasObjetos[8]); node != NULL; node = getNext(node))
+    {
+        densidadeQuadras(getInfo(node),arvoresObjetos[3]);
+    }
+   
+    tabelas[3] = createHashTable(tamanhoDaLista(listasObjetos[3]));
+    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
+    {
+        Info info = getInfo(node);
+
+        char auxCep[20];
+        strcpy(auxCep, getQuadraCep(info));
+
+        insertHashTable(info, auxCep, tamanhoDaLista(listasObjetos[3]), tabelas[3]);
+    }
+
+    gerarSvgGeo(svg, arvoresObjetos, NULL);
+    finalizaSvg(svg);
+    fclose(geo);
+    fclose(svg);
+    
+    for(int i = 0; i < 8; i++)
+    {
+        removeList(listasObjetos[i],NULL);
+    }
+    removeList(listasObjetos[8], desalocarPontosDensidade);
 }
 
-void lerEc(char arqEc[])
+void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
 {
-    FILE *ec;
-    ec = fopen(arqEc,"r");
+    FILE *ec = fopen(arqEc,"r");
 
     if(ec == NULL)
     {
@@ -204,7 +201,6 @@ void lerEc(char arqEc[])
     double num;
     char nome[255];
 
-
     while(!feof(ec))
     {
         fscanf(ec, "%s", tipo);
@@ -212,18 +208,31 @@ void lerEc(char arqEc[])
         if(strcmp(tipo, "t")==0)
         {
             fscanf(ec,"%s %s\n", codt, descricao);
+            Codt cod = criaCodt(codt, descricao);
+            insert(listasObjetos[12], cod);
         }
 
         else if(strcmp(tipo, "e")==0)
         {
             fscanf(ec,"%s %s %s %s %s %lf %s\n", cnpj, cpf, codt, cep, face, &num, nome);
+            Estabelecimento estabelecimento = criaEstabelecimento(cnpj, cpf, codt, cep, face, num, nome, descobrirPonto(cep, face, num, arvoresObjetos[3]));
+            insert(listasObjetos[9], estabelecimento);
         }
+    }
+
+    balancearQuadTree(arvoresObjetos[8], listasObjetos[9], getEstabelecimentoPonto, swapEstabelecimento);
+
+    tabelas[1] = createHashTable(tamanhoDaLista(listasObjetos[12]));
+    for(No node = getFirst(listasObjetos[13]); node != NULL; node = getNext(node))
+    {
+        Info info = getInfo(node);
+        insertHashTable(criaInfo(getCodtDescricao(info)), getCodtCodt(info), tamanhoDaLista(listasObjetos[12]), tabelas[1]);
     }
 
     fclose(ec);
 }
 
-void lerPm(char arqPm[])
+void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
 {
     FILE *pm;
     pm = fopen(arqPm,"r");
@@ -252,13 +261,36 @@ void lerPm(char arqPm[])
         if(strcmp(tipo, "p")==0)
         {
             fscanf(pm,"%s %s %s %s %s\n", cpf, nome, sobrenome, sexo, nascimento);
+            Pessoa pessoa = criaPessoa(cpf, nome, sobrenome, sexo, nascimento);
+            insert(listasObjetos[10], pessoa);
         }
 
         else if(strcmp(tipo, "m")==0)
         {
             fscanf(pm, "%s %s %s %lf %s", cpf, cep, face, &num, compl);
+            Morador morador = criaMorador(cpf, face, compl, cep, num, descobrirPonto(cep, face, num, arvoresObjetos[3]));
+            insert(listasObjetos[11], morador);
         }
     }
-
     fclose(pm);
+
+    balancearQuadTree(arvoresObjetos[9], listasObjetos[11], getMoradorPonto, swapMorador);
+
+    tabelas[0] = createHashTable(tamanhoDaLista(listasObjetos[11]));
+    for(No node = getFirst(listasObjetos[11]); node != NULL; node = getNext(node))
+    {
+        Info info = getInfo(node);
+        insertHashTable(criaInfo(getMoradorCep(info)), getMoradorCpf(info), tamanhoDaLista(listasObjetos[11]), tabelas[0]);
+    }
+
+    tabelas[2] = createHashTable(tamanhoDaLista(listasObjetos[10]));
+    for(No node = getFirst(listasObjetos[10]); node != NULL; node = getNext(node))
+    {
+        Info info = getInfo(node);
+
+        char auxCpf[20];
+        strcpy(auxCpf, getPessoaCpf(info));
+
+        insertHashTable(info, auxCpf, tamanhoDaLista(listasObjetos[10]), tabelas[2]);
+    }
 }

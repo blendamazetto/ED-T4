@@ -5,20 +5,21 @@
 
 typedef struct t{
 
-    int i;
+    char i[20];
     double x;
     double y;
     char corb[20];
     char corp[20];
     char texto[20];
+    Ponto ponto;
 
 }TextoStruct;
 
-Texto criaTexto(int i, double x, double y, char corb[], char corp[], char texto[255])
+Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[255])
 {
     TextoStruct* text = (TextoStruct*) malloc(sizeof(TextoStruct));
 
-    text->i = i;
+    strcpy(text->i, i);
     text->x = x;
     text->y = y;
     strcpy(text->corb, corb);
@@ -28,7 +29,7 @@ Texto criaTexto(int i, double x, double y, char corb[], char corp[], char texto[
     return text;
 }
 
-int getTextoI(Texto texto)
+char* getTextoI(Texto texto)
 {
     TextoStruct* text = (TextoStruct*) texto;
     return text->i;
@@ -64,10 +65,11 @@ char* getTextoTxto(Texto texto)
     return text->texto;
 }
 
-void setTextoI(Texto texto, int i)
+void setTextoI(Texto texto, char i[])
 {
     TextoStruct* text = (TextoStruct*) texto;
-    text->i = i;
+    strcpy(text->i, i);
+
 }
 
 void setTextoX(Texto texto, double x)
@@ -99,3 +101,35 @@ void setTextoTxto(Texto texto, char txto[])
     TextoStruct* text = (TextoStruct*) texto;
     strcpy(text->texto, txto);
 }
+
+Ponto getTextoPonto(Texto texto)
+{
+    TextoStruct* text = (TextoStruct*) texto;
+    return text->ponto;
+}
+
+void setTextoPonto(Texto texto, Ponto ponto)
+{
+    TextoStruct* text = (TextoStruct*) texto;
+    text->ponto = ponto;
+}
+
+void swapTexto(Texto t1, Texto t2)
+{
+    TextoStruct* a = (TextoStruct*) t1;
+    TextoStruct* b = (TextoStruct*) t2;
+    TextoStruct temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void desalocaTexto(Texto txt)
+{
+    TextoStruct* texto = (TextoStruct*) txt;
+    
+    free(texto->ponto);
+    free(texto);
+}
+
+
+

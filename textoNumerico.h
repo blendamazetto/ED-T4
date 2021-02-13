@@ -33,16 +33,16 @@ double getTextoNumericoX(TextoNumerico texto);
 double getTextoNumericoY(TextoNumerico texto);
 
 /*
-*Obtem a cor de borda de um textoNumerico
+*Obtem a cor de stroke de um textoNumerico
 *Precisa de um void pointer textoNumerico
-*Retorna uma string com a cor de borda(Corb) de um textoNumerico
+*Retorna uma string com a cor de stroke(Corb) de um textoNumerico
 */
 char* getTextoNumericoCorb(TextoNumerico texto);
 
 /*
-*Obtem a cor de preenchimento de um textoNumerico
+*Obtem a cor de fill de um textoNumerico
 *Precisa de um void pointer textoNumerico
-*Retorna uma string com a cor de preenchimento(Corp) de um textoNumerico
+*Retorna uma string com a cor de fill(Corp) de um textoNumerico
 */
 char* getTextoNumericoCorp(TextoNumerico texto);
 
@@ -68,14 +68,14 @@ void setTextoNumericoX(TextoNumerico texto, double x);
 void setTextoNumericoY(TextoNumerico texto, double y);
 
 /*
-*Armazena uma string na cor de borda de um textoNumerico
+*Armazena uma string na cor de stroke de um textoNumerico
 *Precisa de um void pointer textoNumerico e uma string
 *Não retorna nada
 */
 void setTextoNumericoCorb(TextoNumerico texto, char corb[]);
 
 /*
-*Armazena uma string na cor de preenchimento de um textoNumerico
+*Armazena uma string na cor de fill de um textoNumerico
 *Precisa de um void pointer textoNumerico e uma string
 *Não retorna nada
 */

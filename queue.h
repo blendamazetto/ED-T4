@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "lista.h"
 
 #ifndef __FILA__
 #define __FILA__
@@ -10,7 +11,7 @@ Fila createQueue();
 
 void insertQueue(Fila f, Info info);
 
-void removeQueue(Fila f);
+Info removeQueue(Fila f);
 
 int isEmptyQueue(Fila f);
 

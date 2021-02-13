@@ -33,47 +33,47 @@ void insertQueue(Fila f, Info info)
     NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
 
     node->info = info;
+    node->proximo = NULL;
 
-    if(fila->primeiro == NULL)
+    if(fila->ultimo == NULL)
     {
         fila->primeiro = node;
-        node->proximo = NULL;
         fila->ultimo = node;
     }
     else
     {
         fila->ultimo->proximo = node;
-        fila->ultimo = node;
     }
-    
+
+    fila->ultimo = node; 
     fila->tamanho++;
 }
 
-void removeQueue(Fila f) 
+Info removeQueue(Fila f) 
 {
     FilaStruct* fila = (FilaStruct*) f;
-    NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
+    NoStruct* node = fila->primeiro;
+    Info info = node->info;
 
-    node = fila->primeiro;
     fila->primeiro = node->proximo;
+
+    if(fila->ultimo == node)
+    {
+        fila->ultimo = NULL;
+    }
     
     free(node);
 
     fila->tamanho--;
+
+    return info;
 }
 
 int isEmptyQueue(Fila f)
 {
     FilaStruct* fila = (FilaStruct*) f;
-
-    if(fila->tamanho == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }  
+  
+    return fila->primeiro == NULL;
 }
 
 No getPrimeiro(Fila f)

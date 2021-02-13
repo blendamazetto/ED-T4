@@ -11,6 +11,7 @@ typedef struct rb{
     char sw[20];
     char cfill[20];
     char cstrk[20];
+    Ponto ponto;
 
 }RadiobaseStruct;
 
@@ -24,6 +25,7 @@ Radiobase criaRadiobase(char id[], double x, double y, char sw[], char cfill[], 
     strcpy(radiobase->sw, sw);
     strcpy(radiobase->cfill, cfill);
     strcpy(radiobase->cstrk, cstrk);
+    radiobase->ponto = createPonto(x,y);
     
     return radiobase;
 }
@@ -98,4 +100,34 @@ void setRadiobaseCstrk(Radiobase radiobase, char cstrk[])
 {
     RadiobaseStruct* radiob = (RadiobaseStruct*) radiobase;
     strcpy(radiob->cstrk, cstrk);
+}
+
+Ponto getRadiobasePonto(Radiobase radiobase)
+{
+    RadiobaseStruct* radiob = (RadiobaseStruct*) radiobase;
+    return radiob->ponto;
+}
+
+void setRadiobasePonto(Radiobase radiobase, Ponto ponto)
+{
+    RadiobaseStruct* radiob = (RadiobaseStruct*) radiobase;
+    radiob->ponto = ponto;
+}
+
+void swapRadiobase(Radiobase rb1, Radiobase rb2)
+{
+    RadiobaseStruct* a = (RadiobaseStruct*) rb1;
+    RadiobaseStruct* b = (RadiobaseStruct*) rb2;
+    RadiobaseStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocaRadiobase(Radiobase radiobase)
+{
+    RadiobaseStruct* radiob = (RadiobaseStruct*) radiobase;
+    
+    free(radiob->ponto);
+    free(radiob);
 }

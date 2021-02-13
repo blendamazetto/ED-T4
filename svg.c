@@ -2,451 +2,205 @@
 #include<stdlib.h>
 #include"svg.h"
 
-void iniciaSvg(char svg[])
+void iniciaSvg(FILE* svg)
 {
-
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "w");
-
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser aberto\n");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "<svg>\n");
-
-    fclose(arqSvg);
+    fprintf(svg, "<svg>\n");
 }
 
-void desenhaCirculo(double raio, double x, double y, char cor_b[], char cor_p[], char svg[])
+void desenhaCirculo(Circulo c, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getCirculoX(c);
+    double y = getCirculoY(c);
+    double raio = getCirculoR(c);
+    char cor_b[22];
+    char cor_p[22];
+    strcpy(cor_b, getCirculoCorb(c));
+    strcpy(cor_p, getCirculoCorp(c));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, cor_p);
-
-    fclose(arqSvg);
-
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, cor_p);
 }
 
+void desenhaRetangulo(Retangulo r, FILE* svg)
+{   
+    double x = getRetanguloX(r);
+    double y = getRetanguloY(r);
+    double h = getRetanguloH(r);
+    double w = getRetanguloW(r);
+    char cor_p[22];
+    char cor_b[22];
+    strcpy(cor_b, getRetanguloCorb(r));
+    strcpy(cor_p, getRetanguloCorp(r));
 
-void desenhaRetangulo(double w, double h, double x, double y, char cor_b[], char cor_p[], char svg[])
-{
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
-
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width =\"1\"/>\n",x,y,w,h,cor_p,cor_b);
-
-    fclose(arqSvg);
+    fprintf(svg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width =\"1\"/>\n",x,y,w,h,cor_p,cor_b);
 }
 
-void desenhaRetanguloTracejado(double w, double h, double x, double y, char cor_b[], char svg[])
+void desenhaRetanguloTracejado(Retangulo r, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getRetanguloX(r);
+    double y = getRetanguloY(r);
+    double h = getRetanguloH(r);
+    double w = getRetanguloW(r);
+    char cor_b[22];
+    strcpy(cor_b, getRetanguloCorb(r));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"none\" stroke=\"%s\" stroke-width =\"1\" stroke-dasharray=\"1\" />\n",x,y,w,h,cor_b);
-
-    fclose(arqSvg);
+    fprintf(svg, "\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"none\" stroke=\"%s\" stroke-width =\"1\" stroke-dasharray=\"1\" />\n",x,y,w,h,cor_b);
 }
 
-void desenhaRetanguloArredondado(double w, double h, double x, double y, char sw[], char svg[])
+void desenhaRetanguloArredondado(Retangulo r, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getRetanguloX(r);
+    double y = getRetanguloY(r);
+    double h = getRetanguloH(r);
+    double w = getRetanguloW(r);
+    char sw[22];
+    strcpy(sw, getRetanguloSw(r));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\n<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"beige\" stroke=\"olive\"  stroke-width=\"%s\" rx=\"20\"/>\n",x,y,w,h,sw);
-
-    fclose(arqSvg);
+    fprintf(svg, "\n<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"beige\" stroke=\"olive\"  stroke-width=\"%s\" rx=\"20\"/>\n",x,y,w,h,sw);
 }
 
-void escreveTexto(double x, double y, char cor_b[], char cor_p[], char text[], char svg[])
+void escreveTexto(Texto t, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getTextoX(t);
+    double y = getTextoY(t);
+    char cor_b[22];
+    char cor_p[22];
+    char text[255];
+    strcpy(cor_b, getTextoCorb(t));
+    strcpy(cor_p, getTextoCorp(t));
+    strcpy(text, getTextoTxto(t));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg,"\t<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" stroke-width=\"0.3\" fill=\"%s\">%s</text>\n",x,y,cor_b,cor_p,text);
-
-    fclose(arqSvg);
+    fprintf(svg,"\t<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" stroke-width=\"0.3\" fill=\"%s\">%s</text>\n",x,y,cor_b,cor_p,text);
 }
 
-void escreveTextoNumerico(double x, double y, char cor_b[], char cor_p[], double texto, char svg[])
+void escreveTextoNumerico(TextoNumerico t, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getTextoNumericoX(t);
+    double y = getTextoNumericoY(t);
+    char cor_b[22];
+    char cor_p[22];
+    double texto = getTextoNumericoTexto(t);
+    strcpy(cor_b, getTextoNumericoCorb(t));
+    strcpy(cor_p, getTextoNumericoCorp(t));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg,"\t<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" stroke-width=\"0.3\" fill=\"%s\">%lf</text>\n", x, y, cor_b, cor_p, texto);
-
-    fclose(arqSvg);
+    fprintf(svg,"\t<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" stroke-width=\"0.3\" fill=\"%s\">%lf</text>\n", x, y, cor_b, cor_p, texto);
 }
 
 
-void desenhaQuadra(double w, double h, double x, double y, char cor_b[], char cor_p[], char cep[], char svg[], char quaExpessura[])
+void desenhaQuadra(Quadra q, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x = getQuadraX(q);
+    double y = getQuadraY(q);
+    double h = getQuadraH(q);
+    double w = getQuadraW(q);
+    char cor_p[22];
+    char cor_b[22];
+    char qSW[22];
+    char cep[22];
+    strcpy(cor_b, getQuadraCstrk(q));
+    strcpy(cor_p, getQuadraCfill(q));
+    strcpy(qSW, getQuadraSw(q));
+    strcpy(cep, getQuadraCep(q));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg,"\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\"/>\n",x, y, w, h, cor_p, cor_b, quaExpessura);
-    fprintf(arqSvg, "\t<text x=\"%lf\" y=\"%lf\" fill=\"black\">%s</text>\n", x+w/4, y+h/2, cep);
-
-    fclose(arqSvg);
-
+    fprintf(svg,"\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\"/>\n",x, y, w, h, cor_p, cor_b, qSW);
+    fprintf(svg, "\t<text x=\"%lf\" y=\"%lf\" fill=\"black\">%s</text>\n", x+w/4, y+h/2, cep);
 }
 
-void desenhaHidrante(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char hidraExpessura[])
+void desenhaHidrante(Hidrante h, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double raio = 1;
+    double x = getHidranteX(h);
+    double y = getHidranteY(h);
+    char cor_b[22];
+    char cor_p[22]; 
+    char hSW[22];
+    strcpy(cor_b, getHidranteCstrk(h));
+    strcpy(cor_p, getHidranteCfill(h));
+    strcpy(hSW, getHidranteSw(h));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, hidraExpessura,cor_p);
-
-    fclose(arqSvg);
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, hSW,cor_p);
 }
 
-void desenhaSemaforo(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char semaExpessura[])
+void desenhaSemaforo(Semaforo s, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double raio = 1;
+    double x = getSemaforoX(s);
+    double y = getSemaforoY(s);
+    char cor_b[22];
+    char cor_p[22]; 
+    char sSW[22];
+    strcpy(cor_b, getSemaforoCstrk(s));
+    strcpy(cor_p, getSemaforoCfill(s));
+    strcpy(sSW, getSemaforoSw(s));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, semaExpessura, cor_p);
-
-    fclose(arqSvg);
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, sSW, cor_p);
 }
 
-void desenhaRadioBase(double raio, double x, double y, char cor_b[], char cor_p[], char svg[], char radioExpessura[])
+void desenhaRadioBase(Radiobase rb, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double raio = 1;
+    double x = getRadiobaseX(rb);
+    double y = getRadiobaseY(rb);
+    char cor_b[22];
+    char cor_p[22]; 
+    char rbSW[22];
+    strcpy(cor_b, getRadiobaseCstrk(rb));
+    strcpy(cor_p, getRadiobaseCfill(rb));
+    strcpy(rbSW, getRadiobaseSw(rb));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, radioExpessura, cor_p);
-
-
-    fclose(arqSvg);
-
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" stroke-width=\"%s\" fill=\"%s\"/>\n ", x, y, raio, cor_b, rbSW, cor_p);
 }
 
-void desenhaPosto(double x, double y, char svg[])
+void desenhaPosto(Posto p, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
-
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%d\" stroke=\"%s\" fill=\"%s\"/>\n ", x, y, 5, "green", "blue");
-
-    fclose(arqSvg);
-
+    double x = getPostoX(p);
+    double y = getPostoY(p);
+    
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%d\" stroke=\"%s\" fill=\"%s\"/>\n ", x, y, 5, "green", "blue");
 }
 
-void desenhaLinha(double x1, double y1, double x2, double y2, char cor[], char svg[])
+void desenhaLinha(Linha l, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x1 = getLinhaX1(l);
+    double x2 = getLinhaX2(l);
+    double y1 = getLinhaY1(l);
+    double y2 = getLinhaY2(l);
+    char cor[22];
+    strcpy(cor, getLinhaCor(l));
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"%s\"/>\n", x1, y1, x2, y2, cor);
-
-    fclose(arqSvg);
-
+    fprintf(svg, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"%s\"/>\n", x1, y1, x2, y2, cor);
 }
 
-void desenhaLinhaTracejada(double x1, double y1, double x2, double y2, char svg[])
+void desenhaLinhaTracejada(Linha l, FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
+    double x1 = getLinhaX1(l);
+    double x2 = getLinhaX2(l);
+    double y1 = getLinhaY1(l);
+    double y2 = getLinhaY2(l);
 
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser editado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"2\" stroke-dasharray=\"5\" />\n ", x1, y1, x2, y2);
-
-    fclose(arqSvg);
-
+    fprintf(svg, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"2\" stroke-dasharray=\"5\" />\n ", x1, y1, x2, y2);
 }
 
-void finalizaSvg(char svg[])
+void finalizaSvg(FILE* svg)
 {
-    FILE *arqSvg;
-    arqSvg = fopen(svg, "a");
-
-    if(arqSvg == NULL)
-    {
-        printf("\nERRO\nArquivo .svg nao pode ser finalizado");
-        exit(1);
-    }
-
-    fprintf(arqSvg, "</svg>");
-
-    fclose(arqSvg);
+    fprintf(svg, "</svg>");
 }
 
-void gerarSvgGeo(Lista listasObjetos[], char saidaSvg[])
+void gerarSvgGeo(FILE* svg, QuadTree tree[], Lista l)
 {
-    int i=0;
+    No node;
 
-    if(i==0)
+    void (*desenhar[8])(void*, FILE*) = {desenhaCirculo, desenhaRetangulo, escreveTexto, desenhaQuadra, desenhaHidrante, desenhaSemaforo, desenhaRadioBase, desenhaPosto};
+
+    for(int i = 0; i < 8; i++)
     {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info c = getInfo(node);
-            desenhaCirculo(getCirculoR(c), getCirculoX(c), getCirculoY(c), getCirculoCorb(c), getCirculoCorp(c), saidaSvg);
-        } 
-        i++;
+        percorreLarguraQt(tree[i],(void(*)(void*, void*))desenhar[i],svg);
     }
 
-    if(i==1)
+    if(l != NULL)
     {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
+        for(node = getFirst(l); node != NULL; node = getNext(node))
         {
-            Info r = getInfo(node);
-            desenhaRetangulo(getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), getRetanguloCorb(r), getRetanguloCorp(r), saidaSvg);           
-        } 
-        i++;
-    }
-
-    if(i==2)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info t = getInfo(node);
-            escreveTexto(getTextoX(t), getTextoY(t), getTextoCorb(t), getTextoCorp(t), getTextoTxto(t), saidaSvg);
-        } 
-        i++;
-    }
-
-    if(i==3)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info q = getInfo(node);
-            desenhaQuadra(getQuadraW(q), getQuadraH(q), getQuadraX(q), getQuadraY(q), getRadiobaseCstrk(q), getQuadraCfill(q), getQuadraCep(q), saidaSvg, getQuadraSw(q));           
-        } 
-        i++;
-    }
-
-    if(i==4)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info h = getInfo(node);
-            desenhaHidrante(5, getHidranteX(h), getHidranteY(h), getHidranteCstrk(h), getHidranteCfill(h), saidaSvg, getHidranteSw(h));            
-        } 
-        i++;
-    }
-
-    if(i==5)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info s = getInfo(node);
-            desenhaSemaforo(5, getSemaforoX(s), getSemaforoY(s), getSemaforoCstrk(s), getSemaforoCfill(s), saidaSvg, getSemaforoSw(s));
-        } 
-        i++;
-    }
-
-    if(i==6)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info rb = getInfo(node);
-            desenhaRadioBase(5, getRadiobaseX(rb), getRadiobaseY(rb), getRadiobaseCstrk(rb), getRadiobaseCfill(rb), saidaSvg, getRadiobaseSw(rb));            
-        } 
-        i++;
-    }
-
-    if(i==7)
-    {
-        No node;
-        for(node = getFirst(listasObjetos[i]); node != NULL; node = getNext(node))
-        {
-            Info po = getInfo(node);
-            desenhaPosto(getPostoX(po), getPostoY(po), saidaSvg);
-        } 
-        i++;
-    }
-}
-
-
-void gerarSvgQry(char saidaSvg[], Lista listasQry[])
-{
-    int i=0;
-
-    if(i==0)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info textNum = getInfo(node);
-            escreveTextoNumerico(getTextoNumericoX(textNum), getTextoNumericoY(textNum), getTextoNumericoCorb(textNum), getTextoNumericoCorp(textNum), getTextoNumericoTexto(textNum), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==1)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info r = getInfo(node);
-            desenhaRetangulo(getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), getRetanguloCorb(r), getRetanguloCorp(r), saidaSvg);           
-        } 
-        i++;
-    }
-    if(i==2)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info lin = getInfo(node);
-            desenhaLinha(getLinhaX1(lin), getLinhaY1(lin), getLinhaX2(lin), getLinhaY2(lin), getLinhaCor(lin), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==3)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info c = getInfo(node);
-            desenhaCirculo(getCirculoR(c), getCirculoX(c), getCirculoY(c), getCirculoCorb(c), getCirculoCorp(c), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==4)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info t = getInfo(node);
-            escreveTexto(getTextoX(t), getTextoY(t), getTextoCorb(t), getTextoCorp(t), getTextoTxto(t), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==5)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info r = getInfo(node);
-            desenhaRetanguloTracejado(getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), getRetanguloCorb(r), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==6)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info r = getInfo(node);
-            desenhaRetanguloArredondado(getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), "1", saidaSvg);
-        } 
-        i++;
-    }
-    if(i==7)
-    {
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info lin = getInfo(node);
-            desenhaLinhaTracejada(getLinhaX1(lin), getLinhaY1(lin), getLinhaX2(lin), getLinhaY2(lin), saidaSvg);
-        } 
-        i++;
-    }
-    if(i==8)
-    {
-        FILE *svg= fopen(saidaSvg, "a");
-
-        No node;
-        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
-        {
-            Info p = getInfo(node);
-            fprintf(svg,"\t<polygon id=\"%d\" fill=\"%s\" fill-opacity=\"0.2\" stroke=\"red\" stroke-width=\"5px\" points=\"", getPoligonoTamanho(getInfo(getLast(listasQry[i]))), getPoligonoCor(p));
-
-            for(int aux=0; aux < getPoligonoTamanho(p); aux++)
-            {
-                fprintf(svg," %lf,%lf", getPoligonoX(p, aux), getPoligonoY(p, aux));
-            }
-            fprintf(svg," \"/>\n");
+            fprintf(svg,"\t<use xlink:href=\"#%d\"/>",*(int*)getInfo(node));
         }
-        fclose(svg);
     }
 }

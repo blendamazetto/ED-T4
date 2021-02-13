@@ -11,6 +11,7 @@ typedef struct h{
     char sw[20];
     char cfill[20];
     char cstrk[20];
+    Ponto ponto;
 
 }HidranteStruct;
 
@@ -24,6 +25,7 @@ Hidrante criaHidrante(char id[], double x, double y, char sw[], char cfill[], ch
     strcpy(hidrante->sw, sw);
     strcpy(hidrante->cfill, cfill);
     strcpy(hidrante->cstrk, cstrk);
+    hidrante->ponto = createPonto(x,y);
     
     return hidrante;
 }
@@ -98,4 +100,33 @@ void setHidranteCstrk(Hidrante hidrante, char cstrk[])
 {
     HidranteStruct* hid = (HidranteStruct*) hidrante;
     strcpy(hid->cstrk, cstrk);
+}
+
+Ponto getHidrantePonto(Hidrante hidrante)
+{
+    HidranteStruct* hid = (HidranteStruct*) hidrante;
+    return hid->ponto;
+}
+
+void setHidrantePonto(Hidrante hidrante, Ponto ponto)
+{
+    HidranteStruct* hid = (HidranteStruct*) hidrante;
+    hid->ponto = ponto;
+}
+
+void swapHidrante(Hidrante hidrante1, Hidrante hidrante2)
+{
+    HidranteStruct* a = (HidranteStruct*) hidrante1;
+    HidranteStruct* b = (HidranteStruct*) hidrante2;
+    HidranteStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocarPontoHidrante(Hidrante hidrante)
+{
+    HidranteStruct* hid = (HidranteStruct*) hidrante;
+    free(hid->ponto);
+    free(hid);
 }

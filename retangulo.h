@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __RETANGULO_H
 #define __RETANGULO_H
 
@@ -9,14 +11,14 @@ typedef void* Retangulo;
 *Precisa dos parametros necessarios para a criacao de um retangulo
 *Retorna um void pointer para a struct retangulo
 */
-Retangulo criaRetangulo(int i, double w, double h, double x, double y, char expessura[], char corb[], char corp[]);
+Retangulo criaRetangulo(char i[], double w, double h, double x, double y, char sw[], char corb[], char corp[]);
 
 /*
 *Obtem o indice(i) de um retangulo
 *Precisa de um void pointer retangulo 
 *Retorna um int com o indice(i) do retangulo
 */
-int getRetanguloI(Retangulo retangulo);
+char* getRetanguloI(Retangulo retangulo);
 
 /*
 *Obtem a largura de um retangulo
@@ -47,23 +49,23 @@ double getRetanguloX(Retangulo retangulo);
 double getRetanguloY(Retangulo retangulo);
 
 /*
- *Obtem a expessura da borda de um retangulo
+ *Obtem a sw da stroke de um retangulo
  *Precisa de um void pointer retangulo
- *retorna um char com a expessura da borda do retangulo
+ *retorna um char com a sw da stroke do retangulo
  */
 char* getRetanguloSw(Retangulo retangulo);
 
 /*
-*Obtem a cor de borda de retangulo
+*Obtem a cor de stroke de retangulo
 *Precisa de um void pointer retangulo
-*Retorna uma string com a cor de borda(Corb) do retangulo
+*Retorna uma string com a cor de stroke(Corb) do retangulo
 */
 char* getRetanguloCorb(Retangulo retangulo);
 
 /*
-*Obtem a cor de preenchimento de um retangulo
+*Obtem a cor de fill de um retangulo
 *Precisa de um void pointer retangulo
-*Retorna uma string com a cor de preenchimento(Corp) do retangulo
+*Retorna uma string com a cor de fill(Corp) do retangulo
 */
 char* getRetanguloCorp(Retangulo retangulo);
 
@@ -72,7 +74,7 @@ char* getRetanguloCorp(Retangulo retangulo);
 *Precisa de um void pointer retangulo e um int
 *Não retorna nada
 */
-void setRetanguloI(Retangulo retangulo, int i);
+void setRetanguloI(Retangulo retangulo, char i[]);
 
 /*
 *Armazena um double na largura(w) de um retangulo
@@ -102,25 +104,32 @@ void setRetanguloX(Retangulo retangulo, double x);
 */
 void setRetanguloY(Retangulo retangulo, double y);
 
-/*Armazena uma string na expessura da borda de um retangulo
- *Precisa de um void pointer retangulo e de um char com a expessura
+/*Armazena uma string na sw da stroke de um retangulo
+ *Precisa de um void pointer retangulo e de um char com a sw
  *Não retorna nada
  */
 void setRetanguloSw(Retangulo retangulo, char sw[]);
 
 /*
-*Armazena uma string na cor de borda(Corb) de um retangulo
+*Armazena uma string na cor de stroke(Corb) de um retangulo
 *Precisa de um void pointer retangulo e um double
 *Não retorna nada
 */
 void setRetanguloCorb(Retangulo retangulo, char corb[]);
 
 /*
-*Armazena uma string na cor de preenchimento(Corp) de um retangulo
+*Armazena uma string na cor de fill(Corp) de um retangulo
 *Precisa de um void pointer retangulo e um double
 *Não retorna nada
 */
 void setRetanguloCorp(Retangulo retangulo, char corp[]);
 
+Ponto getRetanguloPonto(Retangulo retangulo);
+
+void setRetanguloPonto(Retangulo retangulo, Ponto ponto);
+
+void swapRetangulo(Retangulo retangulo1, Retangulo retangulo2);
+
+void desalocaRetangulo(Retangulo retangulo);
 
 #endif

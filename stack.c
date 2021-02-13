@@ -46,39 +46,31 @@ void insertStack(Pilha p, Info info)
     pilha->tamanho++;
 }
 
-void removeStack(Pilha p) 
-{
-    PilhaStruct* pilha = (PilhaStruct*) p;
-    NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
-
-    node = pilha->topo;
-    pilha->topo = node->anterior;
-    
-    free(node);
-
-    pilha->tamanho--;
-}
-
-No criarNo()
-{
-    NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
-    node->info = NULL;
-
-    return node;
-}
-
-int isEmptyStack(Pilha p)
+Info removeStack(Pilha p) 
 {
     PilhaStruct* pilha = (PilhaStruct*) p;
 
     if(pilha->tamanho == 0)
     {
-        return 1;
+        return NULL;
     }
-    else
-    {
-        return 0;
-    }  
+
+    NoStruct* node = pilha->topo;
+    Info info = node->info;
+
+    pilha->topo = node->anterior;
+    
+    free(node);
+
+    pilha->tamanho--;
+
+    return info;
+}
+
+int isEmptyStack(Pilha pilha)
+{ 
+    PilhaStruct* p = (PilhaStruct*) pilha;
+    return p->topo == NULL;
 }
 
 No getTopo(Pilha p)
@@ -103,13 +95,6 @@ void deleteStack(Pilha p)
     {
         removeStack(pilha);
     }
-}
-
-Info getInfo(No elemento)
-{
-    NoStruct* node = (NoStruct*) elemento;
-
-    return node->info;
 }
 
 No getAnterior(No elemento)

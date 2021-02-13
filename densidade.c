@@ -10,6 +10,7 @@ typedef struct d{
     double w;
     double h;
     double d;
+    Ponto ponto;
 
 }DensidadeStruct;
 
@@ -21,6 +22,7 @@ Densidade criaDensidade(double x, double y, double w, double h, double d)
     densidade->w = w;
     densidade->h = h;
     densidade->d = d;
+    densidade->ponto = createPonto(x, y);
 
     return densidade;
 }
@@ -83,4 +85,37 @@ void setDensidadeD(Densidade densidade, double d)
 {
     DensidadeStruct* densi = (DensidadeStruct*) densidade;
     densi->d = d;
+}
+
+Ponto getDensidadePonto(Densidade densidade)
+{
+    DensidadeStruct* densi = (DensidadeStruct*) densidade;
+    return densi->ponto;
+}
+
+void setDensidadePonto(Densidade densidade, Ponto ponto)
+{
+    DensidadeStruct* densi = (DensidadeStruct*) densidade;
+    densi->ponto = ponto;
+}
+
+void desalocarPontosDensidade(Densidade densidade)
+{
+    DensidadeStruct* densi = (DensidadeStruct*) densidade;
+
+    free(densi->ponto);
+    free(densi);
+}
+
+void densidadeQuadras(Densidade densidade, QuadTree quadras)
+{
+    DensidadeStruct* densi = (DensidadeStruct*) densidade;
+
+    Lista list = nosDentroRetanguloQt(quadras, getPontoX(densi->ponto), getPontoY(densi->ponto), getPontoX(densi->ponto) + densi->w, getPontoY(densi->ponto) + densi->h);
+
+    for(No node = getFirst(list); node != NULL; node = getNext(node))
+    {
+        setQuadraDensidade(getInfoQt(quadras,getInfo(node)),densi->d);
+    }
+    removeList(list, NULL);
 }

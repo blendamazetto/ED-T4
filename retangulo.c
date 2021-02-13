@@ -5,34 +5,36 @@
 
 typedef struct r{
 
-    int i;
+    char i[20];
     double w;
     double h;
     double x;
     double y;
-    char expessura[20];
+    char sw[20];
     char corb[20];
     char corp[20];
+    Ponto ponto;
 
 }RetanguloStruct;
 
-Retangulo criaRetangulo(int i, double w, double h, double x, double y, char expessura[], char corb[], char corp[])
+Retangulo criaRetangulo(char i[], double w, double h, double x, double y, char sw[], char corb[], char corp[])
 {
     RetanguloStruct* retangulo = (RetanguloStruct*) malloc(sizeof(RetanguloStruct));
 
-    retangulo->i = i;
+    strcpy(retangulo->i, i);
     retangulo->x = x;
     retangulo->y = y;
     retangulo->w = w;
     retangulo->h = h;
-    strcpy(retangulo->expessura, expessura);
+    strcpy(retangulo->sw, sw);
     strcpy(retangulo->corb, corb);
     strcpy(retangulo->corp, corp);
+    retangulo->ponto = createPonto(x,y);
 
     return retangulo;
 }
 
-int getRetanguloI(Retangulo retangulo)
+char* getRetanguloI(Retangulo retangulo)
 {
     RetanguloStruct* ret = (RetanguloStruct*) retangulo;
     return ret->i;
@@ -65,7 +67,7 @@ double getRetanguloY(Retangulo retangulo)
 char* getRetanguloSw(Retangulo retangulo)
 {
     RetanguloStruct* ret = (RetanguloStruct*) retangulo;
-    return ret->expessura;
+    return ret->sw;
 }
 
 char* getRetanguloCorb(Retangulo retangulo)
@@ -80,10 +82,10 @@ char* getRetanguloCorp(Retangulo retangulo)
     return ret->corp;
 }
 
-void setRetanguloI(Retangulo retangulo, int i)
+void setRetanguloI(Retangulo retangulo, char i[])
 {
     RetanguloStruct* ret = (RetanguloStruct*) retangulo;
-    ret->i = i;
+    strcpy(ret->i, i);
 }
 
 void setRetanguloW(Retangulo retangulo, double w)
@@ -113,7 +115,7 @@ void setRetanguloY(Retangulo retangulo, double y)
 void setRetanguloSw(Retangulo retangulo, char sw[])
 {
     RetanguloStruct* ret = (RetanguloStruct*) retangulo;
-    strcpy(ret->expessura, sw);
+    strcpy(ret->sw, sw);
 }
 
 void setRetanguloCorb(Retangulo retangulo, char corb[])
@@ -127,3 +129,35 @@ void setRetanguloCorp(Retangulo retangulo, char corp[])
     RetanguloStruct* ret = (RetanguloStruct*) retangulo;
     strcpy(ret->corp, corp);
 }
+
+Ponto getRetanguloPonto(Retangulo retangulo)
+{
+    RetanguloStruct* ret = (RetanguloStruct*) retangulo;
+    return ret->ponto;
+}
+
+void setRetanguloPonto(Retangulo retangulo, Ponto ponto)
+{
+    RetanguloStruct* ret = (RetanguloStruct*) retangulo;
+    ret->ponto = ponto;
+}
+
+void swapRetangulo(Retangulo retangulo1, Retangulo retangulo2)
+{
+    RetanguloStruct* a = (RetanguloStruct*) retangulo1;
+    RetanguloStruct* b = (RetanguloStruct*) retangulo2;
+    RetanguloStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocaRetangulo(Retangulo retangulo)
+{
+    RetanguloStruct* ret = (RetanguloStruct*) retangulo;
+    
+    free(ret->ponto);
+    free(ret);
+}
+
+

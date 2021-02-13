@@ -1,3 +1,8 @@
+#include "ponto.h"
+#include "lista.h"
+#include "quadtree.h"
+#include "quadra.h"
+
 #ifndef __DENSIDADE_H
 #define __DENSIDADE_H
 
@@ -81,5 +86,12 @@ void setDensidadeH(Densidade densidade, double h);
 */
 void setDensidadeD(Densidade densidade, double d);
 
+Ponto getDensidadePonto(Densidade densidade);
+
+void setDensidadePonto(Densidade densidade, Ponto ponto);
+
+void desalocarPontosDensidade(Densidade densidade);
+
+void densidadeQuadras(Densidade densidade, QuadTree quadras);
 
 #endif

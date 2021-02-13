@@ -144,14 +144,14 @@ void insertBefore(Lista lista, No node, Info info)
     lis->tamanho++;
 }
 
-void removerNo(Lista lista, No no, int flag)
+void removerNo(Lista l, No elemento, void (*desalocar)(void*))
 {
-    ListaStruct* l = (ListaStruct*) lista;
-    NoStruct* node = (NoStruct*) no;
+    ListaStruct* lista = (ListaStruct*) l;
+    NoStruct* node = (NoStruct*) elemento;
 
     if(node->anterior == NULL)
     {
-        l->primeiro = node->proximo;
+        lista->primeiro = node->proximo;
     }
     else
     {
@@ -159,33 +159,30 @@ void removerNo(Lista lista, No no, int flag)
     }
     if(node->proximo == NULL)
     {
-        l->ultimo = node->anterior;
-    }
-    else
+        lista->ultimo = node->anterior;
+    }else
     {
         node->proximo->anterior = node->anterior;
     }
 
-    if (flag) free(getInfo(node));
+    if (desalocar != NULL) desalocar(getInfo(node));
     free(node);
-
-    l->tamanho--;
-
+    lista->tamanho--;
 }
 
-void removeList(Lista l, int flag)
+void removeList(Lista l, void (*desalocar)(void*))
 {
     ListaStruct* lista = (ListaStruct*) l;
     NoStruct* node = lista->primeiro;
     NoStruct* aux;
-    
+
     while(node != NULL)
     {
         aux = node;
         node = node->proximo;
-        if(flag)
+        if(desalocar != NULL)
         {
-            free(getInfo(aux));
+            desalocar(getInfo(aux));
         }
         free(aux);
     }

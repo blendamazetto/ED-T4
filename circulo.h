@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __CIRCULO_H
 #define __CIRCULO_H
 
@@ -9,14 +11,14 @@ typedef void* Circulo;
 *Precisa dos parametros necessarios para a criação de um circulo
 *Retorna um void pointer para a struct circulo
 */
-Circulo criaCirculo(int i, double r, double x, double y, char expessura[], char corb[], char corp[]);
+Circulo criaCirculo(char i[], double r, double x, double y, char sw[], char corb[], char corp[]);
 
 /*
 *Obtem o indice do circulo
 *Precisa de um void pointer circulo como parametro
 *Retorna o indice (i) do circulo
 */
-int getCirculoI(Circulo circulo);
+char* getCirculoI(Circulo circulo);
 
 /*
 *Obtem o raio do circulo
@@ -40,23 +42,23 @@ double getCirculoX(Circulo circulo);
 double getCirculoY(Circulo circulo);
 
 /*
- *Obtem a expessura do circulo
+ *Obtem a sw do circulo
  *Precisa de void pointer circulo como parametro
- *Retorna a expessura sw do circulo
+ *Retorna a sw sw do circulo
  */
 char* getCirculoSw(Circulo circulo);
 
 /*
-*Obtem a cor da borda do circulo
+*Obtem a cor da stroke do circulo
 *Precisa de um void pointer circulo como parametro
-*Retorna a cor da borda (corb) do circulo
+*Retorna a cor da stroke (corb) do circulo
 */
 char* getCirculoCorb(Circulo circulo);
 
 /*
-*Obtem o cor de preenchimento do circulo
+*Obtem o cor de fill do circulo
 *Precisa de um void pointer circulo como parametro
-*Retorna a cor de preenchimento (corp) do circulo
+*Retorna a cor de fill (corp) do circulo
 */
 char* getCirculoCorp(Circulo circulo);
 
@@ -65,7 +67,7 @@ char* getCirculoCorp(Circulo circulo);
 *Precisa de um void pointer circulo e de um valor inteiro
 *Não retorna nada
 */
-void setCirculoI(Circulo circulo, int i);
+void setCirculoI(Circulo circulo, char i[]);
 
 /*
 *Armazena um valor que é passado como parametro no raio do circulo também passado por parametro
@@ -89,24 +91,32 @@ void setCirculoX(Circulo circulo, double x);
 void setCirculoY(Circulo circulo, double y);
 
 /*
- *Armazena um valor que e passado como parametro da expessura do circulo tambem passado por parametro
- *Precisa de um void pointer circulo e do valor para a expessura que sera alterada
+ *Armazena um valor que e passado como parametro da sw do circulo tambem passado por parametro
+ *Precisa de um void pointer circulo e do valor para a sw que sera alterada
  *Não retorna nada
  */
 void setCirculoSw(Circulo circulo, char sw[]);
 
 /*
-*Armazena um valor que é passado como parametro na cor da borda do circulo também passado por parametro
+*Armazena um valor que é passado como parametro na cor da stroke do circulo também passado por parametro
 *Precisa de um void pointer circulo e de uma string
 *Não retorna nada
 */
 void setCirculoCorb(Circulo circulo, char corb[]);
 
 /*
-*Armazena um valor que é passado como parametro na cor de preenchimento do circulo também passado por parametro
+*Armazena um valor que é passado como parametro na cor de fill do circulo também passado por parametro
 *Precisa de um void pointer circulo e de uma string
 *Não retorna nada
 */
 void setCirculoCorp(Circulo circulo, char corp[]);
+
+Ponto getCirculoPonto(Circulo circulo);
+
+void setCirculoPonto(Circulo circulo, Ponto ponto);
+
+void swapCirculo(Circulo c1, Circulo c2);
+
+void desalocarPontoCirculo(Circulo circulo);
 
 #endif

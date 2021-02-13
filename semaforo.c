@@ -11,6 +11,7 @@ typedef struct h{
     char sw[20];
     char cfill[20];
     char cstrk[20];
+    Ponto ponto;
 
 }SemaforoStruct;
 
@@ -24,6 +25,7 @@ Semaforo criaSemaforo(char id[], double x, double y, char sw[], char cfill[], ch
     strcpy(semaforo->sw, sw);
     strcpy(semaforo->cfill, cfill);
     strcpy(semaforo->cstrk, cstrk);
+    semaforo->ponto = createPonto(x,y);
     
     return semaforo;
 }
@@ -99,3 +101,35 @@ void setSemaforoCstrk(Semaforo semaforo, char cstrk[])
     SemaforoStruct* semaf = (SemaforoStruct*) semaforo;
     strcpy(semaf->cstrk, cstrk);
 }
+
+Ponto getSemaforoPonto(Semaforo semaforo)
+{
+    SemaforoStruct* semaf = (SemaforoStruct*) semaforo;
+    return semaf->ponto;
+}
+
+void setSemaforoPonto(Semaforo semaforo, Ponto ponto)
+{
+    SemaforoStruct* semaf = (SemaforoStruct*) semaforo;
+    semaf->ponto = ponto;
+}
+
+void swapSemaforo(Semaforo semaforo1, Semaforo semaforo2)
+{
+    SemaforoStruct* a = (SemaforoStruct*) semaforo1;
+    SemaforoStruct* b = (SemaforoStruct*) semaforo2;
+    SemaforoStruct temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+void desalocaSemaforo(Semaforo semaforo)
+{
+    SemaforoStruct* semaf = (SemaforoStruct*) semaforo;
+    
+    free(semaf->ponto);
+    free(semaf);
+}
+
+

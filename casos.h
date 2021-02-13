@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __CASOS_H
 #define __CASOS_H
 
@@ -59,5 +61,9 @@ char* getCasosFace(Casos casos);
 *Retorno sem nada, apenas feita a troca de valores
 */
 void swap(Casos *p1, Casos *p2);
+
+Ponto getCasosPonto(Casos casos);
+
+void desalocarPontoCasos(Casos casos);
 
 #endif

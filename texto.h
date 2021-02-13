@@ -1,3 +1,5 @@
+#include "ponto.h"
+
 #ifndef __TEXTO_H
 #define __TEXTO_H
 
@@ -9,14 +11,14 @@ typedef void* Texto;
 *Precisa dos parametros necessarios para a criacao de um texto
 *Retorna um void pointer para a struct texto
 */
-Texto criaTexto(int i, double x, double y, char corb[], char corp[], char texto[255]);
+Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[255]);
 
 /*
 *Obtem o indice de um texto
 *Precisa de um void pointer texto
 *Retorna um int com o indice do texto
 */
-int getTextoI(Texto texto);
+char* getTextoI(Texto texto);
 
 /*
 *Obtem o x de um texto
@@ -33,16 +35,16 @@ double getTextoX(Texto texto);
 double getTextoY(Texto texto);
 
 /*
-*Obtem a cor de borda de um texto
+*Obtem a cor de stroke de um texto
 *Precisa de um void pointer texto
-*Retorna uma string com a cor de borda(Corb) de um texto
+*Retorna uma string com a cor de stroke(Corb) de um texto
 */
 char* getTextoCorb(Texto texto);
 
 /*
-*Obtem a cor de preenchimento de um texto
+*Obtem a cor de fill de um texto
 *Precisa de um void pointer texto
-*Retorna uma string com a cor de preenchimento(Corp) de um texto
+*Retorna uma string com a cor de fill(Corp) de um texto
 */
 char* getTextoCorp(Texto texto);
 
@@ -58,7 +60,7 @@ char* getTextoTxto(Texto texto);
 *Precisa de um void pointer texto e um int
 *Não retorna nada
 */
-void setTextoI(Texto texto, int i);
+void setTextoI(Texto texto, char i[]);
 
 /*
 *Armazena um double no x de um texto
@@ -75,14 +77,14 @@ void setTextoX(Texto texto, double x);
 void setTextoY(Texto texto, double y);
 
 /*
-*Armazena uma string na cor de borda de um texto
+*Armazena uma string na cor de stroke de um texto
 *Precisa de um void pointer texto e uma string
 *Não retorna nada
 */
 void setTextoCorb(Texto texto, char corb[]);
 
 /*
-*Armazena uma string na cor de preenchimento de um texto
+*Armazena uma string na cor de fill de um texto
 *Precisa de um void pointer texto e uma string
 *Não retorna nada
 */
@@ -94,5 +96,13 @@ void setTextoCorp(Texto texto, char corp[]);
 *Não retorna nada
 */
 void setTextoTxto(Texto texto, char txto[]);
+
+Ponto getTextoPonto(Texto texto);
+
+void setTextoPonto(Texto texto, Ponto ponto);
+
+void swapTexto(Texto t1, Texto t2);
+
+void desalocaTexto(Texto txt);
 
 #endif

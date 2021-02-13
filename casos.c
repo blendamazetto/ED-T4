@@ -11,6 +11,7 @@ typedef struct c{
     double num;
     char cep[22];
     char face[10];
+    Ponto ponto;
 
 }CasosStruct;
 
@@ -23,6 +24,7 @@ Casos criaCasos(int n, double x, double y, char face[], double num, char cep[])
     casos->num = num;
     strcpy(casos->cep, cep);
     strcpy(casos->face, face);
+    casos->ponto = createPonto(x, y);
 
     return casos;
 }
@@ -63,6 +65,12 @@ char* getCasosFace(Casos casos)
     return c->face;
 }
 
+Ponto getCasosPonto(Casos casos)
+{
+    CasosStruct* c = (CasosStruct*) casos;
+    return c->ponto;
+}
+
 void swap(Casos *p1, Casos *p2)
 {  
     CasosStruct* a = (CasosStruct*) p1;
@@ -71,6 +79,14 @@ void swap(Casos *p1, Casos *p2)
 
     *a = *b;  
     *b = temp;  
+}
+
+void desalocarPontoCasos(Casos casos)
+{
+    CasosStruct* c = (CasosStruct*) casos;
+
+    free(c->ponto);
+    free(c);
 }
 
 
