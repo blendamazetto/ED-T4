@@ -36,10 +36,10 @@ int main (int argc, char *argv[])
         listasObjetos[i] = create();
     }
 
-    char* (*getId[10])(void*) = {getCirculoI, getRetanguloI, getTextoI, getQuadraCep, getHidranteId, getSemaforoId, getRadiobaseId, getPostoId, getEstabelecimentoCnpj, getMoradorCpf};   
+    char* (*getId[11])(void*) = {getCirculoI, getRetanguloI, getTextoI, getQuadraCep, getHidranteId, getSemaforoId, getRadiobaseId, getPostoId, getEstabelecimentoCnpj, getMoradorCpf, NULL};   
 
-    QuadTree arvoresObjetos[10];
-    for (int i = 0; i < 10; i++)
+    QuadTree arvoresObjetos[11];
+    for (int i = 0; i < 11; i++)
     {
         arvoresObjetos[i] = criaQt(getId[i]);
     }

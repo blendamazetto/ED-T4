@@ -60,7 +60,7 @@ char* getCasosFace(Casos casos);
 *Precisa de um void pointer casos como parametro
 *Retorno sem nada, apenas feita a troca de valores
 */
-void swap(Casos *p1, Casos *p2);
+void swapCasos(Casos *p1, Casos *p2);
 
 Ponto getCasosPonto(Casos casos);
 

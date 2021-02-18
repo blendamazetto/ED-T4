@@ -31,24 +31,41 @@ void insert(Lista l, Info info)
 {
     ListaStruct* lista = (ListaStruct*) l;
     NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
-
     node->info = info;
-
     if(lista->primeiro == NULL) 
     {
         node->anterior = NULL;
         lista->primeiro = node;
-    } 
 
-    else 
+    } else 
     {
         lista->ultimo->proximo = node;
         node->anterior = lista->ultimo;
     }
-    
+
     node->proximo = NULL;
     lista->ultimo = node;
+    lista->tamanho++;
+}
 
+void insertList(Info info, Lista l) 
+{
+    ListaStruct* lista = (ListaStruct*) l;
+    NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
+    node->info = info;
+    if(lista->primeiro == NULL) 
+    {
+        node->anterior = NULL;
+        lista->primeiro = node;
+
+    } else 
+    {
+        lista->ultimo->proximo = node;
+        node->anterior = lista->ultimo;
+    }
+
+    node->proximo = NULL;
+    lista->ultimo = node;
     lista->tamanho++;
 }
 

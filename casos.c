@@ -71,7 +71,7 @@ Ponto getCasosPonto(Casos casos)
     return c->ponto;
 }
 
-void swap(Casos *p1, Casos *p2)
+void swapCasos(Casos *p1, Casos *p2)
 {  
     CasosStruct* a = (CasosStruct*) p1;
     CasosStruct* b = (CasosStruct*) p2;

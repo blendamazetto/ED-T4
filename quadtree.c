@@ -239,6 +239,7 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
         return node;
     }
     Ponto pAux;
+
     do
     {
         pAux = aux->ponto;

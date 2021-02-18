@@ -20,6 +20,7 @@
 #include "hashtable.h"
 #include "qry1.h"
 #include "qry2.h"
+#include "qry3.h"
 
 /*
 *Le o arquivo Qry e realiza suas funçcoes

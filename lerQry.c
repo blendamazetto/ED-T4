@@ -25,7 +25,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
     int ident;
     double x, y, r, w ,h, num, n;
     char tipo[5], corb[20], corp[20], identificacao[20], parametroOpcional[1], face[1], cep[20], cpf[20], cnpj[25], compl[20], t[2], sfx[25], tp[20];
-
+    int b;
    while(fscanf(qry,"%s",tipo) != EOF)
     {
         if(strcmp(tipo,"o?") == 0)
@@ -113,11 +113,13 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         {
             fscanf(qry,"%lf %s %s %lf",&n, cep, face, &num);
             fprintf(saida,"cv %lf %s %s %lf\n", n, cep, face, num);
+            cv(arvoresObjetos, n, cep, face, num, listasQry);
         }
         else if(strcmp(tipo, "soc")==0)
         {
-            fscanf(qry,"%s %s %s %lf",k, cep, face, &num);
-            fprintf(saida,"soc %s %s %s %lf\n", k, cep, face, num);
+            fscanf(qry,"%d %s %s %lf",&b, cep, face, &num);
+            fprintf(saida,"soc %d %s %s %lf\n", b, cep, face, num);
+            soc(arvoresObjetos, b, cep, face, num, saida, listasQry);
         }
         else if(strcmp(tipo, "ci")==0)
         {

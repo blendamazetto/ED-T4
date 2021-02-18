@@ -29,7 +29,10 @@ No criarNo();
 *Precisa de um void pointer info e de um void pointer lista
 *Não retorna nada
 */
+
 void insert(Lista l, Info info);
+
+void insertList(Info info, Lista l);
 
 /*
 *Obtem o primeiro elemento de uma lista

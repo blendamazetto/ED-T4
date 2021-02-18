@@ -53,4 +53,6 @@ void retanguloInt(Info r1, Info r2, FILE* saida, Lista listasQry[]);
 
 int retInternoCirc(double xRet, double yRet, double w, double h, double x, double y, double r);
 
+void shellSort(double *vet, int size);
+
 #endif
