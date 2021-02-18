@@ -83,11 +83,13 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
                 strcpy(identificacao, parametroOpcional);
                 fprintf(saida,"dq %s %lf\n",identificacao, r);
             }
+            dq(saida, arvoresObjetos, ident, identificacao, r, listasQry);
         }
         else if(strcmp(tipo, "del")==0)
         {
             fscanf(qry,"%s",identificacao);
             fprintf(saida,"%s %s\n",tipo, identificacao);
+            del(saida, arvoresObjetos, identificacao, listasQry);
         }
         else if(strcmp(tipo, "cbq")==0)
         {

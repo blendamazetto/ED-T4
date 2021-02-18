@@ -336,3 +336,15 @@ void retanguloInt(Info r1, Info r2, FILE* saida, Lista listasQry[])
         insert(listasQry[5], ret);
     }
 }
+
+int retInternoCirc(double xRet, double yRet, double w, double h, double x, double y, double r)
+{
+    if(distancia(xRet,yRet,x,y) <= r && distancia(xRet + w ,yRet + h,x,y) <= r)
+    {
+        if(distancia(xRet + w, yRet,x,y) <= r && distancia(xRet, yRet + h,x,y) <= r)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}

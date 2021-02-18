@@ -51,4 +51,6 @@ void circuloInt(Info c1, Info c2, FILE* saida, Lista listasQry[]);
 
 void retanguloInt(Info r1, Info r2, FILE* saida, Lista listasQry[]);
 
+int retInternoCirc(double xRet, double yRet, double w, double h, double x, double y, double r);
+
 #endif

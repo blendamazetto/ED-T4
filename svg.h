@@ -140,7 +140,7 @@ void gerarSvgGeo(FILE* svg, QuadTree tree[], Lista l);
     *Retorna nada.
     * 
 */
-//void gerarSvgQry(char saidaSvg[], Lista listasQry[]);
+void gerarSvgQry(QuadTree arvoresObjetos[], Lista listasQry[], FILE* saidaSvgQry);
 
 
 #endif

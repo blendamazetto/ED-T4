@@ -19,6 +19,7 @@
 #include "quadtree.h"
 #include "hashtable.h"
 #include "qry1.h"
+#include "qry2.h"
 
 /*
 *Le o arquivo Qry e realiza suas funçcoes

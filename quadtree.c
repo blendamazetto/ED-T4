@@ -59,9 +59,9 @@ void dentroRetanguloQt(QuadTree qt, NodeStruct* node, Lista l, double x1, double
     }
 }
 
-QtInfo getInfoQt(QuadTree qt, QtNo pNo)
-{
+QtInfo getInfoQt(QuadTree qt, QtNo pNo){
     NodeStruct* node = (NodeStruct*) pNo;
+    qt = qt;
     return node->info;
 }
 
@@ -301,69 +301,153 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
     return node;
 }
 
-QtInfo removeNoQt(QuadTree qt,QtNo pNo)
+void insere(QuadtreeStruct* quadtree, NodeStruct* node)
 {
+    NodeStruct* aux = quadtree->root;
+    node->parent = NULL;
+    for(int i = 0; i < 4; i++)
+    {
+        node->children[i] = NULL;
+    }
+    if(aux == NULL)
+    {
+        quadtree->root = node;
+        return;
+    }
+    do
+    {
+        Ponto pAux = aux->ponto;
+        Ponto p = node->ponto;
+        if(getPontoX(p) >= getPontoX(pAux))
+        {
+            if(getPontoY(p) >= getPontoY(pAux))
+            {
+                if(aux->children[ne] == NULL)
+                {
+                    aux->children[ne] = node;
+                    node->parent = aux;
+                }
+                else
+                {
+                    aux = aux->children[ne];
+                }
+            }
+            else
+            {
+                if(aux->children[nw] == NULL)
+                {
+                    aux->children[nw] = node;
+                    node->parent = aux;
+                }
+                else
+                {
+                    aux = aux->children[nw];
+                }
+            }
+        }
+        else
+        {
+            if(getPontoY(p) >= getPontoY(pAux))
+            {
+                if(aux->children[se] == NULL)
+                {
+                    aux->children[se] = node;
+                    node->parent = aux;
+                }
+                else
+                {
+                    aux = aux->children[se];
+                }
+            }
+            else
+            {
+                if(aux->children[sw] == NULL)
+                {
+                    aux->children[sw] = node;
+                    node->parent = aux;
+                }
+                else
+                {
+                    aux = aux->children[sw];
+                }
+            }
+        }
+    }while(node->parent == NULL);
+}
+
+QtNo getNodeById(QuadTree qt, QtNo no, char* chave){
+    NodeStruct* node = (NodeStruct*) no;
+    QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
+    if(strcmp(quadtree->fun(getInfoQt(qt, node)), chave) == 0){
+        return node;
+    }
+    QtNo aux;
+    for(int i = 0; i < 4; i++){
+        if(node->children[i] != NULL)
+        {
+            aux = getNodeById(qt,node->children[i],chave);
+            if(aux != NULL)
+            {
+                return aux;
+            }
+        }
+    }
+    return NULL;
+}
+
+QtNo getNodeByIdQt(QuadTree qt, char* chave){
+    QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
+    if(quadtree->root == NULL){
+        return NULL;
+    }
+    return getNodeById(qt, quadtree->root, chave);
+}
+
+QtInfo removeNoQt(QuadTree qt,QtNo pNo){
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
     NodeStruct* node = (NodeStruct*) pNo;
     NodeStruct* aux;
-
     int i;
     QtInfo info;
     Fila fila = createQueue();
-
-    if(node->parent == NULL)
-    {
-        for(i = 0; i < 4; i++)
-        {
-            if(node->children[i] != NULL)
-            {
+    if(node->parent == NULL){
+        for(i = 0; i < 4; i++){
+            if(node->children[i] != NULL){
                 insertQueue(fila, node->children[i]);
             }
         }
         quadtree->root = NULL;
     }
     else{
-        for(i = 0; i < 4; i++)
-        {
-            if(node->children[i] != NULL)
-            {
-                if(node->parent->children[i] == NULL)
-                {
+        for(i = 0; i < 4; i++){
+            if(node->children[i] != NULL){
+                if(node->parent->children[i] == NULL){
                     node->parent->children[i] = node->children[i];
                 }
-                else
-                {
+                else{
                     insertQueue(fila, node->children[i]);
                 }
             }
         }
-        for(i = 0; i < 4; i++)
-        {
-            if(node->parent->children[i] == node)
-            {
+        for(i = 0; i < 4; i++){
+            if(node->parent->children[i] == node){
                 node->parent->children[i] = NULL;
                 break;
             }
         }
     }
-    while(!isEmptyQueue(fila))
-    {
+    while(!isEmptyQueue(fila)){
         aux = removeQueue(fila);
-
-        for(i = 0; i < 4; i++)
-        {
-            if(aux->children[i] != NULL)
-            {
+        for(i = 0; i < 4; i++){
+            if(aux->children[i] != NULL){
                 insertQueue(fila, aux->children[i]);
             }
         }
-        insereQt(quadtree, aux->ponto, aux->info);
-        free(aux);
+        insere(quadtree,aux);
     }
     info = getInfoQt(quadtree, node);
     free(node);
     free(fila);
-
     return info;
 }
 

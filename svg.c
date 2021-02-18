@@ -204,3 +204,107 @@ void gerarSvgGeo(FILE* svg, QuadTree tree[], Lista l)
         }
     }
 }
+
+void gerarSvgQry(QuadTree arvoresObjetos[], Lista listasQry[], FILE* saidaSvgQry)
+{
+    gerarSvgGeo(saidaSvgQry, arvoresObjetos, NULL);
+
+    int i=0;
+
+    if(i==0)
+    { 
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info textNum = getInfo(node);
+            escreveTextoNumerico(textNum, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==1)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info r = getInfo(node);
+            desenhaRetangulo(r, saidaSvgQry);         
+        } 
+        i++;
+    }
+    if(i==2)
+    {
+         No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info lin = getInfo(node);
+            desenhaLinha(lin, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==3)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info c = getInfo(node);
+            desenhaCirculo(c, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==4)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info t = getInfo(node);
+            escreveTexto(t, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==5)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info r = getInfo(node);
+            desenhaRetanguloTracejado(r, saidaSvgQry);
+            printf("oiee\n");  
+        } 
+        i++;
+    }
+    if(i==6)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info r = getInfo(node);
+            desenhaRetanguloArredondado(r, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==7)
+    { 
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info lin = getInfo(node);
+            desenhaLinhaTracejada(lin, saidaSvgQry);
+        } 
+        i++;
+    }
+    if(i==8)
+    {
+        No node;
+        for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
+        {
+            Info p = getInfo(node);
+            fprintf(saidaSvgQry,"\t<polygon id=\"%d\" fill=\"%s\" fill-opacity=\"0.2\" stroke=\"red\" stroke-width=\"5px\" points=\"", getPoligonoTamanho(getInfo(getLast(listasQry[i]))), getPoligonoCor(p));
+
+            for(int aux=0; aux < getPoligonoTamanho(p); aux++)
+            {
+                fprintf(saidaSvgQry," %lf,%lf", getPoligonoX(p, aux), getPoligonoY(p, aux));
+            }
+            fprintf(saidaSvgQry," \"/>\n");
+        }
+    }
+}

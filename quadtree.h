@@ -93,6 +93,10 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo);
     Retorna referência ao nó da árvore onde a pInfo foi armazenada.
  */
 
+QtNo getNodeById(QuadTree qt, QtNo no, char* chave);
+
+QtNo getNodeByIdQt(QuadTree qt, char* chave);
+
 QtInfo removeNoQt(QuadTree qt,QtNo pNo);
 /**
     Remove da árvore o nó referenciiado por "pNo".
