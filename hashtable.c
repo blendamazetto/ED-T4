@@ -50,7 +50,6 @@ void insertHashTable(Info info, char key[], int tamanho, Hash hashtable)
         if(strcmp(h[try].key, "NULL") == 0)
         {
             strcpy(h[try].key, key);
-            printf("%s\n", h[try].key);
             h[try].info = info;
             return;
         }

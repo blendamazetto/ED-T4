@@ -224,3 +224,115 @@ Ponto descobrirPonto(char cep[], char face[], double num, QuadTree tree)
 
     return ponto;
 }
+
+float max(float n1, float n2)
+{
+    if(n1 > n2)
+    {
+        return n1;
+    }
+    return n2;
+}
+
+float min(float n1, float n2)
+{
+    if(n1 > n2)
+    {
+        return n2;
+    }
+    return n1;
+}
+
+void retanguloxCirculo(Info circ, Info ret, FILE* saida, Lista listasQry[])
+{
+    float deltaX, deltaY, x, y, w, h;
+
+    if(getCirculoX(circ) > getRetanguloX(ret))
+    {
+        deltaX = pow(getRetanguloX(ret) + getRetanguloW(ret) - getCirculoX(ret),2);
+    }
+    else
+    {
+        deltaX = pow(getRetanguloX(ret) - getCirculoX(circ),2);
+    }
+    if(getCirculoY(circ) > getRetanguloY(ret))
+    {
+        deltaY = pow(getRetanguloY(ret) + getRetanguloH(ret) - getCirculoY(circ),2);
+    }
+    else
+    {
+        deltaY = pow(getRetanguloY(ret) - getCirculoY(circ),2);
+    }
+
+    x = min(getRetanguloX(ret),getCirculoX(circ) - getCirculoR(circ));
+    w = max(getRetanguloX(ret) + getRetanguloW(ret),getCirculoX(circ) + getCirculoR(circ)) - x;
+    y = min(getRetanguloY(ret),getCirculoY(circ) - getCirculoR(circ));
+    h = max(getRetanguloY(ret) + getRetanguloH(ret),getCirculoY(circ) + getCirculoR(circ)) - y;
+
+    if(sqrt(deltaX + deltaY) <= getCirculoR(circ))
+    {
+        fprintf(saida,"%s: circulo %s: retangulo SIM\n", getCirculoI(circ), getRetanguloI(ret));
+
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
+        insert(listasQry[1], ret);
+    }
+    else
+    {
+        fprintf(saida,"%s: circulo %s: retangulo NAO\n", getCirculoI(circ), getRetanguloI(ret));
+
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
+        insert(listasQry[5], ret);
+
+    }
+}
+
+void circuloInt(Info c1, Info c2, FILE* saida, Lista listasQry[])
+{
+    float dist,x,y,w,h;
+
+    dist = sqrt(pow(getCirculoX(c1) - getCirculoX(c2),2) + pow(getCirculoY(c1) - getCirculoY(c2),2));
+    x = min(getCirculoX(c1) - getCirculoR(c1), getCirculoX(c2) - getCirculoR(c2));
+    w = max(getCirculoX(c1) + getCirculoR(c1), getCirculoX(c2) + getCirculoR(c2)) - x;
+    y = min(getCirculoY(c1) - getCirculoR(c1), getCirculoY(c2) - getCirculoR(c2));
+    h = max(getCirculoY(c1) + getCirculoR(c1), getCirculoY(c2) + getCirculoR(c2)) - y;
+
+    if(dist <= getCirculoR(c2) + getCirculoR(c1))
+    {
+        fprintf(saida,"%s: circulo %s: circulo SIM\n", getCirculoI(c1),getCirculoI(c2));
+
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
+        insert(listasQry[1], ret);
+    }
+    else
+    {
+        fprintf(saida,"%s: circulo %s: circulo NAO\n",getCirculoI(c1),getCirculoI(c2));
+
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
+        insert(listasQry[5], ret);
+
+    }
+}
+
+void retanguloInt(Info r1, Info r2, FILE* saida, Lista listasQry[])
+{
+    float x,w,y,h;
+    x = min(getRetanguloX(r1),getRetanguloX(r2));
+    w = max(getRetanguloX(r1) + getRetanguloW(r1),getRetanguloX(r2) + getRetanguloW(r2)) - x;
+    y = min(getRetanguloY(r1),getRetanguloY(r2));
+    h = max(getRetanguloY(r1) + getRetanguloH(r1),getRetanguloY(r2) + getRetanguloH(r2)) - y;
+
+    if (w <= getRetanguloW(r1) + getRetanguloW(r2) && h <= getRetanguloH(r1) + getRetanguloH(r2))
+    {
+        fprintf(saida,"%s: retangulo %s: retangulo SIM\n", getRetanguloI(r1),getRetanguloI(r2));
+
+        Retangulo ret = criaRetangulo(0, w,h,x,y, "1", "black", "none");
+        insert(listasQry[1], ret);
+    }
+    else
+    {
+        fprintf(saida,"%s: retangulo %s: retangulo NAO\n", getRetanguloI(r1),getRetanguloI(r2));
+
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
+        insert(listasQry[5], ret);
+    }
+}

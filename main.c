@@ -3,7 +3,7 @@
 #include <string.h>
 #include "lerGeo.h"
 #include "lista.h"
-//#include "lerQry.h"
+#include "lerQry.h"
 #include "quadtree.h"
 #include "circulo.h"
 #include "retangulo.h"
@@ -42,6 +42,12 @@ int main (int argc, char *argv[])
     for (int i = 0; i < 10; i++)
     {
         arvoresObjetos[i] = criaQt(getId[i]);
+    }
+
+    Lista listasQry[9];
+    for (int i = 0; i < 9; i++)
+    {
+        listasQry[i] = create();
     }
 
     Hash tabelas[4];
@@ -222,7 +228,7 @@ int main (int argc, char *argv[])
         saidaQry = (char*)malloc((strlen(dir_saida) + strlen(saida) + 2)*sizeof(char));
         sprintf(saidaQry,"%s-%s",saida,nomeQry);
 
-        //lerQry (saidaQry,listasObjetos,arqQry, listasQry);
+        lerQry(saidaQry,arqQry, listasQry, arvoresObjetos, tabelas);
     }
 
    free(dir_entrada);

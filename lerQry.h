@@ -10,20 +10,21 @@
 #include "lista.h"
 #include "svg.h"
 #include "qry.h"
-#include "busca.h"
 #include "posto.h"
 #include "densidade.h"
 #include "textoNumerico.h"
 #include "linha.h"
 #include "casos.h"
 #include "poligono.h"
-
+#include "quadtree.h"
+#include "hashtable.h"
+#include "qry1.h"
 
 /*
 *Le o arquivo Qry e realiza suas funçcoes
 *precisa do nome do arquivo qry e a lista
 *não retorna nada
 */
-void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listasQry);
+void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresObjetos[], Hash tabelas[]);
 
 #endif

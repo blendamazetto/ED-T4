@@ -3,7 +3,7 @@
 #include <string.h>
 #include "lerQry.h"
 
-void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listasQry)
+void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresObjetos[], Hash tabelas[])
 {
     char* saidaTxt = malloc((5 + strlen(saidaQry))*sizeof(char));
     char* saidaSvg = malloc((5 + strlen(saidaQry))*sizeof(char));
@@ -12,83 +12,62 @@ void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listas
 
     FILE* qry = fopen(arqQry,"r");
     FILE* saida = fopen(saidaTxt,"w");
+    FILE* saidaSvgQry = fopen(saidaSvg,"w");
 
-    iniciaSvg(saidaSvg);
+    iniciaSvg(saidaSvgQry);
 
     if(saida == NULL || qry == NULL)
     {
         printf("Erro ao abrir o QRY ou ao gerar o TXT\n");
         exit(1);
     }
-
-    int j;
-    int k;
+    char j[20], k[20];
     int ident;
-    double x;
-    double y;
-    char tipo[5];
-    char corb[20];
-    char corp[20];
-    char identificacao[20];
-    double r;
-    char parametroOpcional[1];
-    double w, h;
-    char face[1];
-    char cep [20];
-    char cpf[20];
-    char cnpj[25];
-    char compl[20];
-    char t[2];
-    char sfx[25];
-    double num;
-    double n;
-    char tp[20];
-
+    double x, y, r, w ,h, num, n;
+    char tipo[5], corb[20], corp[20], identificacao[20], parametroOpcional[1], face[1], cep[20], cpf[20], cnpj[25], compl[20], t[2], sfx[25], tp[20];
 
    while(fscanf(qry,"%s",tipo) != EOF)
     {
         if(strcmp(tipo,"o?") == 0)
         {
-            fscanf(qry,"%d %d",&j,&k);
-            fprintf(saida,"%s %d %d\n",tipo,j,k);
-            o(j, k, saida, listasObjetos, listasQry);
+            fscanf(qry,"%s %s",j,k);
+            fprintf(saida,"%s %s %s\n",tipo,j,k);
+            o(j, k, arvoresObjetos, listasQry, saida);
         }
         else if(strcmp(tipo,"i?") == 0)
         {
-            fscanf(qry,"%d %lf %lf",&j,&x,&y);
-            fprintf(saida,"%s %d %lf %lf\n",tipo,j,x,y);
-            i(listasObjetos, j, x, y, saidaSvg, saida, listasQry);
+            fscanf(qry,"%s %lf %lf",j,&x,&y);
+            fprintf(saida,"%s %s %lf %lf\n",tipo,j,x,y);  
+            i(j, x, y, arvoresObjetos, listasQry, saida);
         }
         else if(strcmp(tipo,"pnt") == 0)
         {
-            fscanf(qry,"%d %s %s",&j,corb,corp);
-            fprintf(saida,"%s %d %s %s\n",tipo,j,corb,corp);
-            pnt (listasObjetos, j, corb, corp, saida);
-
+            fscanf(qry,"%s %s %s",j,corb,corp);
+            fprintf(saida,"%s %s %s %s\n",tipo,j,corb,corp);
+            pnt(j, corb, corp, arvoresObjetos, saida);
         }
         else if(strcmp(tipo,"pnt*") == 0)
         {
-            fscanf(qry,"%d %d %s %s",&j,&k,corb,corp);
-            fprintf(saida,"%s %d %d %s %s\n",tipo,j,k,corb,corp);
-            pnt (listasObjetos, j, corb, corp, saida);
-            pnt (listasObjetos, k, corb, corp, saida);
+            fscanf(qry,"%s %s %s %s",j,k,corb,corp);
+            fprintf(saida,"%s %s %s %s %s\n",tipo,j,k,corb,corp);
+            pnt(j, corb, corp, arvoresObjetos, saida);
+            pnt(k, corb, corp, arvoresObjetos, saida);
         }
         else if(strcmp(tipo,"delf") == 0)
         {
-            fscanf(qry,"%d",&j);
-            fprintf(saida,"%s %d\n",tipo,j);
-            delf(listasObjetos, j, saida);
+            fscanf(qry,"%s",j);
+            fprintf(saida,"%s %s\n",tipo,j); 
+            delf(saida, arvoresObjetos, j);
         }
         else if(strcmp(tipo,"delf*") == 0)
         {
-            fscanf(qry,"%d %d",&j,&k);
-            fprintf(saida,"%s %d %d\n",tipo,j,k);
-            delf(listasObjetos, j, saida);
-            delf(listasObjetos, k, saida);
+            fscanf(qry,"%s %s",j,k);
+            fprintf(saida,"%s %s %s\n",tipo,j,k);
+            delf(saida, arvoresObjetos, j);
+            delf(saida, arvoresObjetos, k);
         }
        else if(strcmp(tipo, "dq") == 0) 
         {
-            
             fscanf(qry,"%s", parametroOpcional);
 
              if(strcmp(parametroOpcional,"#")==0)
@@ -104,49 +83,41 @@ void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listas
                 strcpy(identificacao, parametroOpcional);
                 fprintf(saida,"dq %s %lf\n",identificacao, r);
             }
-            dq(listasObjetos, saida, saidaSvg, identificacao, r, ident, listasQry);
         }
         else if(strcmp(tipo, "del")==0)
         {
             fscanf(qry,"%s",identificacao);
             fprintf(saida,"%s %s\n",tipo, identificacao);
-            del(listasObjetos, identificacao, saida, saidaSvg, listasQry);
         }
         else if(strcmp(tipo, "cbq")==0)
         {
             fscanf(qry,"%lf %lf %lf %s",&x, &y, &r, corb);
             fprintf(saida,"%s %lf %lf %lf %s\n",tipo,x, y, r, corb);
-            cbq(listasObjetos, x, y, r, corb, saida);
         }
         else if(strcmp(tipo, "crd?")==0)
         {
             fscanf(qry,"%s",identificacao);
             fprintf(saida,"%s %s\n",tipo, identificacao);
-            crd(listasObjetos, identificacao, saida);
         }
         else if(strcmp(tipo, "car")==0)
         {
             fscanf(qry,"%lf %lf %lf %lf",&x, &y, &w, &h);
             fprintf(saida,"%s %lf %lf %lf %lf\n",tipo, x, y, w, h);
-            car(listasObjetos, x, y, w, h, saidaSvg, saida, listasQry);
         }
         else if(strcmp(tipo, "cv")==0)
         {
             fscanf(qry,"%lf %s %s %lf",&n, cep, face, &num);
             fprintf(saida,"cv %lf %s %s %lf\n", n, cep, face, num);
-            cv(listasObjetos, n, cep, face, num, listasQry);
         }
         else if(strcmp(tipo, "soc")==0)
         {
-            fscanf(qry,"%d %s %s %lf",&k, cep, face, &num);
-            fprintf(saida,"soc %d %s %s %lf\n", k, cep, face, num);
-            soc(listasObjetos, k, cep, face, num, saida, listasQry);
+            fscanf(qry,"%s %s %s %lf",k, cep, face, &num);
+            fprintf(saida,"soc %s %s %s %lf\n", k, cep, face, num);
         }
         else if(strcmp(tipo, "ci")==0)
         {
             fscanf(qry,"%lf %lf %lf",&x, &y, &r);
             fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
-            ci(saida, listasObjetos, x, y, r, listasQry);
         }
         else if(strcmp(tipo, "m?")==0)
         {
@@ -198,10 +169,9 @@ void lerQry (char saidaQry[], Lista listasObjetos[], char arqQry[], Lista listas
         }
     }
 
-    gerarSvgGeo(listasObjetos, saidaSvg);
-    gerarSvgQry(saidaSvg, listasQry);
-
-    finalizaSvg(saidaSvg);
+    gerarSvgQry(arvoresObjetos, listasQry, saidaSvgQry);
+     
+    finalizaSvg(saidaSvgQry);
 
     fclose(saida);
     fclose(qry);

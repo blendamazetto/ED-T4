@@ -29,7 +29,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
     strcpy(Hfill,"blue");
 
     FILE *geo = fopen(arqGeo,"r");
-    FILE *svg = fopen(nomeSvgGeo,"a");
+    FILE *svg = fopen(nomeSvgGeo,"w");
 
     if(geo == NULL)
     {
