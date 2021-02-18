@@ -142,3 +142,89 @@ void del(FILE* saida, QuadTree arvoresObjetos[], char j[], Lista listasQry[])
     }
 }
 
+void cbq(QuadTree arvoresObjetos[], double x, double y, double r, char corb[], FILE* saida)
+{
+    Info info;
+    Ponto p;
+    double h, w;
+    Lista l = nosDentroCirculoQt(arvoresObjetos[3], x, y, r);
+    No node = getFirst(l);
+
+    while (node != NULL) 
+    {
+        info = getInfoQt(arvoresObjetos[3], getInfo(node));
+        p = getQuadraPonto(info);
+        h = getQuadraH(info);
+        w = getQuadraW(info);
+
+        if(retInternoCirc(getPontoX(p),getPontoY(p),w,h,x,y,r))
+        {
+            setQuadraCstrk(info, corb);
+            fprintf(saida, "%s\n", getQuadraCep(info));
+        }
+        node = getNext(node);
+    }
+}
+
+void crd(QuadTree arvoresObjetos[], char id[], FILE* saida)
+{
+    if(getNodeByIdQt(arvoresObjetos[3],id) != NULL)
+    {
+        Info q = getInfoByIdQt(arvoresObjetos[3],id);
+        fprintf(saida,"%lf %lf QUADRA\n", getQuadraX(q), getQuadraY(q));
+    }
+    
+    else if(getNodeByIdQt(arvoresObjetos[4],id) != NULL)
+    {
+        Info h = getInfoByIdQt(arvoresObjetos[4],id);
+        fprintf(saida,"%lf %lf HIDRANTE\n", getHidranteX(h), getHidranteY(h));
+    }
+
+    else if(getNodeByIdQt(arvoresObjetos[5],id) != NULL)
+    {
+        Info s = getInfoByIdQt(arvoresObjetos[5],id);
+        fprintf(saida,"%lf %lf SEMAFORO\n", getSemaforoX(s), getSemaforoY(s));
+    }
+    else if(getNodeByIdQt(arvoresObjetos[6],id) != NULL)
+    {
+        Info rb = getInfoByIdQt(arvoresObjetos[6],id);
+        fprintf(saida,"%lf %lf RADIO BASE\n", getRadiobaseX(rb), getRadiobaseY(rb));
+    }
+}
+
+void car (QuadTree arvoresObjetos[], double x, double y, double w, double h, FILE* saida, Lista listasQry[])
+{
+    Lista l = nosDentroRetanguloQt(arvoresObjetos[3], x, y, x+w, y+h);
+    No node = getFirst(l);
+    double areaTotal = 0;
+
+    while (node != NULL) 
+    {
+        Info r1 = getInfoQt(arvoresObjetos[3], getInfo(node));
+        float xAux,wAux,yAux,hAux;
+        xAux = min(getQuadraX(r1),x);
+        wAux = max(getQuadraX(r1) + getQuadraW(r1), x + w) - x;
+        yAux = min(getQuadraY(r1),y);
+        hAux = max(getQuadraY(r1) + getQuadraH(r1), y + h) - y;
+
+        if (wAux <= getQuadraW(r1) + w && hAux <= getQuadraH(r1) + h)
+        {
+            areaTotal = areaTotal+(getQuadraH(r1)*getQuadraW(r1));
+            fprintf(saida, "%s %lf\n", getQuadraCep(r1),(getQuadraH(r1)*getQuadraW(r1)));
+        }
+        node = getNext(node);
+    }
+
+    fprintf(saida, "%lf\n",areaTotal);
+
+    Retangulo ret = criaRetangulo("0", w, h, x ,y , "2.5", "black", "none");
+    insert(listasQry[1], ret);
+
+    Linha lin = criaLinha(x, y, x, 0, "black");
+    insert(listasQry[2], lin);
+
+    TextoNumerico textNum2 = criaTextoNumerico(x, 0, "black", "black", areaTotal);
+    insert(listasQry[0], textNum2);
+
+    removeList(l, NULL);
+}
