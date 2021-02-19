@@ -55,4 +55,8 @@ int retInternoCirc(double xRet, double yRet, double w, double h, double x, doubl
 
 void shellSort(double *vet, int size);
 
+double obterArea(Lista l);
+
+Ponto centroide(Lista l, double area);
+
 #endif

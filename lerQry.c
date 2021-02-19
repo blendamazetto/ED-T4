@@ -125,6 +125,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         {
             fscanf(qry,"%lf %lf %lf",&x, &y, &r);
             fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
+            ci(saida, arvoresObjetos, x, y, r, listasQry, saidaSvgQry);
         }
         else if(strcmp(tipo, "m?")==0)
         {

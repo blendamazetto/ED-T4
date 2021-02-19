@@ -76,6 +76,11 @@ void quickSortList(Lista l, No primeiro, No ultimo, Ponto (*getPonto)(Info), voi
 
 Lista convexHull(Lista list, Ponto (*getPonto)(Info), void (*swap)(Info, Info))
 {
+    if (getPonto == NULL) 
+    {
+        getPonto = defaultGetPonto;
+    }
+
     if(tamanhoDaLista(list) < 3)
     {
         return NULL;
@@ -374,4 +379,37 @@ void shellSort(double *vet, int size)
         }
         h = h/3;
     }
+}
+
+double obterArea(Lista l){
+    double a = 0;
+    Info i, j;
+    No node;
+    for(node = getFirst(l); getNext(node) != NULL; node = getNext(node)){
+        i = getInfo(node);
+        j = getInfo(getNext(node));
+        a += getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+    }
+    i = getInfo(node);
+    j = getInfo(getFirst(l));
+    a += getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+    return a/2;
+}
+
+Ponto centroide(Lista l, double area)
+{
+    double x = 0, y = 0;
+    Info i, j;
+    No node;
+    for(node = getFirst(l); getNext(node) != NULL; node = getNext(node)){
+        i = getInfo(node);
+        j = getInfo(getNext(node));
+        x += (getPontoX(i) + getPontoX(j)) * getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+        y += (getPontoY(i) + getPontoY(j)) * getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+    }
+    i = getInfo(node);
+    j = getInfo(getFirst(l));
+    x += (getPontoX(i) + getPontoX(j)) * getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+    y += (getPontoY(i) + getPontoY(j)) * getPontoX(i) * getPontoY(j) - getPontoY(i) * getPontoX(j);
+    return createPonto(x/(6 * area), y/(6 * area));
 }

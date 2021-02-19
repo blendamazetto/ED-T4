@@ -9,4 +9,6 @@ void cv (QuadTree arvoresObjetos[], double n, char cep[], char face[], double nu
 
 void soc(QuadTree arvoresObjetos[], int k, char cep[], char face[], double num, FILE* saida, Lista listasQry[]);
 
+void ci(FILE* saida, QuadTree arvoresObjetos[], double x, double y, double r, Lista listasQry[], FILE* saidaSvgQry);
+
 #endif

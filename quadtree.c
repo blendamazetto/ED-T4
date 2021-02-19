@@ -424,6 +424,7 @@ QtInfo removeNoQt(QuadTree qt,QtNo pNo){
             if(node->children[i] != NULL){
                 if(node->parent->children[i] == NULL){
                     node->parent->children[i] = node->children[i];
+                    node->children[i]->parent = node->parent;
                 }
                 else{
                     insertQueue(fila, node->children[i]);
