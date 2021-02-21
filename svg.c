@@ -180,6 +180,19 @@ void desenhaLinhaTracejada(Linha l, FILE* svg)
     fprintf(svg, "\t<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"black\" stroke-width=\"2\" stroke-dasharray=\"5\" />\n ", x1, y1, x2, y2);
 }
 
+void desenhaCirculoTransparente(Circulo c, FILE* svg)
+{
+    double x = getCirculoX(c);
+    double y = getCirculoY(c);
+    double raio = getCirculoR(c);
+    char cor_b[22];
+    char cor_p[22];
+    strcpy(cor_b, getCirculoCorb(c));
+    strcpy(cor_p, getCirculoCorp(c));
+
+    fprintf(svg, "\t<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\" fill=\"%s\" opacity=\"0.5\" />\n ", x, y, raio, cor_b, cor_p);
+}
+
 void finalizaSvg(FILE* svg)
 {
     fprintf(svg, "</svg>");
@@ -297,14 +310,8 @@ void gerarSvgQry(QuadTree arvoresObjetos[], Lista listasQry[], FILE* saidaSvgQry
         No node;
         for(node = getFirst(listasQry[i]); node != NULL; node = getNext(node))
         {
-            Info p = getInfo(node);
-            fprintf(saidaSvgQry,"\t<polygon id=\"%d\" fill=\"%s\" fill-opacity=\"0.2\" stroke=\"red\" stroke-width=\"5px\" points=\"", getPoligonoTamanho(getInfo(getLast(listasQry[i]))), getPoligonoCor(p));
-
-            for(int aux=0; aux < getPoligonoTamanho(p); aux++)
-            {
-                fprintf(saidaSvgQry," %lf,%lf", getPoligonoX(p, aux), getPoligonoY(p, aux));
-            }
-            fprintf(saidaSvgQry," \"/>\n");
+            Info circ = getInfo(node);
+            desenhaCirculoTransparente(circ, saidaSvgQry);
         }
     }
 }

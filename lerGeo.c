@@ -178,7 +178,7 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
     if(ec == NULL)
     {
-        printf("\nERRO\nArquivo .geo nao pode ser aberto\n");
+        printf("\nERRO\nArquivo .ec nao pode ser aberto\n");
         exit(1);
     }
 
@@ -232,7 +232,7 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
     if(pm == NULL)
     {
-        printf("\nERRO\nArquivo .geo nao pode ser aberto\n");
+        printf("\nERRO\nArquivo .pm nao pode ser aberto\n");
         exit(1);
     }
 

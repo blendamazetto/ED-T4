@@ -252,7 +252,7 @@ void retanguloxCirculo(Info circ, Info ret, FILE* saida, Lista listasQry[])
 
     if(getCirculoX(circ) > getRetanguloX(ret))
     {
-        deltaX = pow(getRetanguloX(ret) + getRetanguloW(ret) - getCirculoX(ret),2);
+        deltaX = pow(getRetanguloX(ret) + getRetanguloW(ret) - getCirculoX(circ),2);
     }
     else
     {

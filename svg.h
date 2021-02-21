@@ -124,6 +124,8 @@ void desenhaLinha(Linha l, FILE* svg);
 */
 void desenhaLinhaTracejada(Linha l, FILE* svg);
 
+void desenhaCirculoTransparente(Circulo c, FILE* svg);
+
 /*
     *Finaliza o arquivo svg colocando o comando necessario nele
     *Apenas o arquivo svg a ser aberto e passado como parametro

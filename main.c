@@ -121,7 +121,7 @@ int main (int argc, char *argv[])
             i++;
             if(argv[i] == NULL)
             {
-                printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
+                printf("\nERRO\nArquivo EC nao encontrado\n");
                 exit(1);
             }
             arq_ecNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
@@ -132,7 +132,7 @@ int main (int argc, char *argv[])
             i++;
             if(argv[i] == NULL)
             {
-                printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
+                printf("\nERRO\nArquivo PM nao encontrado\n");
                 exit(1);
             }
             arq_pmNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
@@ -240,21 +240,6 @@ int main (int argc, char *argv[])
 
         lerQry(saidaQry,arqQry, listasQry, arvoresObjetos, tabelas, listasObjetos);
     }
-
-    /*deleteHashTable(tabelas[0], tamanho(listasObjetos[11]));
-    deleteHashTable(tabelas[1], tamanho(listasObjetos[12]));
-    deleteHashTable(tabelas[2], tamanho(listasObjetos[10]));
-    deleteHashTable(tabelas[3], tamanho(listasObjetos[3]));
-
-    for(i = 0; i < 8; i++)
-    {
-        removeList(listasObjetos[i],NULL);
-    }
-    removeList(listasObjetos[8],desalocarPontosDensidade);
-    removeList(listasObjetos[9], NULL);
-    removeList(listasObjetos[10], NULL);
-    removeList(listasObjetos[11], NULL);
-    removeList(listasObjetos[12], NULL);*/
 
    free(dir_entrada);
    free(dir_saida);

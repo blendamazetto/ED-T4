@@ -22,9 +22,9 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         exit(1);
     }
     char j[20], k[20];
-    int ident;
+    int ident, intJ, intK;
     double x, y, r, w ,h, num, n;
-    char tipo[5], corb[20], corp[20], identificacao[20], parametroOpcional[1], face[1], cep[20], cpf[20], cnpj[25], compl[20], t[2], sfx[25], tp[20];
+    char tipo[5], corb[20], corp[20], identificacao[20], parametroOpcional[1], face[1], cep[20], cpf[20], cnpj[25], compl[20], t, sfx[25], tp[20];
     int b;
    while(fscanf(qry,"%s",tipo) != EOF)
     {
@@ -48,10 +48,13 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         }
         else if(strcmp(tipo,"pnt*") == 0)
         {
-            fscanf(qry,"%s %s %s %s",j,k,corb,corp);
-            fprintf(saida,"%s %s %s %s %s\n",tipo,j,k,corb,corp);
-            pnt(j, corb, corp, arvoresObjetos, saida);
-            pnt(k, corb, corp, arvoresObjetos, saida);
+            fscanf(qry,"%d %d %s %s",&intJ,&intK,corb,corp);
+            fprintf(saida,"%s %d %d %s %s\n",tipo,intJ,intK,corb,corp);
+            for(int a = intJ; a <= intK; a++)
+            {
+                sprintf(j,"%d",a);
+                pnt(j, corb, corp, arvoresObjetos, saida);
+            }
         }
         else if(strcmp(tipo,"delf") == 0)
         {
@@ -61,10 +64,13 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         }
         else if(strcmp(tipo,"delf*") == 0)
         {
-            fscanf(qry,"%s %s",j,k);
-            fprintf(saida,"%s %s %s\n",tipo,j,k);
-            delf(saida, arvoresObjetos, j);
-            delf(saida, arvoresObjetos, k);
+            fscanf(qry,"%d %d",&intJ,&intK);
+            fprintf(saida,"%s %d %d\n",tipo,intJ,intK);
+            for(int a = intJ; a <= intK; a++)
+            {
+                sprintf(j,"%d",a);
+                delf(saida, arvoresObjetos, j);
+            }
         }
        else if(strcmp(tipo, "dq") == 0) 
         {
@@ -153,8 +159,9 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         }
         else if(strcmp(tipo, "dmprbt")==0)
         {
-            fscanf(qry,"%s %s", t, sfx);
+            fscanf(qry," %c %s", &t, sfx);
             fprintf(saida,"%s\n",tipo);
+            dmprbt(arvoresObjetos, t, saidaQry, sfx);
         }
         else if(strcmp(tipo, "eplg?")==0)
         {
@@ -166,6 +173,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         {
             fscanf(qry,"%lf %lf %lf",&x, &y, &r);
             fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
+            catac(arvoresObjetos, saida, listasQry, x, y, r, listasObjetos);
         }
     }
 
@@ -175,6 +183,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
 
     fclose(saida);
     fclose(qry);
+    //fclose(svg);
     free(saidaSvg);
     free(saidaTxt);
 }

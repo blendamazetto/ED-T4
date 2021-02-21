@@ -26,7 +26,7 @@ void m(QuadTree arvoresObjetos[], FILE* saida, Hash tabelas[], char cep[], Lista
         Info pessoa = searchHashTable(getMoradorCpf(inf), tabelas[2], tamanho(listasObjetos[10]));
 
         fprintf(saida,"NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s ", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
-        fprintf(saida,"CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCpf(inf), getMoradorFace(inf), getMoradorNum(inf), getMoradorCompl(inf));
+        fprintf(saida,"CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCep(inf), getMoradorFace(inf), getMoradorNum(inf), getMoradorCompl(inf));
     }
     removeList(moradores, NULL);
 }
@@ -122,6 +122,36 @@ void mud(QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas
     fprintf(saida,"ENDERECO NOVO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCep(morador), getMoradorFace(morador), getMoradorNum(morador), getMoradorCompl(morador));
 }
 
+void dmprbt(QuadTree qt[], char t, char saida[], char sfx[])
+{
+    int i;
+    switch(t) {
+    case 'q':
+        i = 3;
+        break;
+    case 'h':
+        i = 4;
+        break;
+    case 's':
+        i = 5;
+        break;
+    case 't':
+        i = 6;
+        break;
+    default:
+        printf("Valor inválido (%c)\n", t);
+        return;
+    }
+
+    char* pathSvg = malloc((6 + strlen(sfx) + strlen(saida))*sizeof(char));
+    sprintf(pathSvg,"%s-%s.svg",saida,sfx);
+    FILE* svg = fopen(pathSvg, "w");
+    iniciaSvg(svg);
+    desenharQt(qt[i], svg);
+    finalizaSvg(svg);
+    free(pathSvg);
+}
+
 void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas[], double x, double y, double w, double h, Lista listasObjetos[], char tp[])
 {
     Lista l = nosDentroRetanguloQt(arvoresObjetos[8], x, y, x+w, y+h);
@@ -168,6 +198,105 @@ void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabel
                 Circulo c = criaCirculo("0", 8, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "none");
                 insert(listasQry[3], c);
             }
+        }
+    }
+}
+
+void catac (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], double x, double y, double r, Lista listasObjetos[])
+{
+    Lista q = nosDentroCirculoQt(arvoresObjetos[3], x, y, r);
+    Lista h = nosDentroCirculoQt(arvoresObjetos[4], x, y, r);
+    Lista s = nosDentroCirculoQt(arvoresObjetos[5], x, y, r);
+    Lista rb = nosDentroCirculoQt(arvoresObjetos[6], x, y ,r);
+    Lista m = nosDentroCirculoQt(arvoresObjetos[9], x, y, r);
+    Lista e = nosDentroCirculoQt(arvoresObjetos[8], x, y, r);
+    char id[20];
+
+    Circulo c = criaCirculo("0", r, x, y, "3", "#6C6753", "#CCFF00");
+    insert(listasQry[8], c);
+
+    for(No node = getFirst(q) ; node != NULL; node = getNext(node))
+    {
+        Info quad = getInfoQt(arvoresObjetos[3], getInfo(node));
+        strcpy(id, getQuadraCep(quad));
+
+        if(getNodeByIdQt(arvoresObjetos[3],id) != NULL)
+        {
+            Info r1 = getInfoQt(arvoresObjetos[3], getInfo(node));
+            if(distancia(getQuadraX(r1),getQuadraY(r1),x,y) <= r && distancia(getQuadraX(r1) + getQuadraW(r1) ,getQuadraY(r1) + getQuadraH(r1),x,y) <= r)
+            {
+                if(distancia(getQuadraX(r1) + getQuadraW(r1), getQuadraY(r1) ,x,y) <= r && distancia(getQuadraX(r1), getQuadraY(r1) + getQuadraH(r1),x,y) <= r)
+                {
+                    QtNo node = getNodeByIdQt(arvoresObjetos[3],id);
+                    Info c = removeNoQt(arvoresObjetos[3], node);
+                    fprintf(saida,"QUADRA - CEP: %s X: %lf Y: %lf W: %lf H: %lf \n", getQuadraCep(c), getQuadraX(c), getQuadraY(c), getQuadraW(c), getQuadraH(c));
+                }
+            }
+        }
+    }
+
+    for(No node = getFirst(h) ; node != NULL; node = getNext(node))
+    {
+        Info hid = getInfoQt(arvoresObjetos[4], getInfo(node));
+        strcpy(id, getQuadraCep(hid));
+
+        if(getNodeByIdQt(arvoresObjetos[4],id) != NULL)
+        {
+            QtNo node = getNodeByIdQt(arvoresObjetos[4],id);
+            Info c = removeNoQt(arvoresObjetos[4], node);
+            fprintf(saida,"HIDRANTE - ID: %s X: %lf Y: %lf \n", getHidranteId(c), getHidranteX(c), getHidranteY(c));
+        }
+    }
+
+    for(No node = getFirst(s) ; node != NULL; node = getNext(node))
+    {
+        Info sem = getInfoQt(arvoresObjetos[5], getInfo(node));
+        strcpy(id, getQuadraCep(sem));
+
+        if(getNodeByIdQt(arvoresObjetos[5],id) != NULL)
+        {
+            QtNo node = getNodeByIdQt(arvoresObjetos[5],id);
+            Info c = removeNoQt(arvoresObjetos[5], node);
+            fprintf(saida,"SEMAFORO - ID: %s X: %lf Y: %lf \n", getSemaforoId(c), getSemaforoX(c), getSemaforoY(c));
+        }
+    }
+
+    for(No node = getFirst(rb) ; node != NULL; node = getNext(node))
+    {
+        Info radiob = getInfoQt(arvoresObjetos[6], getInfo(node));
+        strcpy(id, getQuadraCep(radiob));
+
+        if(getNodeByIdQt(arvoresObjetos[6],id) != NULL)
+        {
+            QtNo node = getNodeByIdQt(arvoresObjetos[6],id);
+            Info c = removeNoQt(arvoresObjetos[6], node);
+            fprintf(saida,"RADIOBASE - ID: %s X: %lf Y: %lf \n", getRadiobaseId(c), getRadiobaseX(c), getRadiobaseY(c));
+        }
+    }
+
+    for(No node = getFirst(m) ; node != NULL; node = getNext(node))
+    {
+        Info mor = getInfoQt(arvoresObjetos[9], getInfo(node));
+        strcpy(id, getQuadraCep(mor));
+
+        if(getNodeByIdQt(arvoresObjetos[9],id) != NULL)
+        {
+            QtNo node = getNodeByIdQt(arvoresObjetos[9],id);
+            Info c = removeNoQt(arvoresObjetos[9], node);
+            fprintf(saida,"MORADOR - CPF: %s CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCpf(c), getMoradorCep(c), getMoradorFace(c), getMoradorNum(c), getMoradorCompl(c));
+        }
+    }
+
+    for(No node = getFirst(e) ; node != NULL; node = getNext(node))
+    {
+        Info est = getInfoQt(arvoresObjetos[8], getInfo(node));
+        strcpy(id, getQuadraCep(est));
+
+        if(getNodeByIdQt(arvoresObjetos[8],id) != NULL)
+        {
+            QtNo node = getNodeByIdQt(arvoresObjetos[8],id);
+            Info c = removeNoQt(arvoresObjetos[8], node);
+            fprintf(saida, "ESTABELECIMENTO - NOME: %s CNPJ: %s CODT: %s CEP: %s FACE: %s NUM: %lf \n", getEstabelecimentoNome(c),getEstabelecimentoCnpj(c), getEstabelecimentoCodt(c), getEstabelecimentoCep(c), getEstabelecimentoFace(c), getEstabelecimentoNum(c));
         }
     }
 }
