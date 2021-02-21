@@ -136,31 +136,31 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         else if(strcmp(tipo, "m?")==0)
         {
             fscanf(qry,"%s",cep);
-            fprintf(saida,"%s\n",tipo);
+            fprintf(saida,"%s %s\n",tipo, cep);
             m(arvoresObjetos, saida, tabelas, cep, listasObjetos);
         }
         else if(strcmp(tipo, "dm?")==0)
         {
             fscanf(qry,"%s",cpf);
-            fprintf(saida,"%s\n",tipo);
+            fprintf(saida,"%s %s\n",tipo, cpf);
             dm(arvoresObjetos, saida, listasQry, tabelas, cpf, listasObjetos);
         }
         else if(strcmp(tipo, "de?")==0)
         {
             fscanf(qry,"%s",cnpj);
-            fprintf(saida,"%s\n",tipo);
+            fprintf(saida,"%s %s\n",tipo, cnpj);
             de(arvoresObjetos, saida, tabelas, cnpj, listasObjetos);
         }
         else if(strcmp(tipo, "mud")==0)
         {
             fscanf(qry,"%s %s %s %lf %s",cpf, cep, face, &num, compl);
-            fprintf(saida,"%s\n",tipo);
+            fprintf(saida,"mud %s %s %s %lf %s\n",tipo, cpf, cep, face, num, compl);
             mud(arvoresObjetos, saida, listasQry, tabelas, cpf, cep, face, num, compl, listasObjetos);
         }
         else if(strcmp(tipo, "dmprbt")==0)
         {
             fscanf(qry," %c %s", &t, sfx);
-            fprintf(saida,"%s\n",tipo);
+            fprintf(saida,"%s %c %s\n", tipo, t, sfx);
             dmprbt(arvoresObjetos, t, saidaQry, sfx);
         }
         else if(strcmp(tipo, "eplg?")==0)
@@ -183,7 +183,6 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
 
     fclose(saida);
     fclose(qry);
-    //fclose(svg);
     free(saidaSvg);
     free(saidaTxt);
 }

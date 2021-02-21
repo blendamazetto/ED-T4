@@ -122,7 +122,7 @@ void mud(QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas
     fprintf(saida,"ENDERECO NOVO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCep(morador), getMoradorFace(morador), getMoradorNum(morador), getMoradorCompl(morador));
 }
 
-void dmprbt(QuadTree qt[], char t, char saida[], char sfx[])
+void dmprbt(QuadTree arvoresObjetos[], char t, char saida[], char sfx[])
 {
     int i;
     switch(t) {
@@ -139,16 +139,19 @@ void dmprbt(QuadTree qt[], char t, char saida[], char sfx[])
         i = 6;
         break;
     default:
-        printf("Valor inválido (%c)\n", t);
         return;
     }
 
     char* pathSvg = malloc((6 + strlen(sfx) + strlen(saida))*sizeof(char));
+
     sprintf(pathSvg,"%s-%s.svg",saida,sfx);
+
     FILE* svg = fopen(pathSvg, "w");
+
     iniciaSvg(svg);
-    desenharQt(qt[i], svg);
+    desenharQt(arvoresObjetos[i], svg);
     finalizaSvg(svg);
+
     free(pathSvg);
 }
 

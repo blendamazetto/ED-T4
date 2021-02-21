@@ -45,7 +45,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
         {
             fprintf(saida,"circulo interno\n");
 
-            Circulo circ = criaCirculo("0", 10, x, y, "1", "blue", "blue");
+            Circulo circ = criaCirculo("0", 5, x, y, "1", "blue", "blue");
             insert(listasQry[3], circ);
 
             Linha lin = criaLinha(x, y, getCirculoX(c), getCirculoY(c), "blue");
@@ -55,7 +55,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
         {
             fprintf(saida,"circulo nao interno\n");
 
-            Circulo circ = criaCirculo("0", 10, x, y, "1", "magenta", "magenta");
+            Circulo circ = criaCirculo("0", 5, x, y, "1", "magenta", "magenta");
             insert(listasQry[3], circ);
 
             Linha lin = criaLinha(x, y, getCirculoX(c), getCirculoY(c), "magenta");
@@ -72,7 +72,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
         {
             fprintf(saida,"retangulo interno\n");
 
-            Circulo circ = criaCirculo("0", 10, x, y, "1", "blue", "blue");
+            Circulo circ = criaCirculo("0", 5, x, y, "1", "blue", "blue");
             insert(listasQry[3], circ);
 
             Linha lin = criaLinha(x ,y ,getRetanguloX(r)+getRetanguloW(r)/2 ,getRetanguloY(r)+getRetanguloH(r)/2 ,"blue");
@@ -82,7 +82,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
         {
             fprintf(saida,"retangulo nao interno\n");
 
-            Circulo circ = criaCirculo("0", 10, x, y, "1", "magenta", "magenta");
+            Circulo circ = criaCirculo("0", 5, x, y, "1", "magenta", "magenta");
             insert(listasQry[3], circ);
 
             Linha lin = criaLinha(x ,y ,getRetanguloX(r)+getRetanguloW(r)/2 ,getRetanguloY(r)+getRetanguloH(r)/2 ,"magenta");
@@ -97,7 +97,7 @@ void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* s
     {
         Info c = getInfoByIdQt(arvoresObjetos[0], j);
 
-        fprintf(saida,"%lf %lf\n", getCirculoX(c), getCirculoY(c));
+        fprintf(saida,"X: %lf Y: %lf\n", getCirculoX(c), getCirculoY(c));
         setCirculoCorb(c, corb);
         setCirculoCorp(c, corp);
     }
@@ -106,7 +106,7 @@ void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* s
     {
         Info r = getInfoByIdQt(arvoresObjetos[1], j);
 
-        fprintf(saida,"%lf %lf\n", getRetanguloX(r), getRetanguloY(r));
+        fprintf(saida,"X: %lf Y: %lf\n", getRetanguloX(r), getRetanguloY(r));
         setRetanguloCorb(r, corb);
         setRetanguloCorp(r, corp);
     }
@@ -115,7 +115,7 @@ void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* s
     {
         Info t = getInfoByIdQt(arvoresObjetos[2], j);
 
-        fprintf(saida,"%lf %lf\n", getTextoX(t), getTextoY(t));
+        fprintf(saida,"X: %lf Y: %lf\n", getTextoX(t), getTextoY(t));
         setTextoCorb(t, corb);
         setTextoCorp(t, corp);
     }
@@ -127,7 +127,7 @@ void delf(FILE* saida, QuadTree arvoresObjetos[], char j[])
     {
         QtNo node = getNodeByIdQt(arvoresObjetos[0],j);
         Info c = removeNoQt(arvoresObjetos[0], node);
-        fprintf(saida,"%s %lf %lf %lf %s %s \n", getCirculoI(c), getCirculoR(c), getCirculoX(c), getCirculoY(c), getCirculoCorb(c), getCirculoCorp(c));
+        fprintf(saida,"ID: %s R: %lf X: %lf Y: %lf CORB: %s CORP :%s \n", getCirculoI(c), getCirculoR(c), getCirculoX(c), getCirculoY(c), getCirculoCorb(c), getCirculoCorp(c));
         desalocarPontoCirculo(c);
     }
 
@@ -135,7 +135,7 @@ void delf(FILE* saida, QuadTree arvoresObjetos[], char j[])
     {
         QtNo node = getNodeByIdQt(arvoresObjetos[1],j);
         Info r = removeNoQt(arvoresObjetos[1], node);
-        fprintf(saida,"%s %lf %lf %lf %lf %s %s \n", getCirculoI(r), getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), getRetanguloCorb(r), getRetanguloCorp(r));
+        fprintf(saida,"ID: %s W: %lf H: %lf X: %lf Y: %lf CORB: %s CORP: %s \n", getRetanguloI(r), getRetanguloW(r), getRetanguloH(r), getRetanguloX(r), getRetanguloY(r), getRetanguloCorb(r), getRetanguloCorp(r));
         desalocaRetangulo(r);
     }
 
@@ -143,7 +143,7 @@ void delf(FILE* saida, QuadTree arvoresObjetos[], char j[])
     {
         QtNo node = getNodeByIdQt(arvoresObjetos[2],j);
         Info t = removeNoQt(arvoresObjetos[2], node);
-        fprintf(saida,"%s %lf %lf %s %s %s\n",getTextoI(t), getTextoX(t), getTextoY(t), getTextoCorb(t), getTextoCorp(t), getTextoTxto(t));
+        fprintf(saida,"ID: %s X: %lf Y: %lf CORB: %s CORP: %s TEXTO: %s\n",getTextoI(t), getTextoX(t), getTextoY(t), getTextoCorb(t), getTextoCorp(t), getTextoTxto(t));
         desalocaTexto(t);
     }
 }

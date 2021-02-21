@@ -115,7 +115,7 @@ void soc(QuadTree arvoresObjetos[], int k, char cep[], char face[], double num, 
                 Linha lin = criaLinha(x, y, getPostoX(inf), getPostoY(inf), "black");
                 insert(listasQry[7], lin);
 
-                fprintf(saida,"%lf %lf\n", getPostoX(inf), getPostoY(inf));
+                fprintf(saida,"X: %lf Y: %lf\n", getPostoX(inf), getPostoY(inf));
             }
         }
     }
@@ -124,87 +124,103 @@ void soc(QuadTree arvoresObjetos[], int k, char cep[], char face[], double num, 
 void ci(FILE* saida, QuadTree arvoresObjetos[], double x, double y, double r, Lista listasQry[], FILE* saidaSvgQry)
 {
     No node;
-    Info fig;
+    Info fig, c;
     int n = 0;
     double d, inc, area;
     char cor[22];
     Ponto ponto;
-    Info c;
+
     c = criaCirculo("0",r,x,y,"5px","green","none");
     insert(listasQry[3], c);
+
     Lista aux;
     Lista casos = NULL;
-    aux = nosDentroCirculoQt(arvoresObjetos[10],x,y,r);
-    if(getFirst(aux) == NULL){
-        removeList(aux,NULL);
 
-        //printf("Não foi encontrado casos na região\n");
+    aux = nosDentroCirculoQt(arvoresObjetos[10],x,y,r);
+    if(getFirst(aux) == NULL)
+    {
+        removeList(aux,NULL);
         return;
     }
+
     node = getNodeByIdQt(arvoresObjetos[3],getCasosCEP(getInfoQt(arvoresObjetos[10],getInfo(getFirst(aux)))));
     if (node == NULL)
     {
         removeList(aux,NULL);
-        //printf("Densidade não informada na região\n");
         return;
     }
+
     d = getDensidadeD(getInfoQt(arvoresObjetos[3], node));
     Lista l = create();
+
     for(node = getFirst(aux); node != NULL; node = getNext(node))
     {
         fig = getInfoQt(arvoresObjetos[10], getInfo(node));
         ponto = getCasosPonto(fig);
         insert(l, ponto);
-        fprintf(saida,"X : %lf y : %lf\n", getPontoX(ponto),getPontoY(ponto));
+        fprintf(saida,"X : %lf Y : %lf\n", getPontoX(ponto),getPontoY(ponto));
         n += getCasosN(fig);
     }
     removeList(aux,NULL);
+
     if(tamanhoDaLista(l) > 2)
     {
         casos = convexHull(l,NULL,swapPonto);
     }
-    else{
-        //printf("Não é possivel formar o poligono, apenas %d endereco(s)\n",tamanhoDaLista(l));
-    }
+
     if(casos == NULL)
     {
         casos = l;
     }
-    else{
+
+    else
+    {
         removeList(l,NULL);
     }
+
     area = obterArea(casos);
-    fprintf(saida,"Numero de casos : %d\nArea : %lf\n",n,area);
-    if(area != 0){
+    fprintf(saida,"NUMERO DE CASOS : %d\nAREA : %lf\n",n,area);
+
+    if(area != 0)
+    {
         inc = 10 * n/(d * area);
-        if(inc < 0.1){
+
+        if(inc < 0.1)
+        {
             strcpy(cor, "00FFFF");
-            fprintf(saida,"Categoria : A - Livre de Covid\n");
+            fprintf(saida,"CATEGORIA A \n");
         }
-        else if(inc < 5){
+        else if(inc < 5)
+        {
             strcpy(cor, "008080");
-            fprintf(saida,"Categoria : B - Baixa incidencia\n");
+            fprintf(saida,"CATEGORIA B \n");
         }
-        else if(inc < 10){
+        else if(inc < 10)
+        {
             strcpy(cor, "FFFF00");
-            fprintf(saida,"Categoria : C - Media incidencia\n");
+            fprintf(saida,"CATEGORIA C \n");
         }
-        else if(inc < 20){
+        else if(inc < 20)
+        {
             strcpy(cor, "FF0000");
-            fprintf(saida,"Categoria : D - Alta incidencia\n");
+            fprintf(saida,"CATEGORIA D \n");
         }
-        else{
+        else
+        {
             strcpy(cor, "800080");
-            fprintf(saida,"Categoria : E - Catastrofico\n");
+            fprintf(saida,"Categoria E \n");
+
             aux = pontosDentroCirculoQt(arvoresObjetos[10], x, y, r);
-            if(getFirst(aux) == NULL){
+            if(getFirst(aux) == NULL)
+            {
                 ponto = centroide(casos,area);
                 fprintf(saida,"Necessário novo posto em (%lf,%lf)\n",getPontoX(ponto),getPontoY(ponto));
             }
             removeList(aux, NULL);
         }
     }
-    else{
+    else
+    {
         fprintf(saida,"Não é possivel obter a categoria da região\n");
         removeList(casos,NULL);
         return;

@@ -16,7 +16,7 @@ void dq(FILE *saida, QuadTree arvoresObjetos[], int flag, char id[], double r, L
             p = getHidrantePonto(info);
             x = getHidranteX(info);
             y = getHidranteY(info);
-            fprintf(saida, "Hidrante:\n");
+            fprintf(saida, "Hidrante\n");
 
             break;
         
@@ -25,7 +25,7 @@ void dq(FILE *saida, QuadTree arvoresObjetos[], int flag, char id[], double r, L
             p = getSemaforoPonto(info);
             x = getSemaforoX(info);
             y = getSemaforoY(info);
-            fprintf(saida, "Semaforo:\n");
+            fprintf(saida, "Semaforo\n");
 
             break;
 
@@ -34,7 +34,7 @@ void dq(FILE *saida, QuadTree arvoresObjetos[], int flag, char id[], double r, L
             p = getRadiobasePonto(info);
             x = getRadiobaseX(info);
             y = getRadiobaseY(info);
-            fprintf(saida, "RadioBase:\n");
+            fprintf(saida, "RadioBase\n");
             break;
     }
     
@@ -56,7 +56,7 @@ void dq(FILE *saida, QuadTree arvoresObjetos[], int flag, char id[], double r, L
                 insert(listasQry[6], ret);
             }
 
-            fprintf(saida, "Quadra removida: %s\n", getQuadraCep(info));
+            fprintf(saida, "QUADRA REMOVIDA: %s\n", getQuadraCep(info));
             QtNo aux = getInfo(node);
             info = removeNoQt(arvoresObjetos[3], aux);
             desalocaQuadra(info);
@@ -83,7 +83,7 @@ void del(FILE* saida, QuadTree arvoresObjetos[], char j[], Lista listasQry[])
         QtNo node = getNodeByIdQt(arvoresObjetos[3],j);
         Info q = removeNoQt(arvoresObjetos[3], node);
         
-        fprintf(saida,"%s %lf %lf %lf %lf\n", getQuadraCep(q), getQuadraX(q), getQuadraY(q), getQuadraH(q), getQuadraW(q));
+        fprintf(saida,"CEP: %s X: %lf Y: %lf H: %lf W: %lf\n", getQuadraCep(q), getQuadraX(q), getQuadraY(q), getQuadraH(q), getQuadraW(q));
         
         Linha lin = criaLinha(getQuadraX(q)+getQuadraW(q)/2, (getQuadraY(q)+getQuadraH(q)/2), getQuadraX(q)+getQuadraW(q)/2, 0, "black");
         insert(listasQry[2], lin);
@@ -99,7 +99,7 @@ void del(FILE* saida, QuadTree arvoresObjetos[], char j[], Lista listasQry[])
         QtNo node = getNodeByIdQt(arvoresObjetos[4],j);
         Info h = removeNoQt(arvoresObjetos[4], node);
         
-        fprintf(saida,"%s %lf %lf \n", getHidranteId(h), getHidranteX(h), getHidranteY(h));
+        fprintf(saida,"ID: %s X: %lf Y: %lf \n", getHidranteId(h), getHidranteX(h), getHidranteY(h));
 
         Linha lin = criaLinha(getHidranteX(h), getHidranteY(h), getHidranteX(h), 0, "black");
         insert(listasQry[2], lin);
@@ -115,7 +115,7 @@ void del(FILE* saida, QuadTree arvoresObjetos[], char j[], Lista listasQry[])
         QtNo node = getNodeByIdQt(arvoresObjetos[5],j);
         Info s = removeNoQt(arvoresObjetos[5], node);
         
-        fprintf(saida,"%s %lf %lf \n", getSemaforoId(s), getSemaforoX(s), getSemaforoY(s));
+        fprintf(saida,"ID: %s X: %lf Y: %lf \n", getSemaforoId(s), getSemaforoX(s), getSemaforoY(s));
 
         Linha lin = criaLinha(getSemaforoX(s), getSemaforoY(s), getSemaforoX(s), 0, "black");
         insert(listasQry[2], lin);
@@ -130,7 +130,7 @@ void del(FILE* saida, QuadTree arvoresObjetos[], char j[], Lista listasQry[])
         QtNo node = getNodeByIdQt(arvoresObjetos[6],j);
         Info rb = removeNoQt(arvoresObjetos[6], node);
         
-        fprintf(saida,"%s %lf %lf \n", getRadiobaseId(rb), getRadiobaseX(rb), getRadiobaseY(rb));
+        fprintf(saida,"ID: %s X: %lf Y: %lf \n", getRadiobaseId(rb), getRadiobaseX(rb), getRadiobaseY(rb));
 
         Linha lin = criaLinha(getRadiobaseX(rb), getRadiobaseY(rb), getRadiobaseX(rb), 0, "black");
         insert(listasQry[2], lin);
@@ -160,7 +160,7 @@ void cbq(QuadTree arvoresObjetos[], double x, double y, double r, char corb[], F
         if(retInternoCirc(getPontoX(p),getPontoY(p),w,h,x,y,r))
         {
             setQuadraCstrk(info, corb);
-            fprintf(saida, "%s\n", getQuadraCep(info));
+            fprintf(saida, "CEP: %s\n", getQuadraCep(info));
         }
         node = getNext(node);
     }
@@ -171,24 +171,24 @@ void crd(QuadTree arvoresObjetos[], char id[], FILE* saida)
     if(getNodeByIdQt(arvoresObjetos[3],id) != NULL)
     {
         Info q = getInfoByIdQt(arvoresObjetos[3],id);
-        fprintf(saida,"%lf %lf QUADRA\n", getQuadraX(q), getQuadraY(q));
+        fprintf(saida,"X: %lf Y: %lf QUADRA\n", getQuadraX(q), getQuadraY(q));
     }
     
     else if(getNodeByIdQt(arvoresObjetos[4],id) != NULL)
     {
         Info h = getInfoByIdQt(arvoresObjetos[4],id);
-        fprintf(saida,"%lf %lf HIDRANTE\n", getHidranteX(h), getHidranteY(h));
+        fprintf(saida,"X: %lf Y: %lf HIDRANTE\n", getHidranteX(h), getHidranteY(h));
     }
 
     else if(getNodeByIdQt(arvoresObjetos[5],id) != NULL)
     {
         Info s = getInfoByIdQt(arvoresObjetos[5],id);
-        fprintf(saida,"%lf %lf SEMAFORO\n", getSemaforoX(s), getSemaforoY(s));
+        fprintf(saida,"X: %lf Y: %lf SEMAFORO\n", getSemaforoX(s), getSemaforoY(s));
     }
     else if(getNodeByIdQt(arvoresObjetos[6],id) != NULL)
     {
         Info rb = getInfoByIdQt(arvoresObjetos[6],id);
-        fprintf(saida,"%lf %lf RADIO BASE\n", getRadiobaseX(rb), getRadiobaseY(rb));
+        fprintf(saida,"X: %lf Y: %lf RADIO BASE\n", getRadiobaseX(rb), getRadiobaseY(rb));
     }
 }
 
@@ -209,12 +209,12 @@ void car (QuadTree arvoresObjetos[], double x, double y, double w, double h, FIL
         if (wAux <= getQuadraW(r1) + w && hAux <= getQuadraH(r1) + h)
         {
             areaTotal = areaTotal+(getQuadraH(r1)*getQuadraW(r1));
-            fprintf(saida, "%s %lf\n", getQuadraCep(r1),(getQuadraH(r1)*getQuadraW(r1)));
+            fprintf(saida, "CEP: %s AREA: %lf\n", getQuadraCep(r1),(getQuadraH(r1)*getQuadraW(r1)));
         }
         node = getNext(node);
     }
 
-    fprintf(saida, "%lf\n",areaTotal);
+    fprintf(saida, "AREA TOTAL: %lf\n",areaTotal);
 
     Retangulo ret = criaRetangulo("0", w, h, x ,y , "2.5", "black", "none");
     insert(listasQry[1], ret);

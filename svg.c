@@ -281,7 +281,6 @@ void gerarSvgQry(QuadTree arvoresObjetos[], Lista listasQry[], FILE* saidaSvgQry
         {
             Info r = getInfo(node);
             desenhaRetanguloTracejado(r, saidaSvgQry);
-            printf("oiee\n");  
         } 
         i++;
     }

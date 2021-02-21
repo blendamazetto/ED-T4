@@ -16,8 +16,8 @@
 
 typedef struct node
 {
-    struct node *children[4];
-    struct node *parent;
+    struct node *filho[4];
+    struct node *pai;
     Ponto ponto;
     QtInfo info;
 
@@ -57,11 +57,12 @@ void dentroRetanguloQt(QuadTree qt, NodeStruct* node, Lista l, double x1, double
     }
     for(int i = 0; i < 4; i++)
     {
-        dentroRetanguloQt(qt, node->children[i], l, x1, y1, x2, y2, fun);
+        dentroRetanguloQt(qt, node->filho[i], l, x1, y1, x2, y2, fun);
     }
 }
 
-QtInfo getInfoQt(QuadTree qt, QtNo pNo){
+QtInfo getInfoQt(QuadTree qt, QtNo pNo)
+{
     NodeStruct* node = (NodeStruct*) pNo;
     qt = qt;
     return node->info;
@@ -106,7 +107,7 @@ void dentroCirculoQt(QuadTree qt, NodeStruct* node, Lista l, double x, double y,
     }
     for(int i = 0; i < 4; i++)
     {
-        dentroCirculoQt(qt, node->children[i], l, x, y, r, fun);
+        dentroCirculoQt(qt, node->filho[i], l, x, y, r, fun);
     }
 }
 
@@ -180,7 +181,7 @@ void percorreProfundidade(QuadTree qt, NodeStruct* node, funcVisita f,ExtraInfo 
 
     for(int i = 0; i < 4; i++)
     {
-        percorreProfundidade(qt, node->children[i],f,ei);
+        percorreProfundidade(qt, node->filho[i],f,ei);
     }
 }
 
@@ -211,9 +212,9 @@ void percorreLarguraQt(QuadTree qt,funcVisita f,ExtraInfo ei)
         aux = removeQueue(fila);
         for(int i = 0; i < 4; i++)
         {
-            if(aux->children[i] != NULL)
+            if(aux->filho[i] != NULL)
             {
-                insertQueue(fila, aux->children[i]);
+                insertQueue(fila, aux->filho[i]);
             }
         }
         f(getInfoQt(quadtree, aux),ei);
@@ -229,11 +230,11 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
 
     node->ponto = p;
     node->info = pInfo;
-    node->parent = NULL;
+    node->pai = NULL;
 
     for(int i = 0; i < 4; i++)
     {
-        node->children[i] = NULL;
+        node->filho[i] = NULL;
     }
     if(aux == NULL)
     {
@@ -249,26 +250,26 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
         {
             if(getPontoY(p) >= getPontoY(pAux))
             {
-                if(aux->children[ne] == NULL)
+                if(aux->filho[ne] == NULL)
                 {
-                    aux->children[ne] = node;
-                    node->parent = aux;
+                    aux->filho[ne] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[ne];
+                    aux = aux->filho[ne];
                 }
             }
             else
             {
-                if(aux->children[nw] == NULL)
+                if(aux->filho[nw] == NULL)
                 {
-                    aux->children[nw] = node;
-                    node->parent = aux;
+                    aux->filho[nw] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[nw];
+                    aux = aux->filho[nw];
                 }
             }
         }
@@ -276,30 +277,30 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
         {
             if(getPontoY(p) >= getPontoY(pAux))
             {
-                if(aux->children[se] == NULL)
+                if(aux->filho[se] == NULL)
                 {
-                    aux->children[se] = node;
-                    node->parent = aux;
+                    aux->filho[se] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[se];
+                    aux = aux->filho[se];
                 }
             }
             else
             {
-                if(aux->children[sw] == NULL)
+                if(aux->filho[sw] == NULL)
                 {
-                    aux->children[sw] = node;
-                    node->parent = aux;
+                    aux->filho[sw] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[sw];
+                    aux = aux->filho[sw];
                 }
             }
         }
-    }while(node->parent == NULL);
+    }while(node->pai == NULL);
 
     return node;
 }
@@ -307,10 +308,10 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
 void insere(QuadtreeStruct* quadtree, NodeStruct* node)
 {
     NodeStruct* aux = quadtree->root;
-    node->parent = NULL;
+    node->pai = NULL;
     for(int i = 0; i < 4; i++)
     {
-        node->children[i] = NULL;
+        node->filho[i] = NULL;
     }
     if(aux == NULL)
     {
@@ -325,26 +326,26 @@ void insere(QuadtreeStruct* quadtree, NodeStruct* node)
         {
             if(getPontoY(p) >= getPontoY(pAux))
             {
-                if(aux->children[ne] == NULL)
+                if(aux->filho[ne] == NULL)
                 {
-                    aux->children[ne] = node;
-                    node->parent = aux;
+                    aux->filho[ne] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[ne];
+                    aux = aux->filho[ne];
                 }
             }
             else
             {
-                if(aux->children[nw] == NULL)
+                if(aux->filho[nw] == NULL)
                 {
-                    aux->children[nw] = node;
-                    node->parent = aux;
+                    aux->filho[nw] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[nw];
+                    aux = aux->filho[nw];
                 }
             }
         }
@@ -352,43 +353,48 @@ void insere(QuadtreeStruct* quadtree, NodeStruct* node)
         {
             if(getPontoY(p) >= getPontoY(pAux))
             {
-                if(aux->children[se] == NULL)
+                if(aux->filho[se] == NULL)
                 {
-                    aux->children[se] = node;
-                    node->parent = aux;
+                    aux->filho[se] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[se];
+                    aux = aux->filho[se];
                 }
             }
             else
             {
-                if(aux->children[sw] == NULL)
+                if(aux->filho[sw] == NULL)
                 {
-                    aux->children[sw] = node;
-                    node->parent = aux;
+                    aux->filho[sw] = node;
+                    node->pai = aux;
                 }
                 else
                 {
-                    aux = aux->children[sw];
+                    aux = aux->filho[sw];
                 }
             }
         }
-    }while(node->parent == NULL);
+    }while(node->pai == NULL);
 }
 
-QtNo getNodeById(QuadTree qt, QtNo no, char* chave){
+QtNo getNodeById(QuadTree qt, QtNo no, char* chave)
+{
     NodeStruct* node = (NodeStruct*) no;
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
-    if(strcmp(quadtree->fun(getInfoQt(qt, node)), chave) == 0){
+
+    if(strcmp(quadtree->fun(getInfoQt(qt, node)), chave) == 0)
+    {
         return node;
     }
+
     QtNo aux;
-    for(int i = 0; i < 4; i++){
-        if(node->children[i] != NULL)
+    for(int i = 0; i < 4; i++)
+    {
+        if(node->filho[i] != NULL)
         {
-            aux = getNodeById(qt,node->children[i],chave);
+            aux = getNodeById(qt,node->filho[i],chave);
             if(aux != NULL)
             {
                 return aux;
@@ -398,53 +404,72 @@ QtNo getNodeById(QuadTree qt, QtNo no, char* chave){
     return NULL;
 }
 
-QtNo getNodeByIdQt(QuadTree qt, char* chave){
+QtNo getNodeByIdQt(QuadTree qt, char* chave)
+{
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
-    if(quadtree->root == NULL){
+
+    if(quadtree->root == NULL)
+    {
         return NULL;
     }
+
     return getNodeById(qt, quadtree->root, chave);
 }
 
-QtInfo removeNoQt(QuadTree qt,QtNo pNo){
+QtInfo removeNoQt(QuadTree qt,QtNo pNo)
+{
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
     NodeStruct* node = (NodeStruct*) pNo;
     NodeStruct* aux;
     int i;
     QtInfo info;
+
     Fila fila = createQueue();
-    if(node->parent == NULL){
-        for(i = 0; i < 4; i++){
-            if(node->children[i] != NULL){
-                insertQueue(fila, node->children[i]);
+
+    if(node->pai == NULL)
+    {
+        for(i = 0; i < 4; i++)
+        {
+            if(node->filho[i] != NULL)
+            {
+                insertQueue(fila, node->filho[i]);
             }
         }
         quadtree->root = NULL;
     }
     else{
-        for(i = 0; i < 4; i++){
-            if(node->children[i] != NULL){
-                if(node->parent->children[i] == NULL){
-                    node->parent->children[i] = node->children[i];
-                    node->children[i]->parent = node->parent;
+        for(i = 0; i < 4; i++)
+        {
+            if(node->filho[i] != NULL)
+            {
+                if(node->pai->filho[i] == NULL)
+                {
+                    node->pai->filho[i] = node->filho[i];
+                    node->filho[i]->pai = node->pai;
                 }
-                else{
-                    insertQueue(fila, node->children[i]);
+                else
+                {
+                    insertQueue(fila, node->filho[i]);
                 }
             }
         }
-        for(i = 0; i < 4; i++){
-            if(node->parent->children[i] == node){
-                node->parent->children[i] = NULL;
+        for(i = 0; i < 4; i++)
+        {
+            if(node->pai->filho[i] == node)
+            {
+                node->pai->filho[i] = NULL;
                 break;
             }
         }
     }
-    while(!isEmptyQueue(fila)){
+    while(!isEmptyQueue(fila))
+    {
         aux = removeQueue(fila);
-        for(i = 0; i < 4; i++){
-            if(aux->children[i] != NULL){
-                insertQueue(fila, aux->children[i]);
+        for(i = 0; i < 4; i++)
+        {
+            if(aux->filho[i] != NULL)
+            {
+                insertQueue(fila, aux->filho[i]);
             }
         }
         insere(quadtree,aux);
@@ -473,22 +498,22 @@ QtNo getNoQt(QuadTree qt, double x, double y)
             if(y > getPontoY(p))
             {
 
-                aux = aux->children[ne];
+                aux = aux->filho[ne];
             }
             else
             {
-                aux = aux->children[nw];
+                aux = aux->filho[nw];
             }
         }
         else
         {
             if(y > getPontoY(p))
             {
-                aux = aux->children[se];
+                aux = aux->filho[se];
             }
             else
             {
-                aux = aux->children[sw];
+                aux = aux->filho[sw];
             }
         }
     }
@@ -507,9 +532,9 @@ QtInfo getInfoById(QuadTree qt, QtNo no, char* chave)
     QtInfo aux;
     for(int i = 0; i < 4; i++)
     {
-        if(node->children[i] != NULL)
+        if(node->filho[i] != NULL)
         {
-            aux = getInfoById(qt,node->children[i],chave);
+            aux = getInfoById(qt,node->filho[i],chave);
             if(aux != NULL)
             {
                 return aux;
@@ -534,7 +559,7 @@ void desalocaNos(NodeStruct* node)
     }
     for(int i = 0; i < 4; i++)
     {
-        desalocaNos(node->children[i]);
+        desalocaNos(node->filho[i]);
     }
     if(node->ponto != node->info)
     {
@@ -562,7 +587,7 @@ void desenhaNosQt(QuadtreeStruct* qt, NodeStruct* no, FILE* svg, double *x, doub
 
     for(int i = 0; i < 2; i++)
     {
-        desenhaNosQt(qt, no->children[i], svg, x, y + dy, atual);
+        desenhaNosQt(qt, no->filho[i], svg, x, y + dy, atual);
     }
     *x += dx;
 
@@ -581,7 +606,7 @@ void desenhaNosQt(QuadtreeStruct* qt, NodeStruct* no, FILE* svg, double *x, doub
     }
     for(int i = 2; i < 4; i++)
     {
-        desenhaNosQt(qt, no->children[i], svg, x, y + dy, atual);
+        desenhaNosQt(qt, no->filho[i], svg, x, y + dy, atual);
     }
     for(No node = getFirst(atual); node != NULL; node = getNext(node))
     {
@@ -594,7 +619,9 @@ void desenharQt(QuadTree qt, FILE* svg)
 {
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
     double *x = (double*)malloc(sizeof(double));
+
     *x = 0;
+    
     desenhaNosQt(quadtree, quadtree->root, svg, x, dy, NULL);
     free(x);
 }
