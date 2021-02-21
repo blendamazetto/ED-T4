@@ -97,12 +97,32 @@ void setRadiobaseCfill(Radiobase radiobase, char cfill[]);
 */
 void setRadiobaseCstrk(Radiobase radiobase, char cstrk[]);
 
+/*
+* obtem o ponto de uma radio base
+* precisa de um void pointer para um radiobase
+* retorna um void pointer para o ponto
+*/
 Ponto getRadiobasePonto(Radiobase radiobase);
 
+/*
+* seta o ponto de uma radiobase
+* recebe um void pointer para a radiobase e um para o ponto
+* nao retorna nada
+*/
 void setRadiobasePonto(Radiobase radiobase, Ponto ponto);
 
+/*
+* troca duas radiobases
+* recebe dois void pointers para as radiobases a serem invertidas
+* nao retorna nada
+*/
 void swapRadiobase(Radiobase rb1, Radiobase rb2);
 
+/*
+* desaloca a memoria alocada por uma radiobase
+* precisa de um void pointer para uma radiobase
+* nao retorna nada
+*/
 void desalocaRadiobase(Radiobase radiobase);
 
 #endif

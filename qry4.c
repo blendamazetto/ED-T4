@@ -202,7 +202,7 @@ void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabel
     }
 }
 
-void catac (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], double x, double y, double r, Lista listasObjetos[])
+void catac (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], double x, double y, double r)
 {
     Lista q = nosDentroCirculoQt(arvoresObjetos[3], x, y, r);
     Lista h = nosDentroCirculoQt(arvoresObjetos[4], x, y, r);

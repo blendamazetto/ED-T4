@@ -76,12 +76,32 @@ void setPostoY(Posto posto, double y);
 */
 void setPostoDistancia(Posto posto, double distancia);
 
+/*
+* obtem o ponto de um posto
+* precisa de um void pointer para um posto
+* retorna um void pointer para o ponto do posto
+*/
 Ponto getPostoPonto(Posto posto);
 
+/*
+* seta um ponto em um posto
+* recebe um void pointer para o posto e um void pointer para o ponto 
+* nao retorna nada
+*/
 void setPostoPonto(Posto posto, Ponto ponto);
 
+/*
+* troca dois postos
+* recebe dois void pointers para os postos que serao invertidos
+* nao retorna nada
+*/
 void swapPosto(Posto posto1, Posto posto2);
 
+/*
+* desaloca a memoria alocada por um ponto
+* precisa de um void pointer para o posto
+* nao retorna nada
+*/
 void desalocarPontoPosto(Posto posto);
 
 #endif

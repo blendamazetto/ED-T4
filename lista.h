@@ -29,14 +29,18 @@ No criarNo();
 *Precisa de um void pointer info e de um void pointer lista
 *Não retorna nada
 */
-
 void insert(Lista l, Info info);
 
+/*
+*Insere um no em uma lista
+*Precisa de um void pointer info e de um void pointer lista
+*Não retorna nada
+*/
 void insertList(Info info, Lista l);
 
 /*
 *Obtem o primeiro elemento de uma lista
-*Precisa de uma lista como parametro
+*Precisa de uma lista como parametro e uma info a ser inserida
 *Retorna um void pointer para o primeiro no da lista
 */
 No getFirst(Lista lista);
@@ -104,8 +108,18 @@ void removeList(Lista l, void (*desalocar)(void*));
 */
 int tamanhoDaLista(Lista listasObjetos);
 
+/*
+*Obtem o tamanho final da lista
+*Precisa de parametro de listasObjetos
+*Retorna o tamanho da lista
+*/
 int tamanho(Lista listasObjetos);
 
+/*
+* seta o tamnho maximo que a lista chegou
+* precisa de uma lista e de um int tamanho
+* nao retor nada
+*/
 void setTamanhoFinal(Lista listasObjetos, int tamanho);
 
 /*

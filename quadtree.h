@@ -93,9 +93,11 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo);
     Retorna referência ao nó da árvore onde a pInfo foi armazenada.
  */
 
-QtNo getNodeById(QuadTree qt, QtNo no, char* chave);
-
 QtNo getNodeByIdQt(QuadTree qt, char* chave);
+/**
+    Retorna um node de acordo com a chave
+    Retorna referência ao nó da árvore onde a pInfo foi armazenada.
+ */
 
 QtInfo removeNoQt(QuadTree qt,QtNo pNo);
 /**
@@ -129,5 +131,9 @@ void desalocaQt(QuadTree qt);
  */
 
 void desenharQt(QuadTree qt, FILE* svg);
+/**
+    Desenha a quadtree
+    nao retorna nada
+ */
 
 #endif // QUADTREE_H_INCLUDED

@@ -62,8 +62,18 @@ char* getCasosFace(Casos casos);
 */
 void swapCasos(Casos *p1, Casos *p2);
 
+/*
+*Obtem o ponto da struct casos
+*Precisa de um void pointer para casos
+*Retorna um void pointer para o ponto
+*/
 Ponto getCasosPonto(Casos casos);
 
+/*
+*Libera o espaço de memoria alocado pelo casos
+*Precisa de um void pointer para casos
+*não retorna nada
+*/
 void desalocarPontoCasos(Casos casos);
 
 #endif

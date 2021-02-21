@@ -126,16 +126,46 @@ void setQuadraCfill(Quadra quadra, char cfill[]);
 */
 void setQuadraCstrk(Quadra quadra, char cstrk[]);
 
+/*
+* obtem a densidade de uma quadra
+* precisa de um void pointer para um quadra
+* retorna a densidade da quadra
+*/
 double getQuadraDensidade(Quadra quadra);
 
+/*
+* seta um double na densidade da quadra 
+* precisa de um void pointer quadra e um valor para ser setado
+* nao retorna nada
+*/
 void setQuadraDensidade(Quadra quadra, double densidade);
 
+/*
+* obtem o ponto de uma quadra
+* precisa de um void pointer para uma quadra
+* retorna um void pointer para o ponto da quadra
+*/
 Ponto getQuadraPonto(Quadra quadra);
 
+/*
+* seta o ponto de uma quadra
+* precisa de um void pointer pra quadra e um void pointer para um ponto 
+* nao retorna nada
+*/
 void setQuadraPonto(Quadra quadra, Ponto ponto);
 
+/*
+* troca duas quadras
+* precisa de dois void pointers para as quadras que sera invertidas
+* nao retorna nada
+*/
 void swapQuadra(Quadra q1, Quadra q2);
 
+/*
+* desaloca a memoria alocada por uma quadra
+* precisa de um void pointer para uma quadra
+* nao retorna nada
+*/
 void desalocaQuadra(Quadra quadra);
 
 #endif

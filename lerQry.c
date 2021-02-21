@@ -173,7 +173,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         {
             fscanf(qry,"%lf %lf %lf",&x, &y, &r);
             fprintf(saida,"%s %lf %lf %lf\n",tipo, x, y, r);
-            catac(arvoresObjetos, saida, listasQry, x, y, r, listasObjetos);
+            catac(arvoresObjetos, saida, listasQry, x, y, r);
         }
     }
 

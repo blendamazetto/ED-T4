@@ -42,6 +42,12 @@ void desenhaCirculo(Circulo c, FILE* svg);
 */
 void desenhaRetanguloTracejado(Retangulo r, FILE* svg);
 
+/*
+    *Desenha um retangulo arredondade no arquivo svg, colcocando o comando adequado para isso
+    *E passado como parametro todos os dados necessarios para o retangulo e o arquivo svg para ser aberto
+    *Retorna nada, fecha o svg apenas.
+    * 
+*/
 void desenhaRetanguloArredondado(Retangulo r, FILE* svg);
 
 /*
@@ -124,6 +130,12 @@ void desenhaLinha(Linha l, FILE* svg);
 */
 void desenhaLinhaTracejada(Linha l, FILE* svg);
 
+/*
+    *Desenha um circulo meio transparente no arquivo svg, colcocando o comando adequado para isso
+    *E passado como parametro todos os dados necessarios para o retangulo e o arquivo svg para ser aberto
+    *Retorna nada, fecha o svg apenas.
+    * 
+*/
 void desenhaCirculoTransparente(Circulo c, FILE* svg);
 
 /*
@@ -134,11 +146,16 @@ void desenhaCirculoTransparente(Circulo c, FILE* svg);
 */
 void finalizaSvg(FILE* svg);
 
+/*
+* gera o svg de acordo com as quadtrees
+* precisa de um ponteiro file
+* nao retorna nada
+*/
 void gerarSvgGeo(FILE* svg, QuadTree tree[], Lista l);
 
 /*
-    *Imprime os elementos guardados na lista no arquivo svg feito para o qry
-    *Precisa das listas e do arquivo a ser editado
+    *Imprime os elementos guardados na quadtree no arquivo svg feito para o qry
+    *Precisa das quadtrees e do arquivo a ser editado
     *Retorna nada.
     * 
 */

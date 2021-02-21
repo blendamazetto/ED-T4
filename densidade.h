@@ -86,12 +86,32 @@ void setDensidadeH(Densidade densidade, double h);
 */
 void setDensidadeD(Densidade densidade, double d);
 
+/*
+*Obtem o ponto de uma densidade
+*Precisa de um void pointer para a densidade
+*Retorna um void pointer para o ponto 
+*/
 Ponto getDensidadePonto(Densidade densidade);
 
+/*
+*Seta o ponto de uma densidade
+*Precisa de um void pointer para a densidade e do ponto que sera setado na densidade
+*Não retorna nada
+*/
 void setDensidadePonto(Densidade densidade, Ponto ponto);
 
+/*
+*Desaloca a memoria usada para a criacao de uma densidade
+*Precisa de um void pointer para a densidade que sera desalocada
+*Não retorna nada
+*/
 void desalocarPontosDensidade(Densidade densidade);
 
+/*
+*Procura a densidade de uma quadra na quadtree e seta essa densidade na quadra
+*Precisa de um void pointer para a densidade e uma quadtree de quadras
+*Nao retorna nada
+*/
 void densidadeQuadras(Densidade densidade, QuadTree quadras);
 
 #endif

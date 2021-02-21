@@ -111,12 +111,32 @@ void setCirculoCorb(Circulo circulo, char corb[]);
 */
 void setCirculoCorp(Circulo circulo, char corp[]);
 
+/*
+*Obtem o ponto de um circulo
+*precisa de um void pointer para um circulo
+*retorna um ponteiro para o ponto
+*/
 Ponto getCirculoPonto(Circulo circulo);
 
+/*
+*seta o ponto de um circulo
+*precisa de um void pointer para o circulo e um void pointer ponto que sera setado 
+*não retorna nada
+*/
 void setCirculoPonto(Circulo circulo, Ponto ponto);
 
+/*
+*Troca dois circulos
+*precisa de dois void pointer circulo para serem invertidos
+*
+*/
 void swapCirculo(Circulo c1, Circulo c2);
 
+/*
+*Desaloca a memoria alocada por um ciculo
+*precisa de um void pointer circulo
+*não retorna nada
+*/
 void desalocarPontoCirculo(Circulo circulo);
 
 #endif

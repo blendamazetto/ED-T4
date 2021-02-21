@@ -97,12 +97,32 @@ void setHidranteCfill(Hidrante hidrante, char cfill[]);
 */
 void setHidranteCstrk(Hidrante hidrante, char cstrk[]);
 
+/*
+* obtem o ponto de um hidrante
+* precisa de um void pointer para um hidrante
+* retorna um void pointer com o ponto
+*/
 Ponto getHidrantePonto(Hidrante hidrante);
 
+/*
+* seta o ponto de um hidrante
+* recebe um void pointer para um hidrante e um void pointer para um ponto a ser setado
+* nao retorna nada
+*/
 void setHidrantePonto(Hidrante hidrante, Ponto ponto);
 
+/*
+* troca dois hidrantes
+* precisa de dois void pointers para os hidrantes a sere invertidos
+* nao retorna nada
+*/
 void swapHidrante(Hidrante hidrante1, Hidrante hidrante2);
 
+/*
+* desaloca a memoria alocada por um hidrante
+* precisa de um void pointer para o hidrante
+* nao retorna nada
+*/
 void desalocarPontoHidrante(Hidrante hidrante);
 
 

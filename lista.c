@@ -54,6 +54,7 @@ void insertList(Info info, Lista l)
 {
     ListaStruct* lista = (ListaStruct*) l;
     NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
+    
     node->info = info;
     if(lista->primeiro == NULL) 
     {

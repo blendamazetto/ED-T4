@@ -124,12 +124,32 @@ void setRetanguloCorb(Retangulo retangulo, char corb[]);
 */
 void setRetanguloCorp(Retangulo retangulo, char corp[]);
 
+/*
+* obtem o ponto de um retangulo
+* recebe um void pointer para um retangulo
+* retorna um void pointer para o ponto
+*/
 Ponto getRetanguloPonto(Retangulo retangulo);
 
+/*
+* seta o ponto de um retangulo
+* recebe um void pointer para um retangulo e um para um ponto
+* nao retorna nada
+*/
 void setRetanguloPonto(Retangulo retangulo, Ponto ponto);
 
+/*
+* troca dois retangulos
+* recebe dois void pointers para os retangulos a serem invertidos
+* nao retorna nada
+*/
 void swapRetangulo(Retangulo retangulo1, Retangulo retangulo2);
 
+/*
+* desaloca a memoria alocado por um retangulo
+* recebe um void pointer para um retangulo
+* nao retorna nada
+*/
 void desalocaRetangulo(Retangulo retangulo);
 
 #endif

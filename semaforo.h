@@ -97,12 +97,32 @@ void setSemaforoCfill(Semaforo semaforo, char cfill[]);
 */
 void setSemaforoCstrk(Semaforo semaforo, char cstrk[]);
 
+/*
+* obtem o ponto de um semaforo
+* precisa de um void pointer para um semaforo
+* retorna um void pointer para o ponto
+*/
 Ponto getSemaforoPonto(Semaforo semaforo);
 
+/*
+* seta o ponto de um semaforo
+* recebe um void pointer para o semaforo e um para o ponto
+* nao retorna nada
+*/
 void setSemaforoPonto(Semaforo semaforo, Ponto ponto);
 
+/*
+* troca dois semaforos
+* recebe dois semaforos a serem invertidos
+* nao retorna nada
+*/
 void swapSemaforo(Semaforo semaforo1, Semaforo semaforo2);
 
+/*
+* desaloca a memoria alocada por um semaforo
+* recebe um voind pointer para um semaforo
+* nao retorna nada
+*/
 void desalocaSemaforo(Semaforo semaforo);
 
 

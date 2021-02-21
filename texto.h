@@ -97,12 +97,32 @@ void setTextoCorp(Texto texto, char corp[]);
 */
 void setTextoTxto(Texto texto, char txto[]);
 
+/*
+* obtem o ponto de um texto
+* recebe um void pointer para o texto
+* retorna um void pointer para o ponto
+*/
 Ponto getTextoPonto(Texto texto);
 
+/*
+* seta o ponto de um texto
+* recebe dois void pointers, um pro texto e um pro ponto
+* nao retorna nada
+*/
 void setTextoPonto(Texto texto, Ponto ponto);
 
+/*
+* troca dois textos
+* recebe dois void pointer para o textos a serem invertidos
+* nao retorna nada
+*/
 void swapTexto(Texto t1, Texto t2);
 
+/*
+* desaloca a memoria alocada por um texto
+* recebe um void pointer para um texto
+* nao retorna nada
+*/
 void desalocaTexto(Texto txt);
 
 #endif
