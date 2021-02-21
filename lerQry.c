@@ -3,7 +3,7 @@
 #include <string.h>
 #include "lerQry.h"
 
-void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresObjetos[], Hash tabelas[])
+void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresObjetos[], Hash tabelas[], Lista listasObjetos[])
 {
     char* saidaTxt = malloc((5 + strlen(saidaQry))*sizeof(char));
     char* saidaSvg = malloc((5 + strlen(saidaQry))*sizeof(char));
@@ -131,21 +131,25 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         {
             fscanf(qry,"%s",cep);
             fprintf(saida,"%s\n",tipo);
+            m(arvoresObjetos, saida, tabelas, cep, listasObjetos);
         }
         else if(strcmp(tipo, "dm?")==0)
         {
             fscanf(qry,"%s",cpf);
             fprintf(saida,"%s\n",tipo);
+            dm(arvoresObjetos, saida, listasQry, tabelas, cpf, listasObjetos);
         }
         else if(strcmp(tipo, "de?")==0)
         {
             fscanf(qry,"%s",cnpj);
             fprintf(saida,"%s\n",tipo);
+            de(arvoresObjetos, saida, tabelas, cnpj, listasObjetos);
         }
         else if(strcmp(tipo, "mud")==0)
         {
             fscanf(qry,"%s %s %s %lf %s",cpf, cep, face, &num, compl);
             fprintf(saida,"%s\n",tipo);
+            mud(arvoresObjetos, saida, listasQry, tabelas, cpf, cep, face, num, compl, listasObjetos);
         }
         else if(strcmp(tipo, "dmprbt")==0)
         {

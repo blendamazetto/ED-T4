@@ -64,7 +64,7 @@ void escreveTexto(Texto t, FILE* svg)
     double y = getTextoY(t);
     char cor_b[22];
     char cor_p[22];
-    char text[255];
+    char text[1000];
     strcpy(cor_b, getTextoCorb(t));
     strcpy(cor_p, getTextoCorp(t));
     strcpy(text, getTextoTxto(t));

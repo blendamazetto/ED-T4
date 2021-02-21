@@ -11,7 +11,7 @@ typedef void* Texto;
 *Precisa dos parametros necessarios para a criacao de um texto
 *Retorna um void pointer para a struct texto
 */
-Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[255]);
+Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[]);
 
 /*
 *Obtem o indice de um texto

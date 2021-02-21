@@ -222,13 +222,23 @@ int main (int argc, char *argv[])
 
     lerGeo(arqGeo,nomeSvgGeo, listasObjetos, arvoresObjetos, tabelas);
 
+    if(arq_ecNome != NULL)
+    {
+        lerEc(arqEc, listasObjetos, arvoresObjetos, tabelas);
+    }
+
+    if(arq_pmNome != NULL)
+    {
+        lerPm(arqPm, listasObjetos, arvoresObjetos, tabelas);
+    }
+
     if (arq_consulta!= NULL)
     {
         nomeQry = concatenacao(arq_consulta);
         saidaQry = (char*)malloc((strlen(dir_saida) + strlen(saida) + 2)*sizeof(char));
         sprintf(saidaQry,"%s-%s",saida,nomeQry);
 
-        lerQry(saidaQry,arqQry, listasQry, arvoresObjetos, tabelas);
+        lerQry(saidaQry,arqQry, listasQry, arvoresObjetos, tabelas, listasObjetos);
     }
 
    free(dir_entrada);

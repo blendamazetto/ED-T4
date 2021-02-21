@@ -7,7 +7,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
 {
     int max;
     double x, y, h, w, d, r, distancia = 0;
-    char i[20], id[20], txt[255], tipo[10], cep[20];
+    char i[20], id[20], txt[1000], tipo[10], cep[20];
     char sw[20], hSW[20], qSW[20], sSW[20], rbSW[20], cSW[20], rSW[20];
     char stroke[22], fill[22], Qstroke[22], Qfill[22], RBstroke[22], RBfill[22], Sstroke[22], Sfill[22], Hstroke[22], Hfill[22];
     strcpy(sw,"5");
@@ -144,6 +144,19 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
         }
     }
 
+    tabelas[3] = createHashTable(tamanhoDaLista(listasObjetos[3]));
+    setTamanhoFinal(listasObjetos[3], tamanhoDaLista(listasObjetos[3]));
+
+    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
+    {
+        Info info = getInfo(node);
+
+        char auxCep[20];
+        strcpy(auxCep, getQuadraCep(info));
+
+        insertHashTable(info, auxCep, tamanhoDaLista(listasObjetos[3]), tabelas[3]);
+    }
+
     void* (*getPonto[8])(void*) = {getCirculoPonto, getRetanguloPonto, getTextoPonto, getQuadraPonto, getHidrantePonto, getSemaforoPonto, getRadiobasePonto, getPostoPonto};
     
     void (*swap[8])(void*, void*) = {swapCirculo, swapRetangulo, swapTexto, swapQuadra, swapHidrante, swapSemaforo, swapRadiobase, swapPosto};
@@ -157,28 +170,11 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
     {
         densidadeQuadras(getInfo(node),arvoresObjetos[3]);
     }
-   
-    tabelas[3] = createHashTable(tamanhoDaLista(listasObjetos[3]));
-    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
-    {
-        Info info = getInfo(node);
-
-        char auxCep[20];
-        strcpy(auxCep, getQuadraCep(info));
-
-        insertHashTable(info, auxCep, tamanhoDaLista(listasObjetos[3]), tabelas[3]);
-    }
 
     gerarSvgGeo(svg, arvoresObjetos, NULL);
     finalizaSvg(svg);
     fclose(geo);
     fclose(svg);
-    
-    for(int i = 0; i < 8; i++)
-    {
-        removeList(listasObjetos[i],NULL);
-    }
-    removeList(listasObjetos[8], desalocarPontosDensidade);
 }
 
 void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
@@ -220,14 +216,16 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
         }
     }
 
-    balancearQuadTree(arvoresObjetos[8], listasObjetos[9], getEstabelecimentoPonto, swapEstabelecimento);
-
     tabelas[1] = createHashTable(tamanhoDaLista(listasObjetos[12]));
-    for(No node = getFirst(listasObjetos[13]); node != NULL; node = getNext(node))
+    setTamanhoFinal(listasObjetos[12],tamanhoDaLista(listasObjetos[12]));
+
+    for(No node = getFirst(listasObjetos[12]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
         insertHashTable(criaInfo(getCodtDescricao(info)), getCodtCodt(info), tamanhoDaLista(listasObjetos[12]), tabelas[1]);
     }
+
+    balancearQuadTree(arvoresObjetos[8], listasObjetos[9], getEstabelecimentoPonto, swapEstabelecimento);
 
     fclose(ec);
 }
@@ -274,9 +272,9 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
     }
     fclose(pm);
 
-    balancearQuadTree(arvoresObjetos[9], listasObjetos[11], getMoradorPonto, swapMorador);
-
     tabelas[0] = createHashTable(tamanhoDaLista(listasObjetos[11]));
+    setTamanhoFinal(listasObjetos[11],tamanhoDaLista(listasObjetos[11]));
+
     for(No node = getFirst(listasObjetos[11]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
@@ -284,6 +282,8 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
     }
 
     tabelas[2] = createHashTable(tamanhoDaLista(listasObjetos[10]));
+    setTamanhoFinal(listasObjetos[10], tamanhoDaLista(listasObjetos[10]));
+
     for(No node = getFirst(listasObjetos[10]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
@@ -293,4 +293,6 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
         insertHashTable(info, auxCpf, tamanhoDaLista(listasObjetos[10]), tabelas[2]);
     }
+
+    balancearQuadTree(arvoresObjetos[9], listasObjetos[11], getMoradorPonto, swapMorador);
 }

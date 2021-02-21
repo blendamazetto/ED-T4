@@ -10,12 +10,12 @@ typedef struct t{
     double y;
     char corb[20];
     char corp[20];
-    char texto[20];
+    char texto[1000];
     Ponto ponto;
 
 }TextoStruct;
 
-Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[255])
+Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char texto[])
 {
     TextoStruct* text = (TextoStruct*) malloc(sizeof(TextoStruct));
 

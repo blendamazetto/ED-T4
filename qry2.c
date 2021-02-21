@@ -201,10 +201,9 @@ void car (QuadTree arvoresObjetos[], double x, double y, double w, double h, FIL
     while (node != NULL) 
     {
         Info r1 = getInfoQt(arvoresObjetos[3], getInfo(node));
-        float xAux,wAux,yAux,hAux;
-        xAux = min(getQuadraX(r1),x);
+        float wAux,hAux;
+    
         wAux = max(getQuadraX(r1) + getQuadraW(r1), x + w) - x;
-        yAux = min(getQuadraY(r1),y);
         hAux = max(getQuadraY(r1) + getQuadraH(r1), y + h) - y;
 
         if (wAux <= getQuadraW(r1) + w && hAux <= getQuadraH(r1) + h)

@@ -15,6 +15,7 @@ typedef struct lista{
     NoStruct *primeiro;
     NoStruct *ultimo;
     int tamanho;
+    int tamanhoFinal;
 
 }ListaStruct;
 
@@ -32,6 +33,7 @@ void insert(Lista l, Info info)
     ListaStruct* lista = (ListaStruct*) l;
     NoStruct* node = (NoStruct*) malloc(sizeof(NoStruct));
     node->info = info;
+
     if(lista->primeiro == NULL) 
     {
         node->anterior = NULL;
@@ -210,6 +212,18 @@ int tamanhoDaLista(Lista listasObjetos)
 {
     ListaStruct* lis = (ListaStruct*) listasObjetos;
     return lis->tamanho;
+}
+
+int tamanho(Lista listasObjetos)
+{
+    ListaStruct* lis = (ListaStruct*) listasObjetos;
+    return lis->tamanhoFinal;
+}
+
+void setTamanhoFinal(Lista listasObjetos, int tamanho)
+{
+    ListaStruct* lis = (ListaStruct*) listasObjetos;
+    lis->tamanhoFinal = tamanho;
 }
 
 No buscarPosicao(Lista listasObjetos[], int posicao)

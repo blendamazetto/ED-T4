@@ -140,6 +140,23 @@ void deleteHashTable(Hash hashtable, int tamanho)
     }
 }
 
+void setHashTable(char key[], Hash hashtable, int tamanho, Info info)
+{
+    HashStruct* h = hashtable;
+
+    int index = hash(key, tamanho);
+
+    for(int i=0; i < tamanho; i++)
+    {
+        int try = (i + index) % tamanho;
+
+        if(strcmp(h[try].key, key) == 0)
+        {
+            h[try].info = info;
+        }
+    }
+}
+
 
 
 

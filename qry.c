@@ -224,10 +224,8 @@ Ponto descobrirPonto(char cep[], char face[], double num, QuadTree tree)
             y = getQuadraY(q) + num;
         }
     }
-
-    Ponto ponto = createPonto(x,y);
-
-    return ponto;
+    Ponto p = createPonto(x,y);
+    return p;
 }
 
 float max(float n1, float n2)

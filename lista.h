@@ -104,6 +104,10 @@ void removeList(Lista l, void (*desalocar)(void*));
 */
 int tamanhoDaLista(Lista listasObjetos);
 
+int tamanho(Lista listasObjetos);
+
+void setTamanhoFinal(Lista listasObjetos, int tamanho);
+
 /*
 *Obtem a posicao para um determinado no
 *Precisa de parametro de listasObjetos e a posicao desejada

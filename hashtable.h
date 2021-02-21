@@ -24,6 +24,6 @@ char* getHashInfo(Info info);
 
 void deleteHashTable(Hash hashtable, int tamanho);
 
-
+void setHashTable(char key[], Hash hashtable, int tamanho, Info info);
 
 #endif
