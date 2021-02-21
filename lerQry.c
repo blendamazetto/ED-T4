@@ -158,21 +158,9 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         }
         else if(strcmp(tipo, "eplg?")==0)
         {
-            fscanf(qry,"%s", parametroOpcional);
-
-            if(strcmp(parametroOpcional,"*")==0)
-            {
-                ident=1;
-                fscanf(qry,"%lf %lf %lf %lf", &x, &y, &w, &h);
-                fprintf(saida,"%s %lf %lf %lf %lf\n", tipo, x, y, w, h);
-            }
-            else if(strcmp(parametroOpcional,"tp")==0)
-            {
-                ident=0;
-                fscanf(qry,"%lf %lf %lf %lf", &x, &y, &w, &h);
-                fprintf(saida,"%s %lf %lf %lf %lf\n", tipo, x, y, w, h);
-                strcpy(tp, parametroOpcional);
-            }
+            fscanf(qry,"%s %lf %lf %lf %lf",tp, &x, &y, &w, &h);
+            fprintf(saida,"%s %s %lf %lf %lf %lf\n", tipo, tp, x, y, w, h);
+            epgl(arvoresObjetos, saida, listasQry, tabelas, x, y, w, h, listasObjetos, tp);
         }
         else if (strcmp(tipo, "catac")==0)
         {

@@ -109,12 +109,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
         else if(strcmp(tipo, "cr")==0)
         {
             fscanf(geo,"%s %s %s\n", sw, fill, stroke);
-
             strcpy(rbSW, sw);
-    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
-    {
-        densidadeQuadras(getInfo(node),arvoresObjetos[3]);
-    }
             strcpy(RBfill, fill);
             strcpy(RBstroke, stroke);
         }

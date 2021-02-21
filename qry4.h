@@ -17,4 +17,6 @@ void de(QuadTree arvoresObjetos[], FILE* saida, Hash tabelas[], char cnpj[], Lis
 
 void mud(QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas[], char cpf[], char cep[], char face[], double num, char compl[], Lista listasObjetos[]);
 
+void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas[], double x, double y, double w, double h, Lista listasObjetos[], char tp[]);
+
 #endif

@@ -121,3 +121,53 @@ void mud(QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas
     fprintf(saida,"ENDERECO ANTIGO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", auxCep, auxFace, AuxNum, auxCompl);
     fprintf(saida,"ENDERECO NOVO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCep(morador), getMoradorFace(morador), getMoradorNum(morador), getMoradorCompl(morador));
 }
+
+void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas[], double x, double y, double w, double h, Lista listasObjetos[], char tp[])
+{
+    Lista l = nosDentroRetanguloQt(arvoresObjetos[8], x, y, x+w, y+h);
+    Info pessoa, e;
+
+    if(l == NULL)
+    {
+        return;
+    }
+
+    if(strcmp(tp, "*"))
+    {
+        for(No node = getFirst(l) ; node != NULL; node = getNext(node))
+        {
+            e = getInfoQt(arvoresObjetos[8], getInfo(node));
+         
+            fprintf(saida, "ESTABELECIMENTO - NOME: %s CNPJ: %s CODT: %s CEP: %s FACE: %s NUM: %lf \n", getEstabelecimentoNome(e),getEstabelecimentoCnpj(e), getEstabelecimentoCodt(e), getEstabelecimentoCep(e), getEstabelecimentoFace(e), getEstabelecimentoNum(e));
+            pessoa = searchHashTable(getEstabelecimentoCpf(e), tabelas[2], tamanho(listasObjetos[10]));
+
+            if(pessoa != NULL)
+            {
+                fprintf(saida,"PROPRIETARIO - NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
+            }
+        
+            Circulo c = criaCirculo("0", 8, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "none");
+            insert(listasQry[3], c);
+        }
+    }
+    else
+    {
+        for(No node = getFirst(l) ; node != NULL; node = getNext(node))
+        {
+            e = getInfoQt(arvoresObjetos[8], getInfo(node));
+            if(strcmp(getEstabelecimentoCodt(e), tp) == 0)
+            {
+                pessoa = searchHashTable(getEstabelecimentoCpf(e), tabelas[2], tamanho(listasObjetos[10]));
+                fprintf(saida, "ESTABELECIMENTO - NOME: %s CNPJ: %s CODT: %s CEP: %s FACE: %s NUM: %lf \n", getEstabelecimentoNome(e),getEstabelecimentoCnpj(e), getEstabelecimentoCodt(e), getEstabelecimentoCep(e), getEstabelecimentoFace(e), getEstabelecimentoNum(e));
+                
+                if(pessoa != NULL)
+                {
+                    fprintf(saida,"PROPRIETARIO - NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
+                }                
+                
+                Circulo c = criaCirculo("0", 8, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "none");
+                insert(listasQry[3], c);
+            }
+        }
+    }
+}
