@@ -39,4 +39,11 @@ char* getCodtDescricao(Codt c);
 */
 void setCodtDescricao(Codt c, char descricao[]);
 
+/*
+*Desaloca a info de um codt
+*precisa de um void pointer para um codt
+*nao retorna nada
+*/
+void desalocarCodt(Codt c);
+
 #endif

@@ -49,13 +49,6 @@ Hash searchHashTable(char key[], Hash hashtable, int tamanho);
 void removeNodeHashTable(char key[], Hash hashtable, int tamanho);
 
 /*
-* cria um void pointer info a partir de um char
-* precisa de um char com a info
-* retorna um ponteiro para a info
-*/
-char* criaInfo(char info[]);
-
-/*
 * converte uma info da hashtable
 * precisa de um void pointer info
 * retorna um char* para a informacao convertida
@@ -67,7 +60,7 @@ char* getHashInfo(Info info);
 * precida de um void pointer para a hashtable que sera deletada e o tamanho de hashtable
 * nao retorna nada
 */
-void deleteHashTable(Hash hashtable, int tamanho);
+void deleteHashTable(Hash hashtable, int tamanho,  int a);
 
 /*
 * seta uma info na hashtable

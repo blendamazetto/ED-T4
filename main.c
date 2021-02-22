@@ -50,6 +50,12 @@ int main (int argc, char *argv[])
         listasQry[i] = create();
     }
 
+    Lista hashAux[3];
+    for (int i = 0; i<3; i++)
+    {
+        hashAux[i] = create();
+    }
+
     Hash tabelas[4];
 
     char *dir_entrada = NULL;
@@ -79,7 +85,7 @@ int main (int argc, char *argv[])
                 printf("\nERRO\nDiretorio de entrada nao encontrado\n");
                 exit(1);
             }
-            dir_entrada = (char*) malloc(strlen((argv[i]) + 1)*sizeof (char));
+            dir_entrada = (char*) malloc((strlen(argv[i]) +1)*sizeof (char));
             strcpy(dir_entrada,argv[i]);
         }
         else if(strcmp("-f", argv[i]) == 0)
@@ -90,7 +96,7 @@ int main (int argc, char *argv[])
                 printf("\nERRO\nParametro nao foi encontrado em -f\n");
                 exit(1);
             }
-            arq_geoNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            arq_geoNome = (char*) malloc((strlen(argv[i]) +1)*sizeof (char));
             strcpy(arq_geoNome,argv[i]);
         }
         else if(strcmp("-q", argv[i]) == 0)
@@ -102,7 +108,7 @@ int main (int argc, char *argv[])
                 exit(1);
             }
 
-            arq_consulta = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            arq_consulta = (char*) malloc((strlen(argv[i]) +1)*sizeof (char));
             strcpy(arq_consulta,argv[i]);
         }
         else if(strcmp("-o", argv[i]) == 0)
@@ -113,7 +119,7 @@ int main (int argc, char *argv[])
                 printf("\nERRO\nDiretorio de saida nao foi econtrado\n");
                 exit(1);
             }
-            dir_saida = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            dir_saida = (char*) malloc((strlen(argv[i]) +1) *sizeof (char));
             strcpy(dir_saida,argv[i]);      
         }
         else if(strcmp("-ec", argv[i]) == 0)
@@ -124,7 +130,7 @@ int main (int argc, char *argv[])
                 printf("\nERRO\nArquivo EC nao encontrado\n");
                 exit(1);
             }
-            arq_ecNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            arq_ecNome = (char*) malloc((strlen(argv[i]) +1)*sizeof (char));
             strcpy(arq_ecNome,argv[i]);      
         }
         else if(strcmp("-pm", argv[i]) == 0)
@@ -135,7 +141,7 @@ int main (int argc, char *argv[])
                 printf("\nERRO\nArquivo PM nao encontrado\n");
                 exit(1);
             }
-            arq_pmNome = (char*) malloc( strlen((argv[i]) + 1)*sizeof (char));
+            arq_pmNome = (char*) malloc((strlen(argv[i]) +1)*sizeof (char));
             strcpy(arq_pmNome,argv[i]);      
         }
     }
@@ -149,17 +155,17 @@ int main (int argc, char *argv[])
     {
         if(dir_entrada[strlen(dir_entrada) - 1] != '/')
         {
-            arqGeo = (char *)malloc((strlen(arq_geoNome)+strlen(dir_entrada)+2)*sizeof(char));
+            arqGeo = (char *)malloc((strlen(arq_geoNome)+ strlen(dir_entrada) +2)*sizeof(char));
     	    sprintf(arqGeo,"%s/%s",dir_entrada,arq_geoNome); 
         }
 		else
         {
-            arqGeo = (char *)malloc((strlen(arq_geoNome)+strlen(dir_entrada)+1)*sizeof(char));
+            arqGeo = (char *)malloc((strlen(arq_geoNome)+ strlen(dir_entrada) +1)*sizeof(char));
     	    sprintf(arqGeo,"%s%s",dir_entrada,arq_geoNome);
         }
         if (arq_consulta!= NULL)
         {
-            arqQry = (char *)malloc((strlen(arq_consulta)+strlen(dir_entrada)+2)*sizeof(char));
+            arqQry = (char *)malloc((strlen(arq_consulta)+strlen(dir_entrada) +2)*sizeof(char));
             sprintf(arqQry,"%s/%s",dir_entrada,arq_consulta);
         }
         if (arq_pmNome!= NULL)
@@ -220,25 +226,58 @@ int main (int argc, char *argv[])
     nomeSvgGeo = (char*)malloc((strlen(saida) + 5)*sizeof(char));
     sprintf(nomeSvgGeo,"%s.svg",saida);
 
-    lerGeo(arqGeo,nomeSvgGeo, listasObjetos, arvoresObjetos, tabelas);
+    lerGeo(arqGeo,nomeSvgGeo, listasObjetos, arvoresObjetos, tabelas, hashAux);
 
     if(arq_ecNome != NULL)
     {
-        lerEc(arqEc, listasObjetos, arvoresObjetos, tabelas);
+        lerEc(arqEc, listasObjetos, arvoresObjetos, tabelas, hashAux);
     }
 
     if(arq_pmNome != NULL)
     {
-        lerPm(arqPm, listasObjetos, arvoresObjetos, tabelas);
+        lerPm(arqPm, listasObjetos, arvoresObjetos, tabelas, hashAux);
     }
 
     if (arq_consulta!= NULL)
     {
         nomeQry = concatenacao(arq_consulta);
-        saidaQry = (char*)malloc((strlen(dir_saida) + strlen(saida) + 2)*sizeof(char));
+        saidaQry = (char*)malloc((strlen(dir_saida) + strlen(saida) + 6)* sizeof(char));
         sprintf(saidaQry,"%s-%s",saida,nomeQry);
 
         lerQry(saidaQry,arqQry, listasQry, arvoresObjetos, tabelas, listasObjetos);
+    }
+
+    deleteHashTable(tabelas[0], tamanho(listasObjetos[11]), 0);
+    deleteHashTable(tabelas[2], tamanho(listasObjetos[10]), 1);
+    deleteHashTable(tabelas[3], tamanho(listasObjetos[3]), 0);
+    deleteHashTable(tabelas[1], tamanho(listasObjetos[12]), 0);
+
+    for(i = 0; i < 12; i++)
+    {
+        if(i != 8)
+        {
+            removeList(listasObjetos[i],NULL);
+        }
+        else if(i==8)
+        {
+            removeList(listasObjetos[8],desalocarPontosDensidade);
+        }
+    }
+    removeList(listasObjetos[12], free);
+
+    for(i = 0; i < 11; i++)
+    {
+        desalocaQt(arvoresObjetos[i]);
+    }
+
+    for(i = 0; i < 3; i++)
+    {
+        removeList(hashAux[i],NULL);
+    }
+
+    for(i = 0; i < 9; i++)
+    {
+        removeList(listasQry[i],NULL);
     }
 
    free(dir_entrada);
@@ -250,4 +289,8 @@ int main (int argc, char *argv[])
    free(nomeQry);
    free(saidaQry);   
    free(saida);
+   free(arq_ecNome);
+   free(arq_pmNome);
+   free(arqPm);
+   free(arqEc);
 }

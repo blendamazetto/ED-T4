@@ -43,3 +43,10 @@ void setCodtDescricao(Codt c, char descricao[])
     CodtStruct* co = (CodtStruct*) c;
     strcpy(co->descricao, descricao);
 }
+
+void desalocarCodt(Codt c)
+{
+    CodtStruct* co = (CodtStruct*) c;
+
+    free(co);
+}

@@ -103,6 +103,11 @@ void desalocarPontosDensidade(Densidade densidade)
 {
     DensidadeStruct* densi = (DensidadeStruct*) densidade;
 
+    if(densi == NULL)
+    {
+        return;
+    }
+
     free(densi->ponto);
     free(densi);
 }

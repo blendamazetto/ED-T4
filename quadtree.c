@@ -204,14 +204,14 @@ void percorreProfundidadeQt(QuadTree qt,funcVisita f,ExtraInfo ei)
 void percorreLarguraQt(QuadTree qt,funcVisita f,ExtraInfo ei)
 {
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
-    Fila fila = createQueue();
-
     NodeStruct* aux;
 
     if(quadtree->root == NULL)
     {
         return;
     }
+    
+    Fila fila = createQueue();
 
     insertQueue(fila, quadtree->root);
     
@@ -228,6 +228,8 @@ void percorreLarguraQt(QuadTree qt,funcVisita f,ExtraInfo ei)
         f(getInfoQt(quadtree, aux),ei);
 
     }while(!isEmptyQueue(fila));
+
+    free(fila);
 }
 
 QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
@@ -270,21 +272,6 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
             }
             else
             {
-                if(aux->filho[nw] == NULL)
-                {
-                    aux->filho[nw] = node;
-                    node->pai = aux;
-                }
-                else
-                {
-                    aux = aux->filho[nw];
-                }
-            }
-        }
-        else
-        {
-            if(getPontoY(p) >= getPontoY(pAux))
-            {
                 if(aux->filho[se] == NULL)
                 {
                     aux->filho[se] = node;
@@ -293,6 +280,21 @@ QtNo insereQt(QuadTree qt,Ponto p, QtInfo pInfo)
                 else
                 {
                     aux = aux->filho[se];
+                }
+            }
+        }
+        else
+        {
+            if(getPontoY(p) >= getPontoY(pAux))
+            {
+                if(aux->filho[nw] == NULL)
+                {
+                    aux->filho[nw] = node;
+                    node->pai = aux;
+                }
+                else
+                {
+                    aux = aux->filho[nw];
                 }
             }
             else
@@ -510,14 +512,14 @@ QtNo getNoQt(QuadTree qt, double x, double y)
             }
             else
             {
-                aux = aux->filho[nw];
+                aux = aux->filho[se];
             }
         }
         else
         {
             if(y > getPontoY(p))
             {
-                aux = aux->filho[se];
+                aux = aux->filho[nw];
             }
             else
             {

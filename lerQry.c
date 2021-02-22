@@ -185,4 +185,5 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
     fclose(qry);
     free(saidaSvg);
     free(saidaTxt);
+    fclose(saidaSvgQry);
 }

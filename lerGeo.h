@@ -23,20 +23,20 @@
 *precisa do nome do arquivo geo, o nome do svg que sera gerado, uma lista para salvar as informacoes inicialmente, uma quadtree na qual as informacoes serao salvas, e um hashtable
 *não retorna nada
 */
-void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[]);
+void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[]);
 
 /*
 *Le o arquivo geo
 *precisa do nome do arquivo geo, uma lista para salvar as informacoes inicialmente, uma quadtree na qual as informacoes serao salvas, e um hashtable
 *não retorna nada
 */
-void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[]);
+void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[]);
 
 /*
 *Le o arquivo geo
 *precisa do nome do arquivo geo, uma lista para salvar as informacoes inicialmente, uma quadtree na qual as informacoes serao salvas, e um hashtable
 *não retorna nada
 */
-void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[]);
+void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[]);
 
 #endif

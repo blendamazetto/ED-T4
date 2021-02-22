@@ -110,14 +110,6 @@ void removeNodeHashTable(char key[], Hash hashtable, int tamanho)
     }
 }
 
-char* criaInfo(char info[])
-{
-    char *informacao = (char*) malloc( strlen((info) + 1)*sizeof (char));
-    strcpy(informacao, info);
-    
-    return informacao;
-}
-
 char* getHashInfo(Info info)
 {
     char* informacao = (char*) info;
@@ -125,7 +117,7 @@ char* getHashInfo(Info info)
     return informacao;
 }
 
-void deleteHashTable(Hash hashtable, int tamanho)
+void deleteHashTable(Hash hashtable, int tamanho, int a)
 {
     HashStruct* h = hashtable;
 
@@ -134,8 +126,10 @@ void deleteHashTable(Hash hashtable, int tamanho)
         if(strcmp(h[i].key, "NULL") != 0)
         {
             strcpy(h[i].key, "NULL");
-            free(h[i].info);
-            
+            if(a==1)
+            {
+                free(h[i].info);
+            }
         }
     }
 }

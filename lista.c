@@ -193,6 +193,12 @@ void removerNo(Lista l, No elemento, void (*desalocar)(void*))
 void removeList(Lista l, void (*desalocar)(void*))
 {
     ListaStruct* lista = (ListaStruct*) l;
+
+    if(lista == NULL)
+    {
+        return;
+    }
+    
     NoStruct* node = lista->primeiro;
     NoStruct* aux;
 

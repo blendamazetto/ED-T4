@@ -3,7 +3,7 @@
 #include <string.h>
 #include "lerGeo.h"
 
-void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
+void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[])
 { 
     int max;
     double x, y, h, w, d, r, distancia = 0;
@@ -71,6 +71,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
             fscanf(geo,"%s %lf %lf %lf %lf\n", cep, &x, &y, &w, &h);
             Quadra quadra = criaQuadra(cep, x, y, w, h, qSW, Qfill, Qstroke);
             insert(listasObjetos[3], quadra);
+            insert(hashAux[0], quadra);
         }
         else if(strcmp(tipo, "h")==0)
         {
@@ -139,17 +140,17 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
         }
     }
 
-    tabelas[3] = createHashTable(tamanhoDaLista(listasObjetos[3]));
+    tabelas[3] = createHashTable(tamanhoDaLista(hashAux[0]));
     setTamanhoFinal(listasObjetos[3], tamanhoDaLista(listasObjetos[3]));
 
-    for(No node = getFirst(listasObjetos[3]); node != NULL; node = getNext(node))
+    for(No node = getFirst(hashAux[0]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
 
         char auxCep[20];
         strcpy(auxCep, getQuadraCep(info));
 
-        insertHashTable(info, auxCep, tamanhoDaLista(listasObjetos[3]), tabelas[3]);
+        insertHashTable(info, auxCep, tamanhoDaLista(hashAux[0]), tabelas[3]);
     }
 
     void* (*getPonto[8])(void*) = {getCirculoPonto, getRetanguloPonto, getTextoPonto, getQuadraPonto, getHidrantePonto, getSemaforoPonto, getRadiobasePonto, getPostoPonto};
@@ -172,7 +173,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
     fclose(svg);
 }
 
-void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
+void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[])
 {
     FILE *ec = fopen(arqEc,"r");
 
@@ -201,6 +202,7 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
             fscanf(ec,"%s %s\n", codt, descricao);
             Codt cod = criaCodt(codt, descricao);
             insert(listasObjetos[12], cod);
+            insert(hashAux[1], cod);
         }
 
         else if(strcmp(tipo, "e")==0)
@@ -211,13 +213,13 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
         }
     }
 
-    tabelas[1] = createHashTable(tamanhoDaLista(listasObjetos[12]));
+    tabelas[1] = createHashTable(tamanhoDaLista(hashAux[1]));
     setTamanhoFinal(listasObjetos[12],tamanhoDaLista(listasObjetos[12]));
 
-    for(No node = getFirst(listasObjetos[12]); node != NULL; node = getNext(node))
+    for(No node = getFirst(hashAux[1]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
-        insertHashTable(criaInfo(getCodtDescricao(info)), getCodtCodt(info), tamanhoDaLista(listasObjetos[12]), tabelas[1]);
+        insertHashTable(getCodtDescricao(info), getCodtCodt(info), tamanhoDaLista(hashAux[1]), tabelas[1]);
     }
 
     balancearQuadTree(arvoresObjetos[8], listasObjetos[9], getEstabelecimentoPonto, swapEstabelecimento);
@@ -225,7 +227,7 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
     fclose(ec);
 }
 
-void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
+void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[], Lista hashAux[])
 {
     FILE *pm;
     pm = fopen(arqPm,"r");
@@ -263,17 +265,20 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
             fscanf(pm, "%s %s %s %lf %s", cpf, cep, face, &num, compl);
             Morador morador = criaMorador(cpf, face, compl, cep, num, descobrirPonto(cep, face, num, arvoresObjetos[3]));
             insert(listasObjetos[11], morador);
+            insert(hashAux[2], morador);
         }
     }
     fclose(pm);
 
-    tabelas[0] = createHashTable(tamanhoDaLista(listasObjetos[11]));
+    balancearQuadTree(arvoresObjetos[9], listasObjetos[11], getMoradorPonto, swapMorador);
+
+    tabelas[0] = createHashTable(tamanhoDaLista(hashAux[2]));
     setTamanhoFinal(listasObjetos[11],tamanhoDaLista(listasObjetos[11]));
 
-    for(No node = getFirst(listasObjetos[11]); node != NULL; node = getNext(node))
+    for(No node = getFirst(hashAux[2]); node != NULL; node = getNext(node))
     {
         Info info = getInfo(node);
-        insertHashTable(criaInfo(getMoradorCep(info)), getMoradorCpf(info), tamanhoDaLista(listasObjetos[11]), tabelas[0]);
+        insertHashTable(getMoradorCep(info), getMoradorCpf(info), tamanhoDaLista(hashAux[2]), tabelas[0]);
     }
 
     tabelas[2] = createHashTable(tamanhoDaLista(listasObjetos[10]));
@@ -288,6 +293,4 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
         insertHashTable(info, auxCpf, tamanhoDaLista(listasObjetos[10]), tabelas[2]);
     }
-
-    balancearQuadTree(arvoresObjetos[9], listasObjetos[11], getMoradorPonto, swapMorador);
 }
