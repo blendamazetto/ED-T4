@@ -154,7 +154,7 @@ void lerQry (char saidaQry[], char arqQry[], Lista listasQry, QuadTree arvoresOb
         else if(strcmp(tipo, "mud")==0)
         {
             fscanf(qry,"%s %s %s %lf %s",cpf, cep, face, &num, compl);
-            fprintf(saida,"mud %s %s %s %lf %s\n",tipo, cpf, cep, face, num, compl);
+            fprintf(saida,"mud %s %s %s %lf %s\n", cpf, cep, face, num, compl);
             mud(arvoresObjetos, saida, listasQry, tabelas, cpf, cep, face, num, compl, listasObjetos);
         }
         else if(strcmp(tipo, "dmprbt")==0)

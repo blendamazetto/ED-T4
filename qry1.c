@@ -62,7 +62,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
             insert(listasQry[2], lin);
         }
     }
-    else if (getInfoByIdQt(arvoresObjetos[0], j) != NULL)
+    else if (getInfoByIdQt(arvoresObjetos[1], j) != NULL)
     {
         Info r = getInfoByIdQt(arvoresObjetos[1], j);
         float difx = x - getRetanguloX(r);
@@ -93,7 +93,7 @@ void i (char j[], double x, double y, QuadTree arvoresObjetos[], Lista listasQry
 
 void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* saida)
 {
-    if(getInfoByIdQt(arvoresObjetos[0], j) != NULL)
+    if(getInfoQt(arvoresObjetos[0], getNodeByIdQt(arvoresObjetos[0],j)) != NULL)
     {
         Info c = getInfoByIdQt(arvoresObjetos[0], j);
 
@@ -102,7 +102,7 @@ void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* s
         setCirculoCorp(c, corp);
     }
 
-    else if(getInfoByIdQt(arvoresObjetos[1], j) != NULL)
+    else if(getInfoQt(arvoresObjetos[1], getNodeByIdQt(arvoresObjetos[1],j)) != NULL)
     {
         Info r = getInfoByIdQt(arvoresObjetos[1], j);
 
@@ -111,7 +111,7 @@ void pnt (char j[], char corb[], char corp[], QuadTree arvoresObjetos[], FILE* s
         setRetanguloCorp(r, corp);
     }
 
-    else if(getInfoByIdQt(arvoresObjetos[2], j) != NULL)
+    else if(getInfoQt(arvoresObjetos[2], getNodeByIdQt(arvoresObjetos[2],j)) != NULL)
     {
         Info t = getInfoByIdQt(arvoresObjetos[2], j);
 

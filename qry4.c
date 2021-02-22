@@ -117,7 +117,7 @@ void mud(QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabelas
     setMoradorCompl(morador, compl);
     setMoradorPonto(morador, p);
 
-    fprintf(saida,"DONO - NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
+    fprintf(saida,"NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
     fprintf(saida,"ENDERECO ANTIGO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", auxCep, auxFace, AuxNum, auxCompl);
     fprintf(saida,"ENDERECO NOVO: CEP: %s FACE: %s NUM: %lf COMPL: %s\n", getMoradorCep(morador), getMoradorFace(morador), getMoradorNum(morador), getMoradorCompl(morador));
 }
@@ -179,7 +179,7 @@ void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabel
                 fprintf(saida,"PROPRIETARIO - NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
             }
         
-            Circulo c = criaCirculo("0", 8, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "none");
+            Circulo c = criaCirculo("0", 7, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "black");
             insert(listasQry[3], c);
         }
     }
@@ -198,7 +198,7 @@ void epgl (QuadTree arvoresObjetos[], FILE* saida, Lista listasQry[], Hash tabel
                     fprintf(saida,"PROPRIETARIO - NOME: %s %s CPF: %s NASCIMENTO: %s SEXO: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getPessoaCpf(pessoa), getPessoaNascimento(pessoa), getPessoaSexo(pessoa));
                 }                
                 
-                Circulo c = criaCirculo("0", 8, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "none");
+                Circulo c = criaCirculo("0", 7, getPontoX(getEstabelecimentoPonto(e)), getPontoY(getEstabelecimentoPonto(e)), "3", "red", "black");
                 insert(listasQry[3], c);
             }
         }

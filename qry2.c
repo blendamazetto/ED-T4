@@ -67,10 +67,10 @@ void dq(FILE *saida, QuadTree arvoresObjetos[], int flag, char id[], double r, L
     Circulo circ = criaCirculo("0", r, x, y, "1", "black", "none");
     insert(listasQry[3], circ);
 
-    Circulo circ2 = criaCirculo("0", 6, x, y, "1", "blue", "none");
+    Circulo circ2 = criaCirculo("0", 5, x, y, "2", "blue", "none");
     insert(listasQry[3], circ2);
 
-    Circulo circ3 = criaCirculo("0", 7, x, y, "1", "yellow", "none");
+    Circulo circ3 = criaCirculo("0", 7, x, y, "2", "yellow", "none");
     insert(listasQry[3], circ3);
     
     removeList(l, NULL);

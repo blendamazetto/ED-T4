@@ -15,7 +15,7 @@ CC=gcc
 
 # Flags for compiler
 CC_FLAGS=-W         \
-         -Wall      \
+         -w    \
          -ansi      \
          -pedantic  \
 		 -std=c99   \

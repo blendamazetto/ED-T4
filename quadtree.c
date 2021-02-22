@@ -65,7 +65,15 @@ QtInfo getInfoQt(QuadTree qt, QtNo pNo)
 {
     NodeStruct* node = (NodeStruct*) pNo;
     qt = qt;
-    return node->info;
+   
+    if(node == NULL)
+    {
+       return NULL;
+    }
+    else
+    {
+       return node->info;
+    }
 }
 
 char* getChaveQt(QuadTree qt, QtNo pNo)
@@ -524,6 +532,11 @@ QtInfo getInfoById(QuadTree qt, QtNo no, char* chave)
 {
     NodeStruct* node = (NodeStruct*) no;
     QuadtreeStruct* quadtree = (QuadtreeStruct*) qt;
+
+    if(node == NULL)
+    {
+        return NULL;
+    }
 
     if(strcmp(quadtree->fun(getInfoQt(qt, node)), chave) == 0)
     {

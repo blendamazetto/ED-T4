@@ -4,7 +4,15 @@
 
 void iniciaSvg(FILE* svg)
 {
-    fprintf(svg, "<svg>\n");
+    char* corSombra[6] = {"#FFFF00", "#FF9955", "#FF0000", "#FF00CC", "#6600FF", "#A02C5A"};
+
+    fprintf(svg, "<svg>\n\t<defs>\n");
+
+    for(int i = 0; i < 6; i++)
+    {
+        fprintf(svg, "\t\t<filter id=\"shadow%d\">\n\t\t\t<feDropShadow dx=\"2\" dy=\"2\" stdDeviation=\"0.2\" flood-color=\"%s\"/>\n\t\t</filter>\n", i, corSombra[i]);
+    }
+    fprintf(svg, "\t</defs>\n");
 }
 
 void desenhaCirculo(Circulo c, FILE* svg)
@@ -88,10 +96,12 @@ void escreveTextoNumerico(TextoNumerico t, FILE* svg)
 
 void desenhaQuadra(Quadra q, FILE* svg)
 {
+    int aux;
     double x = getQuadraX(q);
     double y = getQuadraY(q);
     double h = getQuadraH(q);
     double w = getQuadraW(q);
+    double d = getQuadraDensidade(q);
     char cor_p[22];
     char cor_b[22];
     char qSW[22];
@@ -101,7 +111,32 @@ void desenhaQuadra(Quadra q, FILE* svg)
     strcpy(qSW, getQuadraSw(q));
     strcpy(cep, getQuadraCep(q));
 
-    fprintf(svg,"\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\"/>\n",x, y, w, h, cor_p, cor_b, qSW);
+    if(d <= 500)
+    {
+        aux = 0;
+    }
+    else if(d <= 1500)
+    {
+        aux = 1;
+    }
+    else if(d <= 3000)
+    {
+        aux = 2;
+    }
+    else if(d <= 4500)
+    {
+        aux = 3;
+    }
+    else if(d <= 6000)
+    {
+        aux = 4;
+    }
+    else
+    {
+        aux = 5;
+    }
+
+    fprintf(svg,"\t<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\" filter=\"url(#shadow%d)\" />\n",x, y, w, h, cor_p, cor_b, qSW, aux);
     fprintf(svg, "\t<text x=\"%lf\" y=\"%lf\" fill=\"black\">%s</text>\n", x+w/4, y+h/2, cep);
 }
 

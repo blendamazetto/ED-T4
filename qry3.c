@@ -11,6 +11,7 @@ void cv (QuadTree arvoresObjetos[], double n, char cep[], char face[], double nu
     {
         Info q = getInfoByIdQt(arvoresObjetos[3], cep);
 
+
         if(strcmp(face, "N"))
         {
             x = getQuadraX(q) + num;
@@ -34,16 +35,16 @@ void cv (QuadTree arvoresObjetos[], double n, char cep[], char face[], double nu
             x = getQuadraX(q) + getQuadraW(q);
             y = getQuadraY(q) + num;
         }
-    }
   
-    Casos caso = criaCasos(n, x, y, face, num, cep);
-    insereQt(arvoresObjetos[10], getCasosPonto(caso), caso);
+        Casos caso = criaCasos(n, x, y, face, num, cep);
+        insereQt(arvoresObjetos[10], getCasosPonto(caso), caso);
 
-    Retangulo ret = criaRetangulo("0", 10, 10, x, y, "2", "orange", "orange");
-    insert(listasQry[1], ret);
+        Retangulo ret = criaRetangulo("0", 10, 10, x, y, "2", "orange", "orange");
+        insert(listasQry[1], ret);
 
-    TextoNumerico textNum = criaTextoNumerico(x, y, "white", "white", n);
-    insert(listasQry[0], textNum);
+        TextoNumerico textNum = criaTextoNumerico(x, y, "white", "white", n);
+        insert(listasQry[0], textNum);
+    }
 }
 
 void soc(QuadTree arvoresObjetos[], int k, char cep[], char face[], double num, FILE* saida, Lista listasQry[])

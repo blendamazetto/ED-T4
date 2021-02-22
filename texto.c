@@ -25,6 +25,7 @@ Texto criaTexto(char i[], double x, double y, char corb[], char corp[], char tex
     strcpy(text->corb, corb);
     strcpy(text->corp, corp);
     strcpy(text->texto, texto);
+    text->ponto = createPonto(x, y);
 
     return text;
 }

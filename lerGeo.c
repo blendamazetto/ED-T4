@@ -4,7 +4,7 @@
 #include "lerGeo.h"
 
 void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash tabelas[])
-{
+{ 
     int max;
     double x, y, h, w, d, r, distancia = 0;
     char i[20], id[20], txt[1000], tipo[10], cep[20];
@@ -155,7 +155,7 @@ void lerGeo(char arqGeo[], char nomeSvgGeo[], Lista listasObjetos[], QuadTree ar
     void* (*getPonto[8])(void*) = {getCirculoPonto, getRetanguloPonto, getTextoPonto, getQuadraPonto, getHidrantePonto, getSemaforoPonto, getRadiobasePonto, getPostoPonto};
     
     void (*swap[8])(void*, void*) = {swapCirculo, swapRetangulo, swapTexto, swapQuadra, swapHidrante, swapSemaforo, swapRadiobase, swapPosto};
-    
+   
     for(int i = 0; i < 8; i++)
     {
         balancearQuadTree(arvoresObjetos[i], listasObjetos[i], getPonto[i], swap[i]);
@@ -178,7 +178,7 @@ void lerEc(char arqEc[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
     if(ec == NULL)
     {
-        printf("\nERRO\nArquivo .ec nao pode ser aberto\n");
+        //printf("\nERRO\nArquivo .ec nao pode ser aberto\n");
         exit(1);
     }
 
@@ -232,7 +232,7 @@ void lerPm(char arqPm[], Lista listasObjetos[], QuadTree arvoresObjetos[], Hash 
 
     if(pm == NULL)
     {
-        printf("\nERRO\nArquivo .pm nao pode ser aberto\n");
+        //printf("\nERRO\nArquivo .pm nao pode ser aberto\n");
         exit(1);
     }
 

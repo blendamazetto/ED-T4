@@ -328,7 +328,7 @@ void retanguloInt(Info r1, Info r2, FILE* saida, Lista listasQry[])
     {
         fprintf(saida,"%s: retangulo %s: retangulo SIM\n", getRetanguloI(r1),getRetanguloI(r2));
 
-        Retangulo ret = criaRetangulo(0, w,h,x,y, "1", "black", "none");
+        Retangulo ret = criaRetangulo("0", w,h,x,y, "1", "black", "none");
         insert(listasQry[1], ret);
     }
     else
